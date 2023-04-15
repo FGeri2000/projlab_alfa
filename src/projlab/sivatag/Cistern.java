@@ -12,8 +12,8 @@ public class Cistern extends WaterFlow {
 	 */
 	@Override
 	public boolean Repair() {
-		System.out.println("boolean Cistern.Repair()");
-		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Repair()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -22,8 +22,8 @@ public class Cistern extends WaterFlow {
 	 */
 	@Override
 	public boolean Break(boolean controller) {
-		System.out.print("boolean Cistern.Break(bool)");
-				
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Break(" + controller + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -32,16 +32,23 @@ public class Cistern extends WaterFlow {
 	 */
 	@Override
 	public boolean SetInput(int[] inputs) {
-		System.out.print("boolean Cistern.SetInput(int[])");
-
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "SetInput(int[" + inputs.length + "])");
+		
+		if (neighbors.size() <= inputs[0] || inputs[0] < 0) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+				
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+		return true;
 	}
 	/**
 	 * Ciszterna típusú elemen érvénytelen, tehát nem csinál semmit.
 	 */
 	@Override
 	public void FlowTick() {
-		System.out.print("void Cistern.FlowTick()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "FlowTick()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
 	}
 	/**
 	 * A ciszterna minden vele szomszédos elemtől képes elfogadni végtelen mennyiségű vizet.
@@ -49,8 +56,8 @@ public class Cistern extends WaterFlow {
 	 */
 	@Override
 	public int ReceiveWater(WaterFlow from, int amount) {
-		System.out.print("int Cistern.ReceiveWater(WaterFlow, int)");
-
-		return 0;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "ReceiveWater(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(from) + "," + amount + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, Integer.toString(amount));
+		return amount;
 	}
 }

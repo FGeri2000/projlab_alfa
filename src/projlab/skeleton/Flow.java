@@ -2,97 +2,107 @@ package projlab.skeleton;
 
 import projlab.sivatag.*;
 
-public class Repair {
-		
-	public static void Test_PlumberRepairPipe() {
+public class Flow {
+	public static void Test_WaterFlowFromSourceToPipe() {
 		CallHierarchyWriter.Clear();
-		System.out.println("Running use-case: Plumber Repairs Pipe");
+		System.out.println("Running use-case: Water Flows From Source To Pipe");
 		
 		//Initialization
-		Pipe position = new Pipe();
-		Plumber p = new Plumber(position);
+		Source source = new Source();
+		Pipe pipe = new Pipe();
 		
 		ConditionQuerier.EnableDefaults();
-		position.PutPlayer(p);
+		source.AddNeighbor(pipe);
+		pipe.AddNeighbor(source);		
+		source.SetOutput(0);		
+		pipe.SetInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
-
+	
 		//Passing original caller (controller) to writer
 		String ctrl_dummy = "[controller]";
 		CallHierarchyWriter.PushCaller(ctrl_dummy);
 		
 		CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
-		CallHierarchyWriter.PushIdentifier(position, "Pipe");
-		CallHierarchyWriter.PushIdentifier(p, "Plumber");
+		CallHierarchyWriter.PushIdentifier(source, "Source");
+		CallHierarchyWriter.PushIdentifier(pipe, "Pipe");
 		
 		//Run simulation
-		p.InputCallback_Repair();
+		source.FlowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();
 	}
-	public static void Test_PlumberRepairPump() {
+	public static void Test_WaterFlowFromPipeToPump() {
 		CallHierarchyWriter.Clear();
-		System.out.println("Running use-case: Plumber Repairs Pump");
+		System.out.println("Running use-case: Water Flows From Pipe To Pump");
 		
 		//Initialization
-		Pump position = new Pump();
-		Plumber p = new Plumber(position);
-
+		Pipe pipe = new Pipe();
+		Pump pump = new Pump();
+		
 		ConditionQuerier.EnableDefaults();
-		position.PutPlayer(p);
+		pipe.AddNeighbor(pump);
+		pump.AddNeighbor(pipe);
+		pipe.SetOutput(0);
+		pump.SetInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
-
+	
 		//Passing original caller (controller) to writer
 		String ctrl_dummy = "[controller]";
 		CallHierarchyWriter.PushCaller(ctrl_dummy);
 		
 		CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
-		CallHierarchyWriter.PushIdentifier(position, "Pump");
-		CallHierarchyWriter.PushIdentifier(p, "Plumber");
-				
+		CallHierarchyWriter.PushIdentifier(pipe, "Pipe");
+		CallHierarchyWriter.PushIdentifier(pump, "Pump");
+		
 		//Run simulation
-		p.InputCallback_Repair();
+		pipe.FlowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();
 	}
-	public static void Test_PlumberRepairCistern() {
+	public static void Test_WaterFlowFromPumpToPipe() {
 		CallHierarchyWriter.Clear();
-		System.out.println("Running use-case: Plumber Repairs Cistern");
+		System.out.println("Running use-case: Water Flows From Pump To Pipe");
 		
 		//Initialization
-		Cistern position = new Cistern();
-		Plumber p = new Plumber(position);
-
+		Pump pump = new Pump();
+		Pipe pipe = new Pipe();
+		
 		ConditionQuerier.EnableDefaults();
-		position.PutPlayer(p);
+		pump.AddNeighbor(pipe);
+		pipe.AddNeighbor(pump);
+		pump.SetOutput(0);
+		pipe.SetInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
-
+	
 		//Passing original caller (controller) to writer
 		String ctrl_dummy = "[controller]";
 		CallHierarchyWriter.PushCaller(ctrl_dummy);
 		
 		CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
-		CallHierarchyWriter.PushIdentifier(position, "Cistern");
-		CallHierarchyWriter.PushIdentifier(p, "Plumber");
+		CallHierarchyWriter.PushIdentifier(pump, "Pump");
+		CallHierarchyWriter.PushIdentifier(pipe, "Pipe");
 		
 		//Run simulation
-		p.InputCallback_Repair();
+		pump.FlowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();
-		
 	}
-	public static void Test_PlumberRepairSource() {
+	public static void Test_WaterFlowFromPipeToCistern() {
 		CallHierarchyWriter.Clear();
-		System.out.println("Running use-case: Plumber Repairs Source");
+		System.out.println("Running use-case: Water Flows From Pipe To Cistern");
 		
 		//Initialization
-		Source position = new Source();
-		Plumber p = new Plumber(position);
+		Pipe pipe = new Pipe();
+		Cistern cistern = new Cistern();
 		
 		ConditionQuerier.EnableDefaults();
-		position.PutPlayer(p);
+		pipe.AddNeighbor(cistern);
+		cistern.AddNeighbor(pipe);		
+		pipe.SetOutput(0);		
+		cistern.SetInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
 
 		//Passing original caller (controller) to writer
@@ -100,11 +110,11 @@ public class Repair {
 		CallHierarchyWriter.PushCaller(ctrl_dummy);
 		
 		CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
-		CallHierarchyWriter.PushIdentifier(position, "Source");
-		CallHierarchyWriter.PushIdentifier(p, "Plumber");
+		CallHierarchyWriter.PushIdentifier(pipe, "Pipe");
+		CallHierarchyWriter.PushIdentifier(cistern, "Cistern");
 		
 		//Run simulation
-		p.InputCallback_Repair();
+		pipe.FlowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();

@@ -7,8 +7,8 @@ public class Source extends WaterFlow {
 	 */
 	@Override
 	public boolean Repair() {
-		System.out.print("boolean Source.Repair()");
-		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Repair()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -17,8 +17,8 @@ public class Source extends WaterFlow {
 	 */
 	@Override
 	public boolean Break(boolean controller) {
-		System.out.print("boolean Source.Break(boolean)");
-		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Break(" + controller + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -27,8 +27,8 @@ public class Source extends WaterFlow {
 	 */
 	@Override
 	public boolean SetInput(int[] inputs) {
-		System.out.print("boolean Source.SetInput(int[])");
-
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "SetInput(" + inputs + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -36,6 +36,15 @@ public class Source extends WaterFlow {
 	 */
 	@Override
 	public void FlowTick() {
-		System.out.print("void Source.FlowTick()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "FlowTick()");
+
+		if (this.output < 0 || output >= neighbors.size()) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+		}
+		
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		int received = neighbors.get(output).ReceiveWater(this, projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz folyhat át egy csövön?"));
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
 	}
 }

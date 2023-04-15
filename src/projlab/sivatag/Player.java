@@ -7,6 +7,14 @@ package projlab.sivatag;
  */
 public abstract class Player {
 	/**
+	 * Létrehoz egy új játékost, elhelyezve az adott csőhálózati elemen.
+	 * @param position A csőhálózati elem, amire az új játékost kívánjuk helyezni.
+	 */
+	public Player(WaterFlow position) {
+		this.position = position;
+	}
+	
+	/**
 	 * A csőhálózati elem, amin a karakter jelenleg tartózkodik.
 	 */
 	protected WaterFlow position = null;
@@ -21,9 +29,13 @@ public abstract class Player {
 	 * @return Az új pozíció, ha az áthelyezés sikeres, a régi pozíció, ha sikertelen.
 	 */
 	public PlayerMovement InputCallback_Move(int neighbor) {
-		System.out.print("PlayerMovement Player.InputCallback_Move(int)");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Move(" + neighbor + ")");
 		
-		return null;
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		PlayerMovement pm = position.MovePlayer(this, neighbor);
+
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(pm));
+		return pm;
 	}
 	/**
 	 * Játékosi bemenetre meghívódik, és a tartózkodási helyén (amennyiben az pumpa) beállítja a kimenei csövet az index által meghatározottra.
@@ -31,9 +43,13 @@ public abstract class Player {
 	 * @return Igaz, ha a beállítás sikeres volt, hamis, ha a valamilyen hiba folytán a beállítás változatlan maradt.
 	 */
 	public boolean InputCallback_SetInput(int inPipe) {
-		System.out.print("boolean Player.InputCallback_SetInput(int)");
-		
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_SetInput(" + inPipe + ")");
+
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		boolean success = position.SetInput(new int[] { inPipe });
+
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, success ? "true" : "false");
+		return success;
 	}
 	/**
 	 * Játékosi bemenetre meghívódik, és a tartózkodási helyén (amennyiben az pumpa) beállítja a kimenei csövet az index által meghatározottra.

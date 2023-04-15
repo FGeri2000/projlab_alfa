@@ -2,13 +2,21 @@ package projlab.sivatag;
 
 public class Saboteur extends Player {
 	/**
+	 * Létrehoz egy új szabotőr játékost, elhelyezve az adott csőhálózati elemen.
+	 * @param position A csőhálózati elem, amire az új játékost kívánjuk helyezni.
+	 */
+	public Saboteur(WaterFlow position) {
+		super(position);
+	}
+	
+	/**
 	 * @implNote Szabotőr játékosok esetén érvénytelen, ezért hamisat ad vissza.
 	 * @return Hamis.
 	 */
 	@Override
 	public boolean InputCallback_Repair() {
-		System.out.print("boolean Saboteur.InputCallback_Repair()");
-		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -16,9 +24,17 @@ public class Saboteur extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Break() {
-		System.out.print("boolean Saboteur.InputCallback_Break()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
 		
-		return false;
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		if (position.Break(false)) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
 	}
 	/**
 	 * @implNote Szabotőr játékosok esetén érvénytelen, ezért null-t ad vissza.

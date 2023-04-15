@@ -7,15 +7,29 @@ package projlab.sivatag;
  */
 public class Plumber extends Player {
 	/**
+	 * Létrehoz egy új szerelő játékost, elhelyezve az adott csőhálózati elemen.
+	 * @param position A csőhálózati elem, amire az új játékost kívánjuk helyezni.
+	 */
+	public Plumber(WaterFlow position) {
+		super(position);
+	}
+	
+	/**
 	 * 
 	 */
 	@Override
 	public boolean InputCallback_Repair() {
-		System.out.print("boolean Plumber.InputCallback_Repair()");
-		/*System.out.println("\tPlumber >> WaterFlow\t| Repair()");
-		position.Repair();*/
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
 		
-		return false;
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		if (position.Repair()) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
 	}
 	/**
 	 * @implNote Szerelő játékosok esetén érvénytelen, ezért hamisat ad vissza.
@@ -23,8 +37,8 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Break() {
-		System.out.print("boolean Plumber.InputCallback_Break()");
-		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Break");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "boolean");
 		return false;
 	}
 	/**
@@ -32,8 +46,8 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public WaterFlow InputCallback_Pickup(int neighbor) {
-		System.out.print("WaterFlow Plumber.InputCallback_Pickup(int)");
-		
+//		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup");
+//		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "waterFlow");
 		return null;
 	}
 	/**
@@ -41,8 +55,8 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Place() {
-		System.out.print("boolean Plumber.InputCallback_Place()");
-		
+//		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place");
+//		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "boolean");
 		return false;
 	}
 

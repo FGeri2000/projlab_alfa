@@ -11,31 +11,31 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	/**
 	 * A csőhálózat elemének szomszédjai.
 	 */
-	protected LinkedList<WaterFlow> neighbors = new LinkedList<WaterFlow>();
+	public LinkedList<WaterFlow> neighbors = new LinkedList<WaterFlow>();
 	/**
 	 * A csőhálózati elemen jelenleg álló játékosok listája.
 	 */
-	protected LinkedList<Player> players = new LinkedList<Player>();
+	public LinkedList<Player> players = new LinkedList<Player>();
 	/**
 	 * Azon szomszédoknak az indexei, amelyekből ebbe az elembe folyik a víz.
 	 */
-	protected LinkedList<Integer> input = new LinkedList<Integer>();
+	public LinkedList<Integer> input = new LinkedList<Integer>();
 	/**
 	 * Annak a szomszédnak az indexe, ahova ebből az elemből a víz folyik.
 	 */
-	protected int output = -1;
+	public int output = -1;
 	/**
 	 * Az objektum által tárolt víz mennyisége.
 	 */
-	protected int buffer = 0;
+	public int buffer = 0;
 	/**
 	 * Az objektum által tárolható víz maximális mennyisége. Negatív ha végtelen.
 	 */
-	protected int bufferCapacity = -1;
+	public int bufferCapacity = -1;
 	/**
 	 * Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
 	 */
-	protected int transferCapacity = 20;
+	public int transferCapacity = 20;
 	
 	
 	
@@ -44,8 +44,8 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	 * @return A csőhálózati elem szomszédainak listája, másolt struktúra.
 	 */
 	public WaterFlow[] GetNeighbors() {
-		System.out.print("WaterFlow[] WaterFlow.GetNeighbors()");
-
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "GetNeighbors()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "WaterFlow[]");
 		return new WaterFlow[] {};
 	}
 	/**
@@ -54,22 +54,46 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	 * @return Igaz, ha a szomszédság kialakult, különben hamis.
 	 */
 	public boolean AddNeighbor(WaterFlow neighbor) {
-		System.out.print("boolean WaterFlow.AddNeighbors()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "AddNeighbor(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(neighbor) + ")");
 
-		return false;
+		projlab.skeleton.ConditionQuerier.SetDefaultBoolean(false);
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Null a paraméter?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+		
+		neighbors.add(neighbor);
+		
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		neighbor.GetNeighbors();
+		
+		projlab.skeleton.ConditionQuerier.SetDefaultBoolean(true);
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Tartalmazza már a szomszéd ezt az elemet?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+			neighbor.AddNeighbor(this);
+			
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;
+		}
 	}
 	/**
 	 * Eltávolítja az adott csőhálózati elemet erről az elemről, mint annak a szomszédja, akár tartalmazza, akár nem.
 	 * @param neighbor Az eltávolítandó szomszéd.
 	 */
 	public void RemoveNeighbor(WaterFlow neighbor) {
-		System.out.print("void WaterFlow.RemoveNeighbor(WaterFlow)");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "RemoveNeighbor(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(neighbor) + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
 	}
 	/**
 	 * Eltávolítja az adott csőhálózati elem összes szomszédját.
 	 */
 	public void RemoveNeighbors() {
-		System.out.print("void WaterFlow.RemoveNeighbors()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "RemoveNeighbors()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
 	}
 	/**
 	 * Beállítja az adott index-ekkel jelölt szomszédokat, mint bemeneti elemek.
@@ -78,9 +102,22 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	 * @return Igaz, ha a beállítás sikeres, egyébként hamis.
 	 */
 	public boolean SetInput(int[] inputs) {
-		System.out.print("boolean WaterFlow.SetInput(int[])");
-
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "SetInput(int[" + inputs.length + "])");
+		
+		if (inputs.length > 1) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+		
+		if (neighbors.size() <= inputs[0] || inputs[0] < 0) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+		
+		input.clear();
+		input.add(inputs[0]);
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+		return true;
 	}
 	/**
 	 * Beállítja az adott index-el jelölt szomszédot, mint kimeneti elem.
@@ -88,9 +125,16 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	 * @return Igaz, ha a beállítás sikeres, egyébként hamis.
 	 */
 	public boolean SetOutput(int output) {
-		System.out.print("boolean WaterFlow.SetOutput(int)");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "SetOutput(" + output + ")");
 
-		return false;
+		if (neighbors.size() <= output) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+
+		this.output = output;
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+		return true;
 	}
 	/**
 	 * Adott időközönként meghívódik a kontroller által.<br>Biztosítja a víz áramlását a hálózatban.
@@ -105,27 +149,52 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	 * @return A ténylegesen átvett víz mennyisége.
 	 */
 	public int ReceiveWater(WaterFlow from, int amount) {
-		System.out.print("int WaterFlow.ReceiveWater(WaterFlow, int)");
-
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "ReceiveWater(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(from) + "," + amount + ")");
+		
+		for (int i : input) {
+			if (neighbors.get(i) == from) {
+				int bufferSize = projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mi a fogadó elem pufferének kapacitása?");
+				int buffer = projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz van a fogadó elem pufferében?");
+				int result = Math.min(bufferSize - buffer, amount);
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, Integer.toString(result));
+				return result;
+			}
+		}
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "0");
 		return 0;
 	}
 	/**
 	 * @implNote Működése azonos minden elemtípuson.
 	 */
 	@Override
-	public WaterFlow MovePlayer(Player player, int neighbor) {
-		System.out.print("WaterFlow WaterFlow.MovePlayer(Player, int)");
+	public WaterFlow MovePlayer(Player player, int neighbor) {		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "MovePlayer(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(player) + "," + neighbor + ")");
 		
-		return null;
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		if (neighbors.size() <= neighbor) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(this));
+			return this;
+		}
+		
+		boolean result = neighbors.get(neighbor).PutPlayer(player);
+
+		if (result) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(neighbors.get(neighbor)));
+			return neighbors.get(neighbor);
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(this));	
+			return this;
+		}
 	}
 	/**
 	 * @implNote Az alapértelmezett implementáció mindig igazat ad vissza.
 	 */
 	@Override
 	public boolean PutPlayer(Player player) {
-		System.out.print("boolean WaterFlow.PutPlayer(Player)");
-		
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "PutPlayer(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(player) + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+		return true;
 	}
 	
 	/**

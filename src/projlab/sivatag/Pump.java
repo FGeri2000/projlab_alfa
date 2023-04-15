@@ -20,9 +20,15 @@ public class Pump extends WaterFlow {
 	 */
 	@Override
 	public boolean Repair() {
-		System.out.print("boolean Pump.Repair()");
-		
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Repair()");
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Törött a pumpa?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;	
+		}
 	}
 	/**
 	 * Meghívódik, ha az adott pumpát tönkreteszik.<br>
@@ -30,16 +36,35 @@ public class Pump extends WaterFlow {
 	 */
 	@Override
 	public boolean Break(boolean controller) {
-		System.out.print("boolean Pump.Break(boolean)");
-		
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Break(" + controller + ")");
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Törött a pumpa?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;	
+		}
 	}
 	/**
 	 * Ha nincs tönkremenve a pumpa, áthelyezi a benne található vizet a kimeneti elemébe.
 	 */
 	@Override
 	public void FlowTick() {
-		System.out.print("boolean Pump.FlowTick()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "FlowTick()");
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Törött a pumpa?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+		}
+		else {
+			if (output < 0 || output >= neighbors.size()) {
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+			}
+			
+			projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+			int received = neighbors.get(output).ReceiveWater(this, Math.min(projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz van a pumpában?"), projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz folyhat át egy csövön?")));
+			
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+		}
 	}
 	
 	/**

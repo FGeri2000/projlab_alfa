@@ -17,18 +17,34 @@ public class Pipe extends WaterFlow {
 	 */
 	@Override
 	public boolean PutPlayer(Player player) {
-		System.out.print("boolean Pipe.PutPlayer(Player)");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "PutPlayer(Player)");
 		
-		return false;
+		projlab.skeleton.ConditionQuerier.SetDefaultBoolean(false);
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Van már a csövön játékos?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;	
+		}
 	}
 	/**
 	 * Meghívódik, ha egy játékos az adott csövet megjavítja.
 	 */
 	@Override
 	public boolean Repair() {
-		System.out.print("boolean Pipe.Repair()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Repair()");
 		
-		return false;
+		
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Lyukas a cső?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;	
+		}
 	}
 	/**
 	 * Meghívódik, ha az adott csövet tönkreteszik.
@@ -36,15 +52,36 @@ public class Pipe extends WaterFlow {
 	 */
 	@Override
 	public boolean Break(boolean controller) {
-		System.out.print("boolean Pipe.Break(boolean)");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Break(" + controller + ")");
 		
-		return false;
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Lyukas már a cső?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+		else {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+			return true;	
+		}
 	}
 	/**
 	 * Ha a cső lyukas, törli a benne lévő vizet, különben továbbítja a kimeneti elemének.
 	 */
 	@Override
 	public void FlowTick() {
-		System.out.print("void Pipe.FlowTick()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "FlowTick()");
+		
+		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Lyukas a cső?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+		}
+		else {
+			if (this.output < 0 || output >= neighbors.size()) {
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+			}
+			
+			projlab.skeleton.CallHierarchyWriter.PushCaller(this);			
+			int received = neighbors.get(output).ReceiveWater(this, Math.min(projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz van a csőben?"), projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz folyhat át egy csövön?")));
+			
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+		}
 	}
 }
