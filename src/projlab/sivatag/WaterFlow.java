@@ -43,10 +43,10 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	 * Visszatér az adott csőhálózati elem szomszédaival.
 	 * @return A csőhálózati elem szomszédainak listája, másolt struktúra.
 	 */
-	public WaterFlow[] GetNeighbors() {
+	public LinkedList<WaterFlow> GetNeighbors() {
 		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "GetNeighbors()");
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "WaterFlow[]");
-		return new WaterFlow[] {};
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "neighbors");
+		return neighbors;
 	}
 	/**
 	 * Hozzáadja az adott csőhálózati elemet ehhez az elemhez, mint annak a szomszédja.<br>

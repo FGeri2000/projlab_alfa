@@ -39,6 +39,10 @@ public class Main {
 //		SetPump.Test_PlumberSetPumpOutput();
 //		SetPump.Test_SaboteurSetPumpInput();
 //		SetPump.Test_SaboteurSetPumpOutput();
+
+//		PickupPlace.Test_PlumberPicksUpPipeFromPump();
+//		PickupPlace.Test_PlumberPicksUpPipeFromCistern();
+//		PickupPlace.Test_PlumberPicksUpPipeFromSource();
 		
 //		Flow.Test_WaterFlowFromSourceToPipe();
 //		Flow.Test_WaterFlowFromPipeToPump();

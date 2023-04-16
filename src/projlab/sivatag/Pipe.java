@@ -84,4 +84,37 @@ public class Pipe extends WaterFlow {
 			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
 		}
 	}
+	/**
+	 * Meghívódik, ha a játékos az adott csőhálózati elemet megkísérli felvenni.
+	 * @param oldNeighbor azt a szomszédot jelöli, amelyik mellől az elem el lett távolítva.
+	 * @return Igaz, ha a felvétel sikeres, egyébként hamis.
+	 */
+	@Override
+	public boolean PickUp(WaterFlow oldNeighbor){
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this,"PickUp(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(oldNeighbor) + ")");
+
+		projlab.skeleton.ConditionQuerier.SetDefaultBoolean(false);
+		if(projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Fogja valamelyik játékos a csövet?")){
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this,"false");
+			return false;
+		}
+		else if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Van a csövön játékos?")) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this,"false");
+			return false;
+		}
+		else{
+			if(projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Van szabad vége a csőnek?")){
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this,"true");
+				return true;
+			}
+			else{
+				projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+				oldNeighbor.RemoveNeighbor(this);
+				projlab.skeleton.CallHierarchyWriter.PushCaller(oldNeighbor);
+				this.RemoveNeighbor(oldNeighbor);
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this,"true");
+				return true;
+			}
+		}
+	}
 }

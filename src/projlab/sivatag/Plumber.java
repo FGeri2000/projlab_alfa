@@ -1,5 +1,7 @@
 package projlab.sivatag;
 
+import java.util.LinkedList;
+
 /**
  * A szerelő csapat egy játékosa. Képes a csőhálózat javítására és módosítására.
  * @author fgreg
@@ -42,12 +44,28 @@ public class Plumber extends Player {
 		return false;
 	}
 	/**
-	 * 
+	 * Játékosi bemenetre meghívódik, és felveszi a tartózkodási helyéhez csatlakozó, az adott index-el meghatározott elemét.
+	 * @param neighbor A tartózkodási elemre szomszédaira érvényes index, ami a felvevendő elemre mutat.
+	 * @return Az elem, ha a felvétel sikeres, null, ha sikertelen.
 	 */
 	@Override
 	public WaterFlow InputCallback_Pickup(int neighbor) {
-//		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup");
-//		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "waterFlow");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		LinkedList<WaterFlow> neighborslist = position.GetNeighbors();
+
+		if(neighborslist.size() <= neighbor){
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
+			return null;
+		}
+
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		if(neighborslist.get(neighbor).PickUp(position)){
+			heldObject = neighborslist.get(neighbor);
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(neighborslist.get(neighbor)));
+			return neighborslist.get(neighbor);
+		}
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 		return null;
 	}
 	/**
