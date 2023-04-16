@@ -47,7 +47,7 @@ public class Main {
 				"29. Teszt - Place pipe to cistern \n" +
 				"30. Teszt - Place pipe to source \n" +
 				"31. Teszt - Place pipe to pump \n" +
-				"32. Teszt - Place pump by slitting \n" +
+				"32. Teszt - Place pump by splitting \n" +
 				"33. Teszt - Place pump to end of pipe \n" +
 				"34. Teszt - Pickup cistern from pipe \n" +
 				"35. Teszt - Pickup source from pipe \n" +
@@ -232,31 +232,31 @@ public class Main {
 
 			case "29": {
 				System.out.println("Az 29. Tesztet valasztotta!");
-				// teszt meghívása
+				PickupPlace.Test_PlumberPlacesPipeToCistern();
 			}
 			break;
 
 			case "30": {
 				System.out.println("Az 30. Tesztet valasztotta!");
-				// teszt meghívása
+				PickupPlace.Test_PlumberPlacesPipeToSource();
 			}
 			break;
 
 			case "31": {
 				System.out.println("Az 31. Tesztet valasztotta!");
-				// teszt meghívása
+				PickupPlace.Test_PlumberPlacesPipeToPump();
 			}
 			break;
 
 			case "32": {
 				System.out.println("Az 32. Tesztet valasztotta!");
-				// teszt meghívása
+				PickupPlace.Test_PlumberPlacesPumpBySplittingPipe();
 			}
 			break;
 
 			case "33": {
 				System.out.println("Az 33. Tesztet valasztotta!");
-				// teszt meghívása
+				PickupPlace.Test_PlumberPlacesPumpToEndOfPipe();
 			}
 			break;
 

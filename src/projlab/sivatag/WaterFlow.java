@@ -204,11 +204,47 @@ public abstract class WaterFlow implements Movable, PlayerMovement, Repairable {
 	public boolean PickUp(WaterFlow oldNeighbor) {
 		return false;
 	}
+
 	/**
-	 * 
+	 * Az objektumpéldány kölcsönös szomszédsági viszonyba kerül egy másik WaterFlow példánnyal, majd beállítja a megfelelő be- és kimenetet.
+	 * @param newNeighbor A hívó tartózkodási helye
+	 * @return Igaz, ha sikeres a kapcsolat kialakítása, és a bekötés.
 	 */
 	@Override
 	public boolean PutDown(WaterFlow newNeighbor) {
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "putDown(" + projlab.skeleton.CallHierarchyWriter.GetIdentifier(newNeighbor) + ")");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+
+		boolean success = false;
+
+		if (!newNeighbor.AddNeighbor(this)) {
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+
+		if (!AddNeighbor(newNeighbor)) {
+			newNeighbor.RemoveNeighbor(this);
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+
+		int idx = neighbors.indexOf(newNeighbor);
+
+		if (!input.isEmpty() && output <= 0) {
+			success = SetInput(new int[] { idx });
+		} else if (input.isEmpty() && output >= 0) {
+			success = SetOutput(idx);
+		}
+
+		if (!success) {
+			newNeighbor.RemoveNeighbor(this);
+			RemoveNeighbor(newNeighbor);
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+		return true;
 	}
+
 }

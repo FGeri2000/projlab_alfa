@@ -69,13 +69,46 @@ public class Plumber extends Player {
 		return null;
 	}
 	/**
-	 * 
+	 * Játékosi bemenetre meghívódik, és a játékos által hordozott elemet lehelyezi ahhoz az elemhez, ahol a játékos tartózkodik.
+	 * @return Igaz, ha a lehelyezés sikerült
 	 */
 	@Override
 	public boolean InputCallback_Place() {
-//		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place");
-//		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "boolean");
-		return false;
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+
+		if(heldObject == null){
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			return false;
+		}
+
+		LinkedList<WaterFlow> neighborsList = position.GetNeighbors();
+		if(neighborsList.size()==2){
+			boolean success = false;
+			position.RemoveNeighbors();
+			Pipe newPipe1 = new Pipe();
+			Pipe newPipe2 = new Pipe();
+			success = neighborsList.get(0).AddNeighbor(newPipe1) &&
+					neighborsList.get(1).AddNeighbor(newPipe2) &&
+					heldObject.PutDown(newPipe1) &&
+					newPipe2.AddNeighbor(heldObject) &&
+					heldObject.PutPlayer(this);
+			if(!success){
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+				return false;
+			}
+		}
+		else{
+			if(!heldObject.PutDown(position)){
+				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+				return false;
+			}
+			heldObject = null;
+		}
+
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
+		return true;
+
 	}
 
 }

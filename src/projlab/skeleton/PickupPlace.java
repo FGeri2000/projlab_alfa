@@ -96,7 +96,7 @@ public class PickupPlace {
         //Print calls to stdout
         CallHierarchyWriter.PrintToStandardOutput();
     }
-    
+
     public static void Test_PlumberPicksUpPumpFromPipe(){
         CallHierarchyWriter.Clear();
         System.out.println("Running use-case: Plumber Picks Up Pump From Pipe");
@@ -127,7 +127,7 @@ public class PickupPlace {
         //Print calls to stdout
         CallHierarchyWriter.PrintToStandardOutput();
     }
-    
+
     public static void Test_PlumberPicksUpCisternFromPipe(){
         CallHierarchyWriter.Clear();
         System.out.println("Running use-case: Plumber Picks Up Cistern From Pipe");
@@ -158,7 +158,7 @@ public class PickupPlace {
         //Print calls to stdout
         CallHierarchyWriter.PrintToStandardOutput();
     }
-    
+
     public static void Test_PlumberPicksUpSourceFromPipe(){
         CallHierarchyWriter.Clear();
         System.out.println("Running use-case: Plumber Picks Up Source From Pipe");
@@ -189,7 +189,160 @@ public class PickupPlace {
         //Print calls to stdout
         CallHierarchyWriter.PrintToStandardOutput();
     }
-	//place pipe from p/s/c
+
+    //place pipe from p/s/c
+    public static void Test_PlumberPlacesPipeToCistern(){
+        CallHierarchyWriter.Clear();
+        System.out.println("Running use-case: Plumber Places Pipe to Cistern");
+
+        Cistern position = new Cistern();
+        Pipe neighbor = new Pipe();
+        Plumber plumber = new Plumber(position);
+
+        ConditionQuerier.EnableDefaults();
+        position.PutPlayer(plumber);
+        position.AddNeighbor(neighbor);
+        neighbor.AddNeighbor(position);
+        plumber.InputCallback_Pickup(0);
+        ConditionQuerier.DisableDefaults();
+
+        String ctrl_dummy = "[controller]";
+        CallHierarchyWriter.PushCaller(ctrl_dummy);
+
+        CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
+        CallHierarchyWriter.PushIdentifier(position, "position");
+        CallHierarchyWriter.PushIdentifier(plumber, "plumber");
+        CallHierarchyWriter.PushIdentifier(neighbor, "pipe");
+
+        plumber.InputCallback_Place();
+
+        CallHierarchyWriter.PrintToStandardOutput();
+    }
+
+    public static void Test_PlumberPlacesPipeToSource(){
+        CallHierarchyWriter.Clear();
+        System.out.println("Running use-case: Plumber Places Pipe to Source");
+
+        Source position = new Source();
+        Pipe neighbor = new Pipe();
+        Plumber plumber = new Plumber(position);
+
+        ConditionQuerier.EnableDefaults();
+        position.PutPlayer(plumber);
+        position.AddNeighbor(neighbor);
+        neighbor.AddNeighbor(position);
+        plumber.InputCallback_Pickup(0);
+        ConditionQuerier.DisableDefaults();
+
+        String ctrl_dummy = "[controller]";
+        CallHierarchyWriter.PushCaller(ctrl_dummy);
+
+        CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
+        CallHierarchyWriter.PushIdentifier(position, "position");
+        CallHierarchyWriter.PushIdentifier(plumber, "plumber");
+        CallHierarchyWriter.PushIdentifier(neighbor, "pipe");
+
+        plumber.InputCallback_Place();
+
+        CallHierarchyWriter.PrintToStandardOutput();
+    }
+
+    public static void Test_PlumberPlacesPipeToPump(){
+        CallHierarchyWriter.Clear();
+        System.out.println("Running use-case: Plumber Places Pipe to Pump");
+
+        Pump position = new Pump();
+        Pipe neighbor = new Pipe();
+        Plumber plumber = new Plumber(position);
+
+        ConditionQuerier.EnableDefaults();
+        position.PutPlayer(plumber);
+        position.AddNeighbor(neighbor);
+        neighbor.AddNeighbor(position);
+        plumber.InputCallback_Pickup(0);
+        ConditionQuerier.DisableDefaults();
+
+        String ctrl_dummy = "[controller]";
+        CallHierarchyWriter.PushCaller(ctrl_dummy);
+
+        CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
+        CallHierarchyWriter.PushIdentifier(position, "position");
+        CallHierarchyWriter.PushIdentifier(plumber, "plumber");
+        CallHierarchyWriter.PushIdentifier(neighbor, "pipe");
+
+        plumber.InputCallback_Place();
+
+        CallHierarchyWriter.PrintToStandardOutput();
+    }
+
+    public static void Test_PlumberPlacesPumpToEndOfPipe(){
+        CallHierarchyWriter.Clear();
+        System.out.println("Running use-case: Plumber Places Pump to Pipe");
+
+        Pipe position = new Pipe();
+        Pump neighbor = new Pump();
+        Pump placedPump = new Pump();
+        Plumber plumber = new Plumber(position);
+
+        ConditionQuerier.EnableDefaults();
+        position.PutPlayer(plumber);
+        position.AddNeighbor(neighbor);
+        neighbor.AddNeighbor(position);
+        position.AddNeighbor(placedPump);
+        plumber.InputCallback_Pickup(1);
+        position.RemoveNeighbor(placedPump);
+        ConditionQuerier.DisableDefaults();
+
+        String ctrl_dummy = "[controller]";
+        CallHierarchyWriter.PushCaller(ctrl_dummy);
+
+        CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
+        CallHierarchyWriter.PushIdentifier(position, "position");
+        CallHierarchyWriter.PushIdentifier(plumber, "plumber");
+        CallHierarchyWriter.PushIdentifier(neighbor, "neighbor");
+        CallHierarchyWriter.PushIdentifier(placedPump, "new pump");
+
+        plumber.InputCallback_Place();
+
+        CallHierarchyWriter.PrintToStandardOutput();
+    }
+
 	//place pump by splitting pipe
-	//place pump on end of pipe
+    public static void Test_PlumberPlacesPumpBySplittingPipe(){
+        CallHierarchyWriter.Clear();
+        System.out.println("Running use-case: Plumber Places Pump by Splitting Pipe");
+
+        Pipe position = new Pipe();
+        Pump neighbor1 = new Pump();
+        Pump neighbor2 = new Pump();
+        Pump placedPump = new Pump();
+        Plumber plumber = new Plumber(position);
+
+        ConditionQuerier.EnableDefaults();
+        position.PutPlayer(plumber);
+        position.AddNeighbor(neighbor1);
+        position.AddNeighbor(neighbor2);
+        neighbor1.AddNeighbor(position);
+        neighbor2.AddNeighbor(position);
+        position.AddNeighbor(placedPump);
+        plumber.InputCallback_Pickup(2);
+        position.RemoveNeighbor(placedPump);
+        ConditionQuerier.DisableDefaults();
+
+        String ctrl_dummy = "[controller]";
+        CallHierarchyWriter.PushCaller(ctrl_dummy);
+
+        CallHierarchyWriter.PushIdentifier(ctrl_dummy, ctrl_dummy);
+        CallHierarchyWriter.PushIdentifier(position, "position");
+        CallHierarchyWriter.PushIdentifier(plumber, "plumber");
+        CallHierarchyWriter.PushIdentifier(neighbor1, "pump1");
+        CallHierarchyWriter.PushIdentifier(neighbor2, "pump2");
+        CallHierarchyWriter.PushIdentifier(placedPump, "new pump");
+
+        plumber.InputCallback_Place();
+
+        CallHierarchyWriter.PrintToStandardOutput();
+    }
+
+
 }
