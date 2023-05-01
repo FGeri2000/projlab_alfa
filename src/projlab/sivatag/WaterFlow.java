@@ -62,7 +62,7 @@ public abstract class WaterFlow {
 	 * Visszatér az adott csőhálózati elem szomszédaival.
 	 * @return A csőhálózati elem szomszédainak listája, másolt struktúra.
 	 */
-	public LinkedList<WaterFlow> GetNeighbors() {
+	public LinkedList<WaterFlow> getNeighbors() {
 		return neighbors;
 	}
 	/**
@@ -70,15 +70,14 @@ public abstract class WaterFlow {
 	 * Biztosítja a kölcsönös szomszédi kapcsolatot.
 	 * @return Igaz, ha a szomszédság kialakult, különben hamis.
 	 */
-	public boolean AddNeighbor(WaterFlow neighbor) {
+	public boolean addNeighbor(WaterFlow neighbor) {
 		if (neighbor == null)
 			return false;
 		
 		neighbors.add(neighbor);
 		
-		LinkedList<WaterFlow> otherNeighbors = neighbor.GetNeighbors();
-		if (!otherNeighbors.contains(this)) {
-			neighbor.AddNeighbor(this);
+		if (!neighbor.getNeighbors().contains(this)) {
+			neighbor.addNeighbor(this);
 		}
 		return true;
 	}
@@ -86,18 +85,16 @@ public abstract class WaterFlow {
 	 * Eltávolítja az adott csőhálózati elemet erről az elemről, mint annak a szomszédja, akár tartalmazza, akár nem.
 	 * @param neighbor Az eltávolítandó szomszéd.
 	 */
-	public void RemoveNeighbor(WaterFlow neighbor) {
-		if (neighbors.contains(neighbor)) {
-			neighbors.remove(neighbor);
-			neighbor.RemoveNeighbor(this);
-		}
+	public void removeNeighbor(WaterFlow neighbor) {
+		neighbors.remove(neighbor);
+		neighbor.getNeighbors().remove(this);
 	}
 	/**
 	 * Eltávolítja az adott csőhálózati elem összes szomszédját.
 	 */
-	public void RemoveNeighbors() {
+	public void removeNeighbors() {
 		for (int i = 0; i < neighbors.size(); ) {
-			RemoveNeighbor(neighbors.get(i));
+			removeNeighbor(neighbors.get(i));
 		}
 	}
 	/**
@@ -106,7 +103,7 @@ public abstract class WaterFlow {
 	 * @param inputs Az elem bemeneteiként beállítandó elemek halmaza.
 	 * @return Igaz, ha a beállítás sikeres, egyébként hamis.
 	 */
-	public boolean SetInput(int[] inputs) {
+	public boolean setInput(int[] inputs) {
 		if (inputs.length != 1) {
 			return false;
 		}
@@ -123,7 +120,7 @@ public abstract class WaterFlow {
 	 * @param output A kimeneti elemként használni kívánt szomszéd indexe.
 	 * @return Igaz, ha a beállítás sikeres, egyébként hamis.
 	 */
-	public boolean SetOutput(int output) {
+	public boolean setOutput(int output) {
 		if (neighbors.size() <= output || output < 0) {
 			return false;
 		}
@@ -134,7 +131,7 @@ public abstract class WaterFlow {
 	/**
 	 * Adott időközönként meghívódik a kontroller által.<br>Biztosítja a víz áramlását a hálózatban.
 	 */
-	public abstract void FlowTick();
+	public abstract void flowTick();
 	
 	/**
 	 * Átvesz az adott szomszédtól egy adott mennyiségű vizet, amennyiben van neki hely (és pumpa esetén nincs lerobbanva).<br>
@@ -143,7 +140,7 @@ public abstract class WaterFlow {
 	 * @param amount Az átadni kívánt víz mennyisége.
 	 * @return A ténylegesen átvett víz mennyisége.
 	 */
-	public int ReceiveWater(WaterFlow from, int amount) {
+	public int receiveWater(WaterFlow from, int amount) {
 		if (neighbors.get(output) == from) {
 			return Math.min(this.bufferCapacity - buffer, amount);
 		}
@@ -152,11 +149,11 @@ public abstract class WaterFlow {
 	/**
 	 * @implNote Működése azonos minden elemtípuson.
 	 */
-	public WaterFlow MovePlayer(Player player, int neighbor) {
-		if (neighbors.size() <= neighbor) {
+	public WaterFlow movePlayer(Player player, int neighbor) {
+		if (neighbors.size() <= neighbor || neighbor < 0) {
 			return this;
 		}
-		else if (neighbors.get(neighbor).PutPlayer(player)) {
+		else if (neighbors.get(neighbor).putPlayer(player)) {
 			players.remove(player);
 			return neighbors.get(neighbor);
 		}
@@ -166,7 +163,7 @@ public abstract class WaterFlow {
 	/**
 	 * @implNote Az alapértelmezett implementáció mindig igazat ad vissza.
 	 */
-	public boolean PutPlayer(Player player) {
+	public boolean putPlayer(Player player) {
 		players.add(player);
 		return true;
 	}
@@ -175,18 +172,18 @@ public abstract class WaterFlow {
 	 * Meghívódik, ha egy játékos az adott csőhálózati elemet megjavítja.
 	 * @return Igaz, ha a javítás sikeres, hamis ha sikertelen vagy a tárgy nem törött.
 	 */
-	public abstract boolean Repair();
+	public abstract boolean repairObject();
 	/**
 	 * Meghívódik, ha az adott csőhálózati elemet tönkreteszik.
 	 * @param controller Igaz, ha a tönkretételt a kontroller kezdeményezi játékos helyett.
 	 * @return Igaz, ha a tönkretétel sikeres, hamis ha sikertelen vagy a tárgy már törött.
 	 */
-	public abstract boolean Break(boolean controller);
+	public abstract boolean breakObject(boolean controller);
 	
 	/**
 	 * 
 	 */
-	public boolean PickUp(WaterFlow oldNeighbor) {
+	public boolean pickUp(WaterFlow oldNeighbor) {
 		return false;
 	}
 
@@ -195,8 +192,8 @@ public abstract class WaterFlow {
 	 * @param newNeighbor A hívó tartózkodási helye
 	 * @return Igaz, ha sikeres a kapcsolat kialakítása, és a bekötés.
 	 */
-	public boolean PutDown(WaterFlow newNeighbor) {
-		if (!newNeighbor.AddNeighbor(this)) {
+	public boolean putDown(WaterFlow newNeighbor) {
+		if (!newNeighbor.addNeighbor(this)) {
 			return false;
 		}
 
