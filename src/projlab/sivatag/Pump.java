@@ -76,9 +76,11 @@ public class Pump extends WaterFlow {
 	/**
 	 * Meghívódik, ha a játékos az adott pumpát megkísérli felvenni.
 	 * A pumpa csak egyszer áthelyezhető.
+	 * @param oldNeighbor Pumpa felvételekor null.
 	 * @return Igazzal tér vissza, ha a felvétel sikeres, hamis, ha nem.
 	 */
-	public boolean pickUp() {
+	@Override
+	public boolean pickUp(WaterFlow oldNeighbor) {
 		if(pickedUpOnce)
 			return false;
 		for(WaterFlow neighbor : this.neighbors){
