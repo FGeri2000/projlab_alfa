@@ -1,5 +1,7 @@
 package projlab.sivatag;
 
+import java.util.LinkedList;
+
 /**
  * A csőhálózat eleme. Mozgatja a vizet a csőhálózatban. Beállítható a bemenete és kimenete.
  * @author fgreg
@@ -7,72 +9,106 @@ package projlab.sivatag;
  */
 public class Pump extends WaterFlow {
 	/**
-	 * Igaz, ha a pumpán keresztül nem folyhat a víz, egyébként hamis.
+	 * Ha igaz, a pumpán nem folyik keresztül a víz, ha hamis, akkor igen.
 	 */
 	private boolean broken = false;
 	/**
 	 * Igaz, ha a pumpát egyszer már áthelyezték.
 	 */
 	private boolean pickedUpOnce = false;
-	
+
 	/**
-	 * Meghívódik, ha egy játékos az adott pumpát megjavítja. 
+	 * Létrehoz egy Pump objektumot az alapértelmezett kapacitásokkal.
 	 */
-	@Override
-	public boolean Repair() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Repair()");
-		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Törött a pumpa?")) {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
-			return true;
-		}
-		else {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-			return false;	
-		}
+	public Pump(){
+
 	}
 	/**
-	 * Meghívódik, ha az adott pumpát tönkreteszik.<br>
-	 * Csak akkor teszi tönkre a pumpát, ha a paraméter igaz.
+	 * Létrehoz egy Pump objektumot a megadott kapacitásokkal.
+	 * @param bufferCapacity Az objektum által tárolható víz maximális mennyisége.
+	 *                       0-nál kisebb érték esetén az alapértelmezett értéket állítja be.
+	 * @param transferCapacity Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
+	 */
+	public Pump(int bufferCapacity, int transferCapacity) {
+		if(bufferCapacity <= 0){
+
+		}
+		this.bufferCapacity = bufferCapacity;
+		this.transferCapacity = transferCapacity;
+	}
+	/**
+	 * Megjavítja a tönkrement pumpát.
+	 * @return Igazzal tér vissza, ha a javítás sikeres, hamissal, ha nem.
 	 */
 	@Override
-	public boolean Break(boolean controller) {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Break(" + controller + ")");
-		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Törött a pumpa?")) {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+	public boolean repairObject() {
+		if(broken){
+			broken = false;
+			return true;
+		}
+		else
 			return false;
+	}
+	/**
+	 * Meghívódik, ha az adott pumpát tönkreteszik.
+	 * Csak akkor teszi tönkre a pumpát, ha a paraméter igaz.
+	 * @param controller Igaz, ha a kontroller hívja meg a metódust, hamis, ha a játékos hívja meg.
+	 * @return Igazzal tér vissza, ha a tönkretétel sikeres, hamissal, ha nem.
+	 */
+	@Override
+	public boolean breakObject(boolean controller) {
+		if(controller && !broken){
+			broken = true;
+			return true;
 		}
-		else {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
-			return true;	
-		}
+		else
+			return false;
 	}
 	/**
 	 * Ha nincs tönkremenve a pumpa, áthelyezi a benne található vizet a kimeneti elemébe.
 	 */
 	@Override
-	public void FlowTick() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "FlowTick()");
-		if (projlab.skeleton.ConditionQuerier.QueryUserForBoolean("Törött a pumpa?")) {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
-		}
-		else {
-			if (output < 0 || output >= neighbors.size()) {
-				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
-			}
-			
-			projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-			int received = neighbors.get(output).ReceiveWater(this, Math.min(projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz van a pumpában?"), projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz folyhat át egy csövön?")));
-			
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+	public void flowTick() {
+		if(!broken){
+			buffer -= neighbors.get(output).receiveWater(this, transferCapacity);
 		}
 	}
-	
 	/**
 	 * Meghívódik, ha a játékos az adott pumpát megkísérli felvenni.
 	 * A pumpa csak egyszer áthelyezhető.
+	 * @return Igazzal tér vissza, ha a felvétel sikeres, hamis, ha nem.
+	 */
+	public boolean pickUp() {
+		if(pickedUpOnce)
+			return false;
+		for(WaterFlow neighbor : this.neighbors){
+			neighbor.removeNeighbor(this);
+		}
+		pickedUpOnce = true;
+		return true;
+	}
+	/**
+	 * Meghívódik, ha egy játékos megkisérli letenni a pumpát egy cső objektumhoz.
+	 * Ha a cső egyik vége szabad a pumpa a szabad véghez kerül.
+	 * Ha a csőnek nincs szabad vége, akkor létrehoz egy új csövet és a két cső közé helyezi le a pumpát.
+	 * @param newNeighbor A cső, amihez a pumpát megkiséreljük letenni.
+	 * @return Igazzal tér vissza, ha a letétel sikeres, hamis, ha nem.
 	 */
 	@Override
-	public boolean PickUp(WaterFlow oldNeighbor) {
+	public boolean putDown(WaterFlow newNeighbor){
+		LinkedList<WaterFlow> pipeNeighbors = newNeighbor.getNeighbors();
+		if(pipeNeighbors.size() == 1) {
+			newNeighbor.addNeighbor(this);
+			return true;
+		}
+		else if(pipeNeighbors.size() == 2){
+			WaterFlow newPipe = new Pipe();
+			newNeighbor.removeNeighbor(pipeNeighbors.get(1));
+			newNeighbor.addNeighbor(this);
+			newPipe.addNeighbor(pipeNeighbors.get(1));
+			newPipe.addNeighbor(this);
+			return true;
+		}
 		return false;
 	}
 }
