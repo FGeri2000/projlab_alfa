@@ -76,7 +76,7 @@ public class Pump extends WaterFlow {
 	/**
 	 * Meghívódik, ha a játékos az adott pumpát megkísérli felvenni.
 	 * A pumpa csak egyszer áthelyezhető.
-	 * @param oldNeighbor Pumpa felvételekor null.
+	 * @param oldNeighbor azt a szomszédot jelöli, amelyik mellől az elem fel lett véve.
 	 * @return Igazzal tér vissza, ha a felvétel sikeres, hamis, ha nem.
 	 */
 	@Override

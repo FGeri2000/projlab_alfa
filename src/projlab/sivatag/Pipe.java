@@ -56,24 +56,25 @@ public class Pipe extends WaterFlow {
 	 * @return Igazzal tér vissza ha a csövön nem áll játékos, hamissal, ha a csövön állnak, vagy a cső csúszós.
 	 */
 	@Override
-	public boolean putPlayer(Player player) {
+	public WaterFlow putPlayer(Player player) {
 		Random rand = new Random();
 		if(!players.isEmpty())
-			return false;
+			return null;
 		else{
 			if(sticky){
+				players.add(player);
 				player.paralyze();
 				countDown = rand.nextInt();
-				return true;
+				return this;
 			}
 			else if(slippery){
 				int index = rand.nextInt(2);
-				neighbors.get(index).putPlayer(player);
-				player.setPosition(neighbors.get(index));
-				return false;
+				return neighbors.get(index).putPlayer(player);
 			}
-			else
-				return true;
+			else {
+				players.add(player);
+				return this;
+			}
 		}
 	}
 	/**
@@ -162,37 +163,16 @@ public class Pipe extends WaterFlow {
 	}
 	/**
 	 * Meghívódik, ha a játékos az adott csövet megkísérli felvenni.
-	 * Ha oldNeighbor null és a csőnek csak egy szomszédja van (csak egyik végén csatlakoztatott),
-	 * átmozgatja a rajta lévő játékost a csatlakoztatott végén lévő elemre és igazzal tér vissza,
-	 * jelezve, hogy a cső fel lett véve.
-	 * Ha oldNeighbor nem null, a csőnek két szomszédja van (mindkét végén csatlakoztatott)
-	 * és nem áll játékos a csövön igazzal tér vissza jelezve, hogy a cső vége fel lett véve.
-	 * @param oldNeighbor azt a szomszédot jelöli, amelyik mellől az elem el lett távolítva.
+	 * @param oldNeighbor azt a szomszédot jelöli, amelyik mellől az elem fel lett véve.
 	 * @return Igazzal tér vissza, ha a felvétel sikeres, hamissal, ha nem.
 	 */
 	@Override
 	public boolean pickUp(WaterFlow oldNeighbor){
-		if(oldNeighbor == null){
-			if(neighbors.size() == 2)
-				return false;
-			else{
-				neighbors.get(0).putPlayer(players.get(0));
-				players.get(0).setPosition(neighbors.get(0));
-				neighbors.get(0).removeNeighbor(this);
-				return true;
-			}
+		if (players.isEmpty()) {
+			oldNeighbor.removeNeighbor(this);
+			return true;
 		}
-		else{
-			if(neighbors.size() == 2){
-				if(players.isEmpty()){
-					oldNeighbor.removeNeighbor(this);
-					return true;
-				}
-				else
-					return false;
-			}
-			else
-				return false;
-		}
+		else
+			return false;
 	}
 }
