@@ -20,29 +20,13 @@ public class Saboteur extends Player {
 		return false;
 	}
 	/**
-	 * 
-	 */
-	@Override
-	public boolean InputCallback_Break() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
-		
-		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		if (position.Break(false)) {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
-			return true;
-		}
-		else {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-			return false;
-		}
-	}
-	/**
 	 * @implNote Szabotőr játékosok esetén érvénytelen, ezért null-t ad vissza.
 	 * @return null.
 	 */
 	@Override
-	public Movable InputCallback_Pickup(int neighbor) {
-		System.out.print("Movable Saboteur.InputCallback_Pickup(int)");
+	public WaterFlow InputCallback_Pickup(int neighbor) {
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 		
 		return null;
 	}
@@ -52,7 +36,8 @@ public class Saboteur extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Place() {
-		System.out.print("boolean Saboteur.InputCallback_Place()");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		
 		return false;
 	}

@@ -22,20 +22,30 @@ public abstract class Player {
 	 * A csőhálózat azon eleme, amelyet a játékos jelenleg mozgat.
 	 */
 	protected WaterFlow heldObject = null;
+	/**
+	 * Igaz, ha a játékos egy ragadós csőre lépett és nem tud elmozdulni.
+	 */
+	private boolean paralyzed = false;
 	
 	/**
 	 * Játékosi bemenetre meghívódik, és a karakter (amennyiben lehetséges) áthelyeződik a tartózkodási helyének a `neighbor` index-el meghatározott szomszédjára.
 	 * @param neighbor A jelenlegi tartózkodási elem szomszédaira érvényes index, ami meghatározza a játékos új kívánt pozícióját.
 	 * @return Az új pozíció, ha az áthelyezés sikeres, a régi pozíció, ha sikertelen.
 	 */
-	public PlayerMovement InputCallback_Move(int neighbor) {
+	public WaterFlow InputCallback_Move(int neighbor) {
 		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Move(" + neighbor + ")");
-		
 		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		PlayerMovement pm = position.MovePlayer(this, neighbor);
+		
+		if (paralyzed)
+		{
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(position));
+			return position;
+		}
+		
+		WaterFlow wf = position.movePlayer(this, neighbor);
 
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(pm));
-		return pm;
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(wf));
+		return wf;
 	}
 	/**
 	 * Játékosi bemenetre meghívódik, és a tartózkodási helyén (amennyiben az pumpa) beállítja a kimenei csövet az index által meghatározottra.
@@ -44,11 +54,11 @@ public abstract class Player {
 	 */
 	public boolean InputCallback_SetInput(int inPipe) {
 		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_SetInput(" + inPipe + ")");
-
 		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		boolean success = position.SetInput(new int[] { inPipe });
+		
+		boolean success = position.setInput(new int[] { inPipe });
 
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, success ? "true" : "false");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
 		return success;
 	}
 	/**
@@ -57,9 +67,13 @@ public abstract class Player {
 	 * @return Igaz, ha a beállítás sikeres volt, hamis, ha a valamilyen hiba folytán a beállítás változatlan maradt.
 	 */
 	public boolean InputCallback_SetOutput(int outPipe) {
-		System.out.print("boolean Player.InputCallback_SetOutput(int)");
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_SetOutput(" + outPipe + ")");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
 		
-		return false;
+		boolean success = position.setOutput(outPipe);
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		return success;
 	}
 	
 	/**
@@ -72,16 +86,77 @@ public abstract class Player {
 	 * Játékosi bemenetre meghívódik, és tönkreteszi a tartózkodási helyének megfelelő elemet, amennyiben az engedi és a játékos tud tönkretenni.
 	 * @return Igaz, ha a tönkretétel sikeres, hamis ha sikertelen vagy az elem már törött.
 	 */
-	public abstract boolean InputCallback_Break();
+	public boolean InputCallback_Break()
+	{		
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Break()");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		
+		boolean success = position.breakObject(false);
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		return success;
+	}
 	/**
 	 * Játékosi bemenetre meghívódik, és felveszi a tartózkodási helyéhez csatlakozó, az adott index-el meghatározott elemét.
 	 * @param neighbor A tartózkodási elemre szomszédaira érvényes index, ami a felvevendő elemre mutat.
 	 * @return Az elem, ha a felvétel sikeres, null, ha sikertelen.
 	 */
-	public abstract Movable InputCallback_Pickup(int neighbor);
+	public abstract WaterFlow InputCallback_Pickup(int neighbor);
 	/**
 	 * Játékosi bemenetre meghívódik, lehelyezi és hozzáilleszti a tartózkodási helyéhez a hordott elemet.
 	 * @return Igaz, ha a tárgy el lett helyezve, hamis, ha a játékos nem fog semmit, vagy a tárgy nem lett elhelyezve és a játékos még mindig fogja.
 	 */
 	public abstract boolean InputCallback_Place();
+	/**
+	 * Meghívódik, ha egy ragadós csőre lépett a játékos. A lebénult állapotot igazzá teszi.
+	 */
+	public void paralyze()
+	{
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "paralyze()");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		
+		paralyzed = true;
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+	}
+	/**
+	 * Megszűnteti a játékos lebénult állapotát.
+	 */
+	public void unparalyze()
+	{
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "unparalyze()");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		
+		paralyzed = false;
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+	}
+	/**
+	 * Játékosi bemenetre meghívódik, és megkísérli a WaterFlow objektumot ragadóssá tenni, amin a játékos áll.
+	 * @return Igaz, ha sikerült ragadóssá tenni az objektumot, hamis, ha nem.
+	 */
+	public boolean InputCallback_MakePipeSticky()
+	{
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_MakePipeSticky()");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		
+		boolean success = position.turnSticky();
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		return success;
+	}
+	/**
+	 * Játékosi bemenetre meghívódik, és megkísérli a WaterFlow objektumot csúszóssá tenni, amin a játékos áll.
+	 * @return Igaz, ha sikerült csúszóssá tenni az objektumot, hamis, ha nem.
+	 */
+	public boolean InputCallback_MakePipeSlippery()
+	{
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_MakePipeSlippery()");
+		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		
+		boolean success = position.turnSlippery();
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		return success;
+	}
 }
