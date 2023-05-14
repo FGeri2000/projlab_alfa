@@ -38,7 +38,7 @@ public class Cistern extends WaterFlow {
 	 * @return Igaz, ha a beállítás sikeres volt, egyébként hamis.
 	 */
 	@Override
-	public boolean SetInput(int[] inputs) {
+	public boolean setInput(int[] inputs) {
 
 		if (neighbors.size() <= inputs[0] || inputs[0] < 0) {
 			return false;
@@ -53,7 +53,7 @@ public class Cistern extends WaterFlow {
 	 * Ciszterna típusú elemen érvénytelen, tehát nem csinál semmit.
 	 */
 	@Override
-	public void FlowTick() {
+	public void flowTick() {
 
 	}
 
@@ -62,7 +62,7 @@ public class Cistern extends WaterFlow {
 	 * @return Az elfogadott víz mennyisége, ciszterna esetén megegyezik az <b>amount</b> paraméterrel.
 	 */
 	@Override
-	public int ReceiveWater(WaterFlow from, int amount) {
+	public int receiveWater(WaterFlow from, int amount) {
 		return Math.min(this.bufferCapacity - buffer, amount);
 	}
 }

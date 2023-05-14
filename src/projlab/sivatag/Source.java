@@ -44,7 +44,7 @@ public class Source extends WaterFlow {
 	 * @return Hamis érték a visszatérése.
 	 */
 	@Override
-	public boolean SetInput(int[] inputs) {
+	public boolean setInput(int[] inputs) {
 		return false;
 	}
 	
@@ -52,7 +52,8 @@ public class Source extends WaterFlow {
 	 * Végtelen (buffer által nem korlátozott) mennyiségű vizet továbbít a forrás kimeneti elemébe.
 	 */
 	@Override
-	public void FlowTick() {
-		this.output.receiveWater(this, transferCapacity);
+	public void flowTick() {
+		//this.output.receiveWater(this, transferCapacity);
+
 	}
 }

@@ -11,19 +11,19 @@ public class Pipe extends WaterFlow {
 	/**
 	 * Igaz, ha a cső lyukas és kifolyik belőle a víz, hamis, ha nem.
 	 */
-	private boolean punctured = false;
+	public boolean punctured = false;
 	/**
 	 * Igaz, ha a cső ragadós, hamis, ha nem az.
 	 */
-	private boolean sticky = false;
+	public boolean sticky = false;
 	/**
 	 * Igaz, ha a cső csúszós, hamis, ha nem az.
 	 */
-	private boolean slippery = false;
+	public boolean slippery = false;
 	/**
 	 * Ennyi ideig ragadós vagy csúszós még a cső.
 	 */
-	private int countDown = 0;
+	public int countDown = 0;
 	/**
 	 * Ennyi ideig nem lyukasztható újra a cső.
 	 */

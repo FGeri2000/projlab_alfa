@@ -23,12 +23,12 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Repair() {		
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
-		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
+		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
 		
 		boolean success = position.repairObject();
 		
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
 		return success;
 	}
 	/**
@@ -38,25 +38,25 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public WaterFlow InputCallback_Pickup(int neighbor) {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
-		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
+		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
 		
 		LinkedList<WaterFlow> neighborslist = position.getNeighbors();
 
 		if(neighborslist.size() <= neighbor)
 		{
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
+			//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 			return null;
 		}
 		
 		if(neighborslist.get(neighbor).pickUp(position))
 		{
 			heldObject = neighborslist.get(neighbor);
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(heldObject));
+			//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(heldObject));
 			return heldObject;
 		}
 		
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
+		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 		return null;
 	}
 	/**
@@ -65,12 +65,12 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Place() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
-		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
+		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
 
 		if (heldObject == null)
 		{
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+			//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 			return false;
 		}
 
@@ -99,7 +99,7 @@ public class Plumber extends Player {
 			heldObject = null;
 		}
 
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
 		return success;
 	}
 	/**
@@ -109,8 +109,8 @@ public class Plumber extends Player {
 	@Override
 	public boolean InputCallback_MakePipeSlippery()
 	{
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_MakePipeSlippery()");
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_MakePipeSlippery()");
+		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		
 		return false;
 	}
