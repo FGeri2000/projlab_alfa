@@ -216,5 +216,18 @@ public abstract class WaterFlow {
 
 		return true;
 	}
+	
+	/**
+	 * Ragadóssá teszi az adott elemet.
+	 * @implNote Alapértelmezett implementáció nem tesz semmit.
+	 * @return Igaz, ha az elem ragadóssá lett téve, hamis, ha nem.
+	 */
+	public boolean turnSticky() { return false; }
+	/**
+	 * Csúszóssá teszi az adott elemet.
+	 * @implNote Alapértelmezett implementáció nem tesz semmit.
+	 * @return Igaz, ha az elem csúszóssá lett téve, hamis, ha nem.
+	 */
+	public boolean turnSlippery() { return false; }
 
 }

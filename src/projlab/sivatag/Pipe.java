@@ -121,6 +121,7 @@ public class Pipe extends WaterFlow {
 	 * Ragadóssá teszi a csövet.
 	 * @return Igazzal tér vissza, ha a ragadóssá tétel sikeres, hamissal, ha nem.
 	 */
+	@Override
 	public boolean turnSticky(){
 		if(sticky || slippery)
 			return false;
@@ -133,6 +134,7 @@ public class Pipe extends WaterFlow {
 	 * Csúszóssá teszi a csövet.
 	 * @return Igazzal tér vissza, ha a csúszóssá tétel sikeres, hamissal, ha nem.
 	 */
+	@Override
 	public boolean turnSlippery(){
 		if(sticky || slippery)
 			return false;
