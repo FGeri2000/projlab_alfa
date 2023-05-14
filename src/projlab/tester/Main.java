@@ -9,9 +9,12 @@ public class Main {
 	static Game game = null;
 	static boolean rcDisable = false; 
 	
-	private static StringBuffer output = new StringBuffer();
+	private static StringBuffer output = null;
 	static void push(String line) {
-		output.append(line + System.lineSeparator());
+		if (output != null)
+			output.append(line + System.lineSeparator());
+		else
+			System.out.println(line);
 	}
 		
 	
@@ -37,6 +40,8 @@ public class Main {
 			System.out.println("error: incorrect number of parameters");
 			return;
 		}
+		
+		output = new StringBuffer();
 		
 		//Determine files
 		File inputFile = new File(args[0]);
