@@ -88,15 +88,15 @@ public class Plumber extends Player {
 			success &= heldObject.putDown(newPipe1);
 			success &= newPipe2.addNeighbor(heldObject);
 			success &= heldObject.putPlayer(this) != null;
+			
 		}
 		else
 		{
 			success = heldObject.putDown(position);
-			
-			if (success)
-			{
-				heldObject = null;
-			}
+		}
+		
+		if (success) {
+			heldObject = null;
 		}
 
 		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
