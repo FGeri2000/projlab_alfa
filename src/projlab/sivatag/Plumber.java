@@ -77,16 +77,17 @@ public class Plumber extends Player {
 		boolean success;
 		LinkedList<WaterFlow> neighborsList = position.getNeighbors();
 		
-		if (neighborsList.size() == 2)
+		if (neighborsList.size() == 2 /*&& position.getClass() == Pump.class && heldObject.getClass() == Pipe.class*/)
 		{
 			position.removeNeighbors();
 			Pipe newPipe1 = new Pipe();
 			Pipe newPipe2 = new Pipe();
-			success = neighborsList.get(0).addNeighbor(newPipe1) &&
-										  neighborsList.get(1).addNeighbor(newPipe2) &&
-										  heldObject.putDown(newPipe1) &&
-										  newPipe2.addNeighbor(heldObject) &&
-										  heldObject.putPlayer(this);
+			
+			success = neighborsList.get(0).addNeighbor(newPipe1);
+			success &= neighborsList.get(1).addNeighbor(newPipe2);
+			success &= heldObject.putDown(newPipe1);
+			success &= newPipe2.addNeighbor(heldObject);
+			success &= heldObject.putPlayer(this) != null;
 		}
 		else
 		{
