@@ -31,6 +31,7 @@ public class Main {
 			}
 			
 			scan.close();
+			return;
 		}
 		else if (args.length != 2) {
 			System.out.println("error: incorrect number of parameters");
