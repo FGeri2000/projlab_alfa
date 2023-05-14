@@ -1,6 +1,7 @@
 package projlab.tester;
 
 import java.io.*;
+import java.util.Scanner;
 
 import projlab.sivatag.*;
 
@@ -15,7 +16,23 @@ public class Main {
 		
 	
 	public static void main(String[] args) {
-		if (args.length != 2) {
+		if (args.length == 0) {
+			Scanner scan = new Scanner(System.in);
+			
+			while (scan.hasNextLine()) {
+				String inputLine = scan.nextLine();
+
+				String[] lineSplit = inputLine.split(" ");
+				String[] arguments = new String[lineSplit.length - 1];
+				for (int i = 1; i < lineSplit.length; i++) {
+					arguments[i - 1] = lineSplit[i];
+				}
+				runCommand(lineSplit[0], arguments);	
+			}
+			
+			scan.close();
+		}
+		else if (args.length != 2) {
 			System.out.println("error: incorrect number of parameters");
 			return;
 		}
