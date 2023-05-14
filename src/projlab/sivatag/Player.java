@@ -159,4 +159,25 @@ public abstract class Player {
 		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
 		return success;
 	}
+	
+	/**
+	 * Visszaadja a játékos tartózkodási helyét.
+	 * @return A WaterFlow amin a játékos áll.
+	 */
+	public WaterFlow getPosition() {
+		return position;
+	}
+	/**
+	 * Azonnal áthelyezi a játékost az adott pozícióra, bénítást figyelmen kívül hagyva, de csúszós csöveket és játékoshatárokat figyelmebe véve.
+	 * @param newPosition A WaterFlow, amire a játékost kívánjuk ráhelyezni.
+	 * @return Az új elem, amin a játékos áll.
+	 */
+	public WaterFlow movePlayer(WaterFlow newPosition) {
+		WaterFlow n = newPosition.putPlayer(this);
+		if (n != null) {
+			position.players.remove(this);
+			position = n;
+		}
+		return position;
+	}
 }
