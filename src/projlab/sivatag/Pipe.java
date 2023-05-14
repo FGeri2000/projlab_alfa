@@ -42,11 +42,10 @@ public class Pipe extends WaterFlow {
 	 * @param transferCapacity Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
 	 */
 	public Pipe(int bufferCapacity, int transferCapacity) {
-		if(bufferCapacity <= 0){
-
-		}
-		this.bufferCapacity = bufferCapacity;
-		this.transferCapacity = transferCapacity;
+		if(bufferCapacity >= 0)
+			this.bufferCapacity = bufferCapacity;
+		if (transferCapacity >= 0)
+			this.transferCapacity = transferCapacity;
 	}
 	/**
 	 * Megpróbál lehelyezni egy játékost a csőre.
