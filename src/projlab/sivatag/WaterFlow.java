@@ -153,9 +153,10 @@ public abstract class WaterFlow {
 		if (neighbors.size() <= neighbor || neighbor < 0) {
 			return this;
 		}
-		else if (neighbors.get(neighbor).putPlayer(player)) {
+		WaterFlow newObject = neighbors.get(neighbor).putPlayer(player);
+		if (newObject != null) {
 			players.remove(player);
-			return neighbors.get(neighbor);
+			return newObject;
 		}
 		
 		return this;
@@ -163,9 +164,9 @@ public abstract class WaterFlow {
 	/**
 	 * @implNote Az alapértelmezett implementáció mindig igazat ad vissza.
 	 */
-	public boolean putPlayer(Player player) {
+	public WaterFlow putPlayer(Player player) {
 		players.add(player);
-		return true;
+		return this;
 	}
 
 	/**
