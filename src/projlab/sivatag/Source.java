@@ -1,50 +1,58 @@
 package projlab.sivatag;
 
 public class Source extends WaterFlow {
+	
 	/**
-	 * @implNote Forrás típusú elemen érvénytelen, tehát hamissal tér vissza.
-	 * @return Hamis. 
+	 *  Létrehoz egy Source objektumot az alapértelmezett kapacitással.
+	 */
+	public Source() {
+		
+	}
+
+	/**
+	 * Létrehoz egy Source objektumot a megadott átviteli kapacitással. Figyel arra, hogy ne lehessen 0, vagy annál kisebb értéket megadni neki.
+	 * @param transferCapacity Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
+	 */
+	
+	public Source(int transferCapacity) {
+		if (transferCapacity >= 0) {
+			this.transferCapacity = transferCapacity;
+		}
+	}
+
+	/**
+	 * Megjavítja az adott forrást, viszont forrást nem lehet javítani.
+	 * @return Hamissal tér vissza, hiszen forrást nem lehet javítani.
 	 */
 	@Override
-	public boolean Repair() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Repair()");
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+	public boolean repairObject () {
 		return false;
 	}
+	
+	
 	/**
 	 * @implNote Forrás típusú elemen érvénytelen, tehát hamissal tér vissza.
-	 * @return Hamis. 
+	 * @return Hamissal tér vissza, hiszen forrást nem lehet tönkretenni.
 	 */
 	@Override
-	public boolean Break(boolean controller) {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "Break(" + controller + ")");
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+	public boolean breakObject (boolean controller) {
 		return false;
 	}
+	
 	/**
 	 * @implNote Forrás típusú elemen érvénytelen, tehát hamissal tér vissza.
-	 * @return Hamis.
+	 * @return Hamis érték a visszatérése.
 	 */
 	@Override
 	public boolean SetInput(int[] inputs) {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "SetInput(" + inputs + ")");
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
+	
 	/**
 	 * Végtelen (buffer által nem korlátozott) mennyiségű vizet továbbít a forrás kimeneti elemébe.
 	 */
 	@Override
 	public void FlowTick() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "FlowTick()");
-
-		if (this.output < 0 || output >= neighbors.size()) {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
-		}
-		
-		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		int received = neighbors.get(output).ReceiveWater(this, projlab.skeleton.ConditionQuerier.QueryUserForInteger("Mennyi víz folyhat át egy csövön?"));
-		
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "void");
+		this.output.receiveWater(this, transferCapacity);
 	}
 }
