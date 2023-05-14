@@ -12,36 +12,24 @@ public class Plumber extends Player {
 	 * Létrehoz egy új szerelő játékost, elhelyezve az adott csőhálózati elemen.
 	 * @param position A csőhálózati elem, amire az új játékost kívánjuk helyezni.
 	 */
-	public Plumber(WaterFlow position) {
+	public Plumber(WaterFlow position)
+	{
 		super(position);
 	}
 	
 	/**
-	 * 
+	 * Játékosi bemenetre meghívódik, és megjavítja a tartózkodási helyének megfelelő elemet, amennyiben az engedi.
+	 * @return Igaz, ha a javítás sikeres, hamis ha sikertelen vagy az elem nem törött.
 	 */
 	@Override
-	public boolean InputCallback_Repair() {
+	public boolean InputCallback_Repair() {		
 		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
-		
 		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		if (position.Repair()) {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
-			return true;
-		}
-		else {
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-			return false;
-		}
-	}
-	/**
-	 * @implNote Szerelő játékosok esetén érvénytelen, ezért hamisat ad vissza.
-	 * @return Hamis.
-	 */
-	@Override
-	public boolean InputCallback_Break() {
-		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Break");
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "boolean");
-		return false;
+		
+		boolean success = position.repairObject();
+		
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		return success;
 	}
 	/**
 	 * Játékosi bemenetre meghívódik, és felveszi a tartózkodási helyéhez csatlakozó, az adott index-el meghatározott elemét.
@@ -52,19 +40,22 @@ public class Plumber extends Player {
 	public WaterFlow InputCallback_Pickup(int neighbor) {
 		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
 		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		LinkedList<WaterFlow> neighborslist = position.GetNeighbors();
+		
+		LinkedList<WaterFlow> neighborslist = position.getNeighbors();
 
-		if(neighborslist.size() <= neighbor){
+		if(neighborslist.size() <= neighbor)
+		{
 			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 			return null;
 		}
-
-		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		if(neighborslist.get(neighbor).PickUp(position)){
+		
+		if(neighborslist.get(neighbor).pickUp(position))
+		{
 			heldObject = neighborslist.get(neighbor);
-			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(neighborslist.get(neighbor)));
-			return neighborslist.get(neighbor);
+			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(heldObject));
+			return heldObject;
 		}
+		
 		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 		return null;
 	}
@@ -77,38 +68,50 @@ public class Plumber extends Player {
 		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
 		projlab.skeleton.CallHierarchyWriter.PushCaller(this);
 
-		if(heldObject == null){
+		if (heldObject == null)
+		{
 			projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 			return false;
 		}
 
-		LinkedList<WaterFlow> neighborsList = position.GetNeighbors();
-		if(neighborsList.size()==2){
-			boolean success = false;
-			position.RemoveNeighbors();
+		boolean success;
+		LinkedList<WaterFlow> neighborsList = position.getNeighbors();
+		
+		if (neighborsList.size() == 2)
+		{
+			position.removeNeighbors();
 			Pipe newPipe1 = new Pipe();
 			Pipe newPipe2 = new Pipe();
-			success = neighborsList.get(0).AddNeighbor(newPipe1) &&
-					neighborsList.get(1).AddNeighbor(newPipe2) &&
-					heldObject.PutDown(newPipe1) &&
-					newPipe2.AddNeighbor(heldObject) &&
-					heldObject.PutPlayer(this);
-			if(!success){
-				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-				return false;
+			success = neighborsList.get(0).addNeighbor(newPipe1) &&
+										  neighborsList.get(1).addNeighbor(newPipe2) &&
+										  heldObject.putDown(newPipe1) &&
+										  newPipe2.addNeighbor(heldObject) &&
+										  heldObject.putPlayer(this);
+		}
+		else
+		{
+			success = heldObject.putDown(position);
+			
+			if (success)
+			{
+				heldObject = null;
 			}
 		}
-		else{
-			if(!heldObject.PutDown(position)){
-				projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-				return false;
-			}
-			heldObject = null;
-		}
 
-		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "true");
-		return true;
-
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
+		return success;
+	}
+	/**
+	 * @implNote Szerelő játékosok esetén érvénytelen, ezért hamisat ad vissza.
+	 * @return Hamis.
+	 */
+	@Override
+	public boolean InputCallback_MakePipeSlippery()
+	{
+		projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_MakePipeSlippery()");
+		projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
+		
+		return false;
 	}
 
 }
