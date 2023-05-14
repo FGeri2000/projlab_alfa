@@ -141,7 +141,7 @@ public class ObjectTest {
 		
 		//create and add pipe
 		Pipe pipe = new Pipe();
-		Main.game.addPipeElement(pump);
+		Main.game.addPipeElement(pipe);
 		if (cistern.addNeighbor(pipe))
 			Main.push("Pipe successfully added to " + cisternid + ".");
 		else
