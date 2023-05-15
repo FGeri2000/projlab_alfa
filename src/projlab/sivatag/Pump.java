@@ -69,7 +69,7 @@ public class Pump extends WaterFlow {
 	 */
 	@Override
 	public void flowTick() {
-		if(!broken){
+		if(!broken && output != -1) {
 			buffer -= neighbors.get(output).receiveWater(this, transferCapacity);
 		}
 	}

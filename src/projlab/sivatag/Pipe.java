@@ -113,7 +113,7 @@ public class Pipe extends WaterFlow {
 	public void flowTick() {
 		if(punctured)
 			buffer = 0;
-		else
+		else if (output != -1)
 			buffer -= neighbors.get(output).receiveWater(this, transferCapacity);
 	}
 	/**
