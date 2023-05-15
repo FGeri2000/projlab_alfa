@@ -469,15 +469,15 @@ public class Game {
 			pipe14.setOutput(1);
 			cistern1.setInput(new int[] {0});
 
-			Plumber plumber0 = new Plumber(pipe0);
-			pipe0.putPlayer(plumber0);
-			Plumber plumber1 = new Plumber(pipe0);
-			pipe0.putPlayer(plumber1);
+			Plumber plumber0 = new Plumber(source0);
+			source0.putPlayer(plumber0);
+			Plumber plumber1 = new Plumber(source1);
+			source1.putPlayer(plumber1);
 
-			Saboteur saboteur0 = new Saboteur(pipe15);
-			pipe15.putPlayer(saboteur0);
-			Saboteur saboteur1 = new Saboteur(pipe15);
-			pipe15.putPlayer(saboteur1);
+			Saboteur saboteur0 = new Saboteur(cistern0);
+			cistern0.putPlayer(saboteur0);
+			Saboteur saboteur1 = new Saboteur(cistern1);
+			cistern1.putPlayer(saboteur1);
 
 			addPipeElement(source0);
 			addPipeElement(source1);
