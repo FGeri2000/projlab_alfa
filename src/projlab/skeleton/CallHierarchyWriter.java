@@ -76,7 +76,6 @@ public class CallHierarchyWriter {
 	/**
 	 * Kiír egy függvényből való visszatérésnek megfelelő sort a kimeneti pufferbe.
 	 * @param callee Referencia a meghívott objektumra.
-	 * @param function Az elosztó karakter után kiírandó, a függvény által visszaadott értéket azonosító szöveg.
 	 */
 	public static void ExitFunction(Object callee, String returnValue) {
 		if (identifiers.isEmpty())
