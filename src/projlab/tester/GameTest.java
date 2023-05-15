@@ -84,7 +84,7 @@ public class GameTest {
 			for (int i = 1; i <= 2; i++) {
 				WaterFlow obj = Main.game.getPipeElements().get("cistern" + i);
 				if (!obj.hasPlayer()) {
-					Plumber p = new Plumber(obj);
+					Saboteur p = new Saboteur(obj);
 					Main.game.addPlayer(p);
 					Main.push("Your team is the Saboteur");
 					return;
