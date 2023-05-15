@@ -16,8 +16,10 @@ public class PlayerTest {
 		//Determine the new position
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		WaterFlow newpos = elements.get(newposid);
-		if (player == null || newpos == null)
+		if (player == null || newpos == null) {
 			Main.push("The player couldn’t move");
+			return;
+		}
 		
 		//Record the old position
 		String oldposid = null;
@@ -47,8 +49,10 @@ public class PlayerTest {
 	protected static void runMakePipeSlippery(String playerid) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Couldn't make pipe slippery");
+			return;
+		}
 		
 		if (player.InputCallback_MakePipeSlippery()) {
 			Main.push("Pipe successfully turned into slippery pipe");
@@ -60,8 +64,10 @@ public class PlayerTest {
 	protected static void runMakePipeSticky(String playerid) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Couldn't make pipe sticky");
+			return;
+		}
 		
 		if (player.InputCallback_MakePipeSticky()) {
 			Main.push("Pipe successfully turned into sticky pipe");
@@ -76,8 +82,10 @@ public class PlayerTest {
 	protected static void runSetPumpInput(String playerid, int index) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Couldn’t set the pump's input.");
+			return;
+		}
 		
 		if (player.InputCallback_SetInput(index))
 			Main.push("Pump’s input successfully set.");
@@ -87,8 +95,10 @@ public class PlayerTest {
 	protected static void runSetPumpOutput(String playerid, int index) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Couldn’t set the pump's output.");
+			return;
+		}
 		
 		if (player.InputCallback_SetOutput(index))
 			Main.push("Pump’s output successfully set.");
@@ -100,9 +110,11 @@ public class PlayerTest {
 	protected static void runRepairThroughPlayer(String playerid) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Repair failed. " + playerid + " is not a valid object.");
-		
+			return;
+		}
+			
 		if (player.InputCallback_Break())
 			Main.push("Repair successful.");
 		else 
@@ -111,8 +123,10 @@ public class PlayerTest {
 	protected static void runBreakThroughPlayer(String playerid) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Break failed. " + playerid + " is not a valid object.");
+			return;
+		}
 		
 		if (player.InputCallback_Break())
 			Main.push("Break successful.");
@@ -125,8 +139,10 @@ public class PlayerTest {
 	protected static void runPickupObject(String playerid, int index) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Pickup failed. " + playerid + " is not a valid object.");
+			return;
+		}
 		
 		if (player.InputCallback_Pickup(index) != null)
 			Main.push("Object picked up successfully.");
@@ -136,8 +152,10 @@ public class PlayerTest {
 	protected static void runPlaceObject(String playerid) {
 		HashMap<String, Player> players = Main.game.getPlayers();
 		Player player = players.get(playerid);
-		if (player == null)
+		if (player == null) {
 			Main.push("Place failed. " + playerid + " is not a valid object.");
+			return;
+		}
 		
 		if (player.InputCallback_Place())
 			Main.push("Object placed successfully.");

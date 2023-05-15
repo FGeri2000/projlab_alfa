@@ -156,8 +156,10 @@ public class ObjectTest {
 	protected static void runSetInput(String objid, int index) {
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		WaterFlow obj = elements.get(objid);
-		if (obj == null)
+		if (obj == null) {
 			Main.push("Couldn't set the " + objid + "'s input.");
+			return;
+		}
 		
 		if (obj.setInput(new int[] { index }))
 			Main.push(objid + "'s input successfully set.");
@@ -167,8 +169,10 @@ public class ObjectTest {
 	protected static void runSetOutput(String objid, int index) {
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		WaterFlow obj = elements.get(objid);
-		if (obj == null)
+		if (obj == null) {
 			Main.push("Couldn't set the " + objid + "'s output.");
+			return;
+		}
 		
 		if (obj.setOutput(index))
 			Main.push(objid + "'s output successfully set.");
@@ -180,8 +184,10 @@ public class ObjectTest {
 	protected static void runRepairObject(String objid) {
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		WaterFlow obj = elements.get(objid);
-		if (obj == null)
+		if (obj == null) {
 			Main.push("Repair failed. " + obj + " is not a valid object.");
+			return;
+		}
 		
 		if (obj.repairObject())
 			Main.push("Repair successful.");
@@ -191,8 +197,10 @@ public class ObjectTest {
 	protected static void runBreakObject(String objid) {
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		WaterFlow obj = elements.get(objid);
-		if (obj == null)
+		if (obj == null) {
 			Main.push("Break failed. " + obj + " is not a valid object.");
+			return;
+		}
 		
 		if (obj.breakObject(true))
 			Main.push("Break successful.");
