@@ -20,7 +20,7 @@ public class PlayerTest {
 			Main.push("The player couldn’t move");
 		
 		//Record the old position
-		String oldposid;
+		String oldposid = null;
 		WaterFlow oldpos = player.getPosition();
 		
 		

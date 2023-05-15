@@ -26,11 +26,17 @@ public class Game {
 	/**
 	 * A játékosokat tároló heterogén kollekció.
 	 */
-	private ArrayList<Player> players;
+	private HashMap<String, Player> players;
 	public Game(){
-		players = new ArrayList<>();
+		players = new HashMap<>();
 		pipeElements = new HashMap<>();
 		gameTimeLeft = 240;
+		timer = new Timer();
+	}
+	public Game(HashMap<String, WaterFlow> pipeElements, HashMap<String, Player> players, int gameTimeLeft){
+		this.pipeElements = pipeElements;
+		this.players = players;
+		this.gameTimeLeft = gameTimeLeft;
 		timer = new Timer();
 	}
 	/**
@@ -57,6 +63,11 @@ public class Game {
 	/**
 	 * Leállítja a játékot, lezárja a játékos karakterek irányítását, és értesítést küld a játék eredményéről.
 	 */
+	/**
+	 * Jellemzően a kontroller hívja meg a játék kiértékelése és /
+	 * vagy mentése után. Leállítja az időzítőt, és törli a tárolók tartalmát.
+	 * @return a ciszternákban tárolt víz mennyisége
+	 */
 	public int endGame() {
 		timer.cancel();
 		timer.purge();
@@ -68,7 +79,8 @@ public class Game {
 			}
 			waterFlow.removeNeighbors();
 			for(Player player : waterFlow.players){
-				this.players.remove(player);
+				String playerKey = getKeyFromPlayers(player);
+				removePlayer(playerKey);
 			}
 			waterFlow.players.clear();
 		});
@@ -76,6 +88,14 @@ public class Game {
 		players.clear();
 		return cisternsBuffer.get();
 	}
+
+	/**
+	 * A megadott kulcs alapján
+	 * visszaadja a megfelelő vízhálózati elemet a pipeElements tárolóból. Ha az elem
+	 * nem található, null értékkel tér vissza.
+	 * @param key a keresett elem kulcsa pl. "pipe0"
+	 * @return a kulcson található WaterFlow példány
+	 */
 	public WaterFlow getPipeElement(String key){
 		if(key.isBlank())
 			return null;
@@ -83,93 +103,204 @@ public class Game {
 		WaterFlow pipeElement = pipeElements.get(_key);
 		return pipeElement;
 	}
+
+	/**
+	 * A megadott új cső számára létrehoz
+	 * egy kulcsot, majd beszúrja az
+	 * elemet a pipeElements tárolóba.
+	 * @param element az új cső
+	 * @throws InvalidKeyException
+	 */
 	public void addPipeElement(Pipe element) throws InvalidKeyException {
 		if(element == null)
 			throw new NullPointerException();
-		String key = getNextKey("pipe");
+		String key = getNextKeyForPipeElements("pipe");
 		WaterFlow previous = pipeElements.put(key, element);
 		if(previous != null)
 			throw new InvalidKeyException();
 	}
+
+	/**
+	 * A megadott új pumpa számára
+	 * létrehoz egy kulcsot, majd
+	 * beszúrja az elemet a pipeElements tárolóba.
+	 * @param element az új pumpa
+	 * @throws InvalidKeyException
+	 */
 	public void addPipeElement(Pump element) throws InvalidKeyException {
 		if(element == null)
 			throw new NullPointerException();
-		String key = getNextKey("pump");
+		String key = getNextKeyForPipeElements("pump");
 		WaterFlow previous = pipeElements.put(key, element);
 		if(previous != null)
 			throw new InvalidKeyException();
 	}
+
+	/**
+	 * A megadott új forrás számára
+	 * létrehoz egy kulcsot, majd
+	 * beszúrja az elemet a pipeElements tárolóba.
+	 * @param element az új forrás
+	 * @throws InvalidKeyException
+	 */
 	public void addPipeElement(Source element) throws InvalidKeyException {
 		if(element == null)
 			throw new NullPointerException();
-		String key = getNextKey("source");
+		String key = getNextKeyForPipeElements("source");
 		WaterFlow previous = pipeElements.put(key, element);
 		if(previous != null)
 			throw new InvalidKeyException();
 	}
+
+	/**
+	 * A megadott új ciszterna számára
+	 * létrehoz egy kulcsot, majd
+	 * beszúrja az elemet a pipeElements tárolóba.
+	 * @param element az új ciszterna
+	 * @throws InvalidKeyException
+	 */
 	public void addPipeElement(Cistern element) throws InvalidKeyException {
 		if(element == null)
 			throw new NullPointerException();
-		String key = getNextKey("cistern");
+		String key = getNextKeyForPipeElements("cistern");
 		WaterFlow previous = pipeElements.put(key, element);
 		if(previous != null)
 			throw new InvalidKeyException();
 	}
+
+	/**
+	 * Az első
+	 * paraméterben megadott kulcsnál szereplő vízhálózati elemet kicseréli a második
+	 * paraméterben megadott elemre a pipeElements tárolóban. Ha a csere sikeres, igaz
+	 * értékkel tér vissza. Ha a megadott kulcs nem található, vagy a beszúrás sikertelen,
+	 * akkor hamis.
+	 * @param key
+	 * @param value
+	 * @return
+	 */
 	public boolean setPipeElement(String key, WaterFlow value){
 		if(key.isBlank() || value == null)
 			return false;
 		String _key = key.trim().toLowerCase();
 		return pipeElements.replace(_key, value) != null;
 	}
+
+	/**
+	 * A megadott kulcsnál szereplő
+	 * vízhálózati elemet eltávolítja a pipeElements tárolóból. Ha a törlés sikeres, igaz
+	 * értékkel tér vissza. Ha a megadott kulcs nem található, vagy a törlés nem sikerül,
+	 * akkor hamis.
+	 * @param key
+	 * @return
+	 */
 	public boolean removePipeElement(String key){
 		if(key.isBlank())
 			return false;
 		String _key = key.trim().toLowerCase();
 		return pipeElements.remove(_key) != null;
 	}
-	public Player getPlayer(int idx){
-		try{
-			return players.get(idx);
-		} catch (IndexOutOfBoundsException e){
+
+	/**
+	 * Visszaadja a megadott kulcson szereplő játékos
+	 * példányt a players tárolóból. Ha az elem nem található, null értékkel tér vissza.
+	 * @param key
+	 * @return
+	 */
+	public Player getPlayer(String key){
+		if(key.isBlank())
 			return null;
-		}
+		String _key = key.trim().toLowerCase();
+		Player player = players.get(_key);
+		return player;
 	}
-	public void addPlayer(Plumber player){
-		if(player!=null)
-			players.add(player);
-		else
+
+	/**
+	 * A megadott szerelő példányt hozzáadja a players tárolóhoz.
+	 * @param player
+	 * @throws InvalidKeyException
+	 */
+	public void addPlayer(Plumber player) throws InvalidKeyException {
+		if(player == null)
 			throw new NullPointerException();
+		String key = getNextKeyForPlayers("plumber");
+		Player previous = players.put(key, player);
+		if(previous != null)
+			throw new InvalidKeyException();
 	}
-	public void addPlayer(Saboteur player){
-		if(player!=null)
-			players.add(player);
-		else
+
+	/**
+	 * A megadott szabotőr példányt hozzáfűzi
+	 * a players tároló végéhez.
+	 * @param player
+	 * @throws InvalidKeyException
+	 */
+	public void addPlayer(Saboteur player) throws InvalidKeyException {
+		if(player == null)
 			throw new NullPointerException();
+		String key = getNextKeyForPlayers("saboteur");
+		Player previous = players.put(key, player);
+		if(previous != null)
+			throw new InvalidKeyException();
 	}
-	public boolean setPlayer(int idx, Player value){
-		try{
-			if(value==null)
-				return false;
-			players.set(idx, value);
-			return true;
-		} catch (IndexOutOfBoundsException e){
+
+	/**
+	 * Az első paraméterben megadott
+	 * indexen szereplő játékos példányt kicseréli a második paraméterben megadott
+	 * játéksora a players tárolóban. Ha a csere sikeres, igaz értékkel tér vissza. Ha a
+	 * megadott indexen nem található elem, vagy a beszúrás nem sikerül, akkor hamis.
+	 * @param key
+	 * @param value
+	 * @return
+	 */
+	public boolean setPlayer(String key, Player value){
+		if(key.isBlank() || value == null)
 			return false;
-		}
+		String _key = key.trim().toLowerCase();
+		return players.replace(_key, value) != null;
 	}
-	public boolean removePlayer(int idx){
-		try{
-			players.remove(idx);
-			return true;
-		} catch (IndexOutOfBoundsException e){
+
+	/**
+	 * A megadott indexen szereplő játékos
+	 * példányt eltávolítja a players tárolóból. Ha a törlés sikeres, igaz értékkel tér vissza.
+	 * Ha a megadott indexen nem található elem, vagy a törlés nem sikerül, akkor hamis.
+	 * @param key
+	 * @return
+	 */
+	public boolean removePlayer(String key){
+		if(key.isBlank())
 			return false;
-		}
+		String _key = key.trim().toLowerCase();
+		return players.remove(_key) != null;
 	}
+
+	/**
+	 * visszaadja a gameTimeLeft számláló aktuális
+	 * értékét.
+	 * @return
+	 */
 	public int getGameTimeLeft(){return gameTimeLeft;}
+
+	/**
+	 * Beállítja a gameTimeLeft számláló értékét.
+	 * @param gameTimeLeft az új érték
+	 */
 	public void setGameTimeLeft(int gameTimeLeft) {
 		this.gameTimeLeft = gameTimeLeft;
 	}
+
+	/**
+	 * visszaadja a
+	 * pipeElements tároló aktuális értékét.
+	 * @return
+	 */
 	public HashMap<String, WaterFlow> getPipeElements(){return pipeElements;}
-	public ArrayList<Player> getPlayers(){return players;}
+
+	/**
+	 * visszaadja a players tároló aktuális
+	 * értékét.
+	 * @return
+	 */
+	public HashMap<String, Player> getPlayers(){return players;}
 	public String getKeyFromPipeElements(WaterFlow element){
 		if(element == null)
 			return null;
@@ -184,6 +315,25 @@ public class Game {
 			return null;
 		return keyOfPipeElement;
 	}
+	public String getKeyFromPlayers(Player element){
+		if(element == null)
+			return null;
+		AtomicReference<String> _key = new AtomicReference<>("");
+		pipeElements.forEach((key, player) -> {
+			if(player.equals(element)){
+				_key.set(key);
+			}
+		});
+		String keyOfPipeElement = _key.get();
+		if(keyOfPipeElement.isBlank())
+			return null;
+		return keyOfPipeElement;
+	}
+
+	/**
+	 * Az alapértelmezett pálya betöltése
+	 * @throws InvalidKeyException
+	 */
 	private void createDefaultMap() throws InvalidKeyException {
 		try{
 			Source source0 = new Source();
@@ -367,10 +517,38 @@ public class Game {
 			throw new InvalidKeyException(e.getMessage());
 		}
 	}
-	private String getNextKey(String prefix){
+
+	/**
+	 * Kulcsgenerálás a pipeElements tárolóhoz
+	 * @param prefix a kulcs (vízhálózati elem típusa)
+	 * @return
+	 */
+	private String getNextKeyForPipeElements(String prefix){
 		if(prefix == null)
 			throw new NullPointerException();
 		int suffix = pipeElements.keySet().stream()
+				.filter(key -> key.startsWith(prefix))
+				.map(key -> key.substring(prefix.length()))
+				.mapToInt(number -> {
+					try {
+						return Integer.parseInt(number);
+					} catch (NumberFormatException e) {
+						return 0;
+					}
+				})
+				.max()
+				.orElse(0) + 1;
+		return prefix+suffix;
+	}
+	/**
+	 * Kulcsgenerálás a players tárolóhoz
+	 * @param prefix a kulcs (játékos típusa)
+	 * @return
+	 */
+	private String getNextKeyForPlayers(String prefix){
+		if(prefix == null)
+			throw new NullPointerException();
+		int suffix = players.keySet().stream()
 				.filter(key -> key.startsWith(prefix))
 				.map(key -> key.substring(prefix.length()))
 				.mapToInt(number -> {

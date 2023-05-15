@@ -27,7 +27,7 @@ public abstract class WaterFlow {
 	/**
 	 * Az objektum által tárolt víz mennyisége.
 	 */
-	public int buffer = 0;
+	protected int buffer = 0;
 	/**
 	 * Az objektum által tárolható víz maximális mennyisége. Negatív ha végtelen.
 	 */
@@ -229,5 +229,11 @@ public abstract class WaterFlow {
 	 * @return Igaz, ha az elem csúszóssá lett téve, hamis, ha nem.
 	 */
 	public boolean turnSlippery() { return false; }
-
+	public LinkedList<Integer> getInput(){return input;}
+	public int getOutput(){return output;}
+	public int getBuffer(){return buffer;}
+	public boolean isCarried(){return carried;}
+	public boolean hasPlayer() {
+		return !players.isEmpty();
+	}
 }

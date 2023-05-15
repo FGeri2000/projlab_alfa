@@ -11,11 +11,11 @@ public class Pump extends WaterFlow {
 	/**
 	 * Ha igaz, a pumpán nem folyik keresztül a víz, ha hamis, akkor igen.
 	 */
-    public boolean broken = false;
+    protected boolean broken = false;
 	/**
 	 * Igaz, ha a pumpát egyszer már áthelyezték.
 	 */
-	public boolean pickedUpOnce = false;
+	protected boolean pickedUpOnce = false;
 
 	/**
 	 * Létrehoz egy Pump objektumot az alapértelmezett kapacitásokkal.
@@ -113,4 +113,6 @@ public class Pump extends WaterFlow {
 		}
 		return false;
 	}
+	public boolean isBroken(){return broken;}
+	public boolean isPickedUpOnce(){return pickedUpOnce;}
 }

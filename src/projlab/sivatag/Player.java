@@ -180,4 +180,5 @@ public abstract class Player {
 		}
 		return position;
 	}
+	public boolean isParalyzed(){return paralyzed;}
 }
