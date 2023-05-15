@@ -133,10 +133,10 @@ public class GameSerializer {
                 });
                 try{
                     if(pipesCount.get()>0){
-                        game.addPlayer(new Plumber(game.getPipeElement("pipe0")));
-                        game.addPlayer(new Plumber(game.getPipeElement("pipe0")));
+                        game.addPlayer(new Plumber(game.getPipeElement("pipe1")));
+                        game.addPlayer(new Plumber(game.getPipeElement("pipe2")));
                         game.addPlayer(new Saboteur(game.getPipeElement("pipe"+(pipesCount.get()-1))));
-                        game.addPlayer(new Saboteur(game.getPipeElement("pipe"+(pipesCount.get()-1))));
+                        game.addPlayer(new Saboteur(game.getPipeElement("pipe"+(pipesCount.get()-2))));
                     }
                 } catch (InvalidKeyException e){
                     throw new RuntimeException(e.getMessage());
