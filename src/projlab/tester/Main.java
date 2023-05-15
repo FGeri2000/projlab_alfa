@@ -142,10 +142,12 @@ public class Main {
 			GameTest.runNewGame();
 			break;
 		case "selectteam":
-			if (args[0] == "-p") {
+			if (args.length != 1)
+				return;
+			if (args[0].equals("-p")) {
 				GameTest.runSelectTeam("p");	
 			}
-			else if (args[0] == "-s") {
+			else if (args[0].equals("-s")) {
 				GameTest.runSelectTeam("s");
 			}
 			break;
@@ -185,18 +187,20 @@ public class Main {
 			PlayerTest.runMakePipeSticky(args[0]);
 			break;
 		case "createpump":
-			if (args.length != 0 && args.length != 2)
-				return;
-			if (args[0] != "-c")
-				return;
-			ObjectTest.runCreatePump(args[1]);
+			if (args.length == 0) {
+				ObjectTest.runCreatePump(null);
+			}
+			else if (args.length != 2 && args[0].equals("-c")) {
+				ObjectTest.runCreatePump(args[1]);
+			}
 			break;
 		case "createpipe":
-			if (args.length != 0 && args.length != 2)
-				return;
-			if (args[0] != "-c")
-				return;
-			ObjectTest.runCreatePipe(args[1]);
+			if (args.length == 0) {
+				ObjectTest.runCreatePipe(null);
+			}
+			else if (args.length != 2 && args[0].equals("-c")) {
+				ObjectTest.runCreatePipe(args[1]);
+			}
 			break;
 		case "setpumpinput":
 			if (args.length != 2)
