@@ -190,7 +190,7 @@ public class Main {
 			if (args.length == 0) {
 				ObjectTest.runCreatePump(null);
 			}
-			else if (args.length != 2 && args[0].equals("-c")) {
+			else if (args.length == 2 && args[0].equals("-c")) {
 				ObjectTest.runCreatePump(args[1]);
 			}
 			break;
@@ -198,7 +198,7 @@ public class Main {
 			if (args.length == 0) {
 				ObjectTest.runCreatePipe(null);
 			}
-			else if (args.length != 2 && args[0].equals("-c")) {
+			else if (args.length == 2 && args[0].equals("-c")) {
 				ObjectTest.runCreatePipe(args[1]);
 			}
 			break;
