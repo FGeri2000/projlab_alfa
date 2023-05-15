@@ -85,13 +85,13 @@ public class ObjectTest {
 		else {
 			//pick random cistern
 			//filter elements to cisterns
-			ArrayList<Cistern> arr = new ArrayList<Cistern>();
+			ArrayList<Entry<String, WaterFlow>> arr = new ArrayList<Entry<String, WaterFlow>>();
 			for (Entry<String, WaterFlow> i : elements.entrySet())
 				if (i.getValue().getClass() == Cistern.class)
-					arr.add((Cistern)i.getValue());
+					arr.add(i);
 			
 			if (arr.size() == 0) {
-				Main.push("Couldn’t create pipe");
+				Main.push("Couldn’t create pump");
 				return;
 			}
 			
@@ -100,7 +100,8 @@ public class ObjectTest {
 			if (Main.rcDisable)
 				index = 0;
 			
-			cistern = arr.get(index);
+			cisternid = arr.get(index).getKey();
+			cistern = (Cistern)arr.get(index).getValue();
 		}
 		
 		//create and add pump
@@ -124,10 +125,10 @@ public class ObjectTest {
 		else {
 			//pick random cistern
 			//filter elements to cisterns
-			ArrayList<Cistern> arr = new ArrayList<Cistern>();
+			ArrayList<Entry<String, WaterFlow>> arr = new ArrayList<Entry<String, WaterFlow>>();
 			for (Entry<String, WaterFlow> i : elements.entrySet())
 				if (i.getValue().getClass() == Cistern.class)
-					arr.add((Cistern)i.getValue());
+					arr.add(i);
 			
 			if (arr.size() == 0) {
 				Main.push("Couldn’t create pipe");
@@ -139,7 +140,8 @@ public class ObjectTest {
 			if (Main.rcDisable)
 				index = 0;
 			
-			cistern = arr.get(index);
+			cisternid = arr.get(index).getKey();
+			cistern = (Cistern)arr.get(index).getValue();
 		}
 		
 		//create and add pipe
