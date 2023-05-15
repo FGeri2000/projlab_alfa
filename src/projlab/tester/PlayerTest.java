@@ -115,7 +115,7 @@ public class PlayerTest {
 			return;
 		}
 			
-		if (player.InputCallback_Break())
+		if (player.InputCallback_Repair())
 			Main.push("Repair successful.");
 		else 
 			Main.push("Repair failed. Possible reasons: " + playerid + " cannot repair, element is not broken, element cannot be repaired.");
