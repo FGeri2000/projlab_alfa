@@ -142,6 +142,8 @@ public abstract class WaterFlow {
 	 * @return A ténylegesen átvett víz mennyisége.
 	 */
 	public int receiveWater(WaterFlow from, int amount) {
+		if (output == -1)
+			return 0;
 		if (neighbors.get(output) == from) {
 			return Math.min(this.bufferCapacity - buffer, amount);
 		}
