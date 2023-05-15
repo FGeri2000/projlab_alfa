@@ -15,7 +15,7 @@ public class Flow {
 		source.AddNeighbor(pipe);
 		pipe.AddNeighbor(source);		
 		source.SetOutput(0);		
-		pipe.SetInput(new int[]{0});
+		pipe.setInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
 	
 		//Passing original caller (controller) to writer
@@ -27,7 +27,7 @@ public class Flow {
 		CallHierarchyWriter.PushIdentifier(pipe, "Pipe");
 		
 		//Run simulation
-		source.FlowTick();
+		source.flowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();
@@ -44,7 +44,7 @@ public class Flow {
 		pipe.AddNeighbor(pump);
 		pump.AddNeighbor(pipe);
 		pipe.SetOutput(0);
-		pump.SetInput(new int[]{0});
+		pump.setInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
 	
 		//Passing original caller (controller) to writer
@@ -56,7 +56,7 @@ public class Flow {
 		CallHierarchyWriter.PushIdentifier(pump, "Pump");
 		
 		//Run simulation
-		pipe.FlowTick();
+		pipe.flowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();
@@ -73,7 +73,7 @@ public class Flow {
 		pump.AddNeighbor(pipe);
 		pipe.AddNeighbor(pump);
 		pump.SetOutput(0);
-		pipe.SetInput(new int[]{0});
+		pipe.setInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
 	
 		//Passing original caller (controller) to writer
@@ -85,7 +85,7 @@ public class Flow {
 		CallHierarchyWriter.PushIdentifier(pipe, "Pipe");
 		
 		//Run simulation
-		pump.FlowTick();
+		pump.flowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();
@@ -102,7 +102,7 @@ public class Flow {
 		pipe.AddNeighbor(cistern);
 		cistern.AddNeighbor(pipe);		
 		pipe.SetOutput(0);		
-		cistern.SetInput(new int[]{0});
+		cistern.setInput(new int[]{0});
 		ConditionQuerier.DisableDefaults();
 
 		//Passing original caller (controller) to writer
@@ -114,7 +114,7 @@ public class Flow {
 		CallHierarchyWriter.PushIdentifier(cistern, "Cistern");
 		
 		//Run simulation
-		pipe.FlowTick();
+		pipe.flowTick();
 		
 		//Print calls to stdout
 		CallHierarchyWriter.PrintToStandardOutput();

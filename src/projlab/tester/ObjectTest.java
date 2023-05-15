@@ -1,6 +1,8 @@
 package projlab.tester;
 
 import projlab.sivatag.*;
+
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Random;
@@ -69,7 +71,7 @@ public class ObjectTest {
 	}
 	
 	
-	protected static void runCreatePump(String cisternid) {
+	protected static void runCreatePump(String cisternid) throws InvalidKeyException {
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		
 		Cistern cistern = null;
@@ -108,7 +110,7 @@ public class ObjectTest {
 		else
 			Main.push("Couldn’t create pump");
 	}
-	protected static void runCreatePipe(String cisternid) {
+	protected static void runCreatePipe(String cisternid) throws InvalidKeyException {
 		HashMap<String, WaterFlow> elements = Main.game.getPipeElements();
 		
 		Cistern cistern = null;

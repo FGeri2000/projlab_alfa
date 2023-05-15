@@ -1,6 +1,7 @@
 package projlab.tester;
 
 import java.io.*;
+import java.security.InvalidKeyException;
 import java.util.Scanner;
 
 import projlab.sivatag.*;
@@ -18,7 +19,7 @@ public class Main {
 	}
 		
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InvalidKeyException {
 		if (args.length == 0) {
 			Scanner scan = new Scanner(System.in);
 			
@@ -105,7 +106,7 @@ public class Main {
 		}
 	}
 		
-	private static void runCommand(String command, String[] args) {
+	private static void runCommand(String command, String[] args) throws InvalidKeyException {
 		switch (command.toLowerCase()) {
 		case "list":
 			if (args.length != 1)

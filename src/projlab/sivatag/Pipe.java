@@ -11,23 +11,23 @@ public class Pipe extends WaterFlow {
 	/**
 	 * Igaz, ha a cső lyukas és kifolyik belőle a víz, hamis, ha nem.
 	 */
-	private boolean punctured = false;
+	protected boolean punctured = false;
 	/**
 	 * Igaz, ha a cső ragadós, hamis, ha nem az.
 	 */
-	private boolean sticky = false;
+	protected boolean sticky = false;
 	/**
 	 * Igaz, ha a cső csúszós, hamis, ha nem az.
 	 */
-	private boolean slippery = false;
+	protected boolean slippery = false;
 	/**
 	 * Ennyi ideig ragadós vagy csúszós még a cső.
 	 */
-	private int countDown = 0;
+	protected int countDown = 0;
 	/**
 	 * Ennyi ideig nem lyukasztható újra a cső.
 	 */
-	private int notPuncturableCountDown = 0;
+	protected int notPuncturableCountDown = 0;
 
 	/**
 	 * Létrehoz egy Pipe objektumot az alapértelmezett kapacitásokkal.
@@ -176,4 +176,9 @@ public class Pipe extends WaterFlow {
 		else
 			return false;
 	}
+	public boolean isPunctured(){return punctured;}
+	public boolean isSticky(){return sticky;}
+	public boolean isSlippery(){return slippery;}
+	public int getCountDown(){return countDown;}
+	public int getNotPuncturableCountDown(){return notPuncturableCountDown;}
 }

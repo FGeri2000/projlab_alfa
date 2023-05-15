@@ -1,6 +1,9 @@
 package projlab.tester;
 
+import projlab.controller.GameSerializer;
 import projlab.sivatag.*;
+
+import java.security.InvalidKeyException;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -61,11 +64,11 @@ public class GameTest {
 	
 	protected static void runNewGame() {
 		Main.game = new Game();
-		Main.game.NewGame();
+		Main.game.newGame();
 		Main.push("New Game created, please select your team!");
 	}
 		
-	protected static void runSelectTeam(String team) {
+	protected static void runSelectTeam(String team) throws InvalidKeyException {
 		if (team.equals("p")) {
 			for (int i = 1; i <= 2; i++) {
 				WaterFlow obj = Main.game.getPipeElements().get("source" + i);

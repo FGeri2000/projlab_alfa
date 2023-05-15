@@ -27,11 +27,11 @@ public abstract class WaterFlow {
 	/**
 	 * Az objektum által tárolt víz mennyisége.
 	 */
-	public int buffer = 0;
+	protected int buffer = 0;
 	/**
 	 * Az objektum által tárolható víz maximális mennyisége. Negatív ha végtelen.
 	 */
-	protected int bufferCapacity = 20;
+	protected int bufferCapacity = -1;
 	/**
 	 * Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
 	 */
@@ -229,11 +229,11 @@ public abstract class WaterFlow {
 	 * @return Igaz, ha az elem csúszóssá lett téve, hamis, ha nem.
 	 */
 	public boolean turnSlippery() { return false; }
-	
-	
-	/**
-	 * Visszaadja, hogy áll-e játékos az elemen.
-	 */
-	public boolean hasPlayer() { return players.size() > 0; }
-
+	public LinkedList<Integer> getInput(){return input;}
+	public int getOutput(){return output;}
+	public int getBuffer(){return buffer;}
+	public boolean isCarried(){return carried;}
+	public boolean hasPlayer() {
+		return !players.isEmpty();
+	}
 }
