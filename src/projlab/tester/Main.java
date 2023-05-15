@@ -17,7 +17,8 @@ public class Main {
 		else
 			System.out.println(line);
 	}
-		
+	
+	private static boolean exit = false;
 	
 	public static void main(String[] args) throws InvalidKeyException {
 		if (args.length == 0) {
@@ -31,7 +32,9 @@ public class Main {
 				for (int i = 1; i < lineSplit.length; i++) {
 					arguments[i - 1] = lineSplit[i];
 				}
-				runCommand(lineSplit[0], arguments);	
+				runCommand(lineSplit[0], arguments);
+				if (exit)
+					break;
 			}
 			
 			scan.close();
@@ -71,6 +74,8 @@ public class Main {
 					arguments[i - 1] = lineSplit[i];
 				}
 				runCommand(lineSplit[0], arguments);
+				if (exit)
+					break;
 			}
 			input.close();
 
@@ -275,6 +280,9 @@ public class Main {
 		case "enablerc":
 			rcDisable = false;
 			push("Pump RC has been enabled");
+			break;
+		case "exit":
+			exit = true;
 			break;
 		}
 	}
