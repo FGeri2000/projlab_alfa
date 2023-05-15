@@ -74,7 +74,8 @@ public abstract class WaterFlow {
 		if (neighbor == null)
 			return false;
 		
-		neighbors.add(neighbor);
+		if (!neighbors.contains(neighbor))
+			neighbors.add(neighbor);
 		
 		if (!neighbor.getNeighbors().contains(this)) {
 			neighbor.addNeighbor(this);

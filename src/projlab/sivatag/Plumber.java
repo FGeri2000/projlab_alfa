@@ -40,6 +40,9 @@ public class Plumber extends Player {
 	public WaterFlow InputCallback_Pickup(int neighbor) {
 		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
 		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
+
+		if (heldObject != null)
+			return null;
 		
 		LinkedList<WaterFlow> neighborslist = position.getNeighbors();
 
