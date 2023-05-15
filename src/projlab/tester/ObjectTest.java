@@ -68,6 +68,7 @@ public class ObjectTest {
 			index = 0;
 		
 		arr.get(index).breakObject(true);
+		Main.push("The corruption was successful");
 	}
 	
 	
