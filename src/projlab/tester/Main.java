@@ -19,7 +19,6 @@ public class Main {
 	}
 	
 	private static boolean exit = false;
-	
 	public static void main(String[] args) throws InvalidKeyException {
 		if (args.length == 0) {
 			Scanner scan = new Scanner(System.in);
@@ -190,7 +189,7 @@ public class Main {
 			if (args.length == 0) {
 				ObjectTest.runCreatePump(null);
 			}
-			else if (args.length != 2 && args[0].equals("-c")) {
+			else if (args.length == 2 && args[0].equals("-c")) {
 				ObjectTest.runCreatePump(args[1]);
 			}
 			break;

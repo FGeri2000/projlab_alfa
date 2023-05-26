@@ -72,23 +72,31 @@ public class GameTest {
 		if (team.equals("p")) {
 			for (int i = 1; i <= 2; i++) {
 				WaterFlow obj = Main.game.getPipeElements().get("source" + i);
-				if (!obj.hasPlayer()) {
+				Plumber p = new Plumber(obj);
+				Main.game.addPlayer(p);
+				Main.push("Your team is the Plumber");
+				return;
+				/*if (!obj.hasPlayer()) {
 					Plumber p = new Plumber(obj);
 					Main.game.addPlayer(p);
 					Main.push("Your team is the Plumber");
 					return;
-				}
+				}*/
 			}
 		}
 		else if (team.equals("s")) {
 			for (int i = 1; i <= 2; i++) {
 				WaterFlow obj = Main.game.getPipeElements().get("cistern" + i);
-				if (!obj.hasPlayer()) {
+				Saboteur p = new Saboteur(obj);
+				Main.game.addPlayer(p);
+				Main.push("Your team is the Saboteur");
+				return;
+				/*if (!obj.hasPlayer()) {
 					Saboteur p = new Saboteur(obj);
 					Main.game.addPlayer(p);
 					Main.push("Your team is the Saboteur");
 					return;
-				}
+				}*/
 			}
 		}
 		Main.push("Player could not be placed.");
