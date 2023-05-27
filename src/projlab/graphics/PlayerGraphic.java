@@ -4,6 +4,7 @@ import projlab.sivatag.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
@@ -41,11 +42,16 @@ public class PlayerGraphic extends Graphic {
 		isSaboteur = false;
 		player = plumber;
 
-		if (altImage) {
-			this.changeImage(ImageIO.read(new File("plumber2.jpg")));
+		try {
+			if (altImage) {
+				this.changeImage(ImageIO.read(new File("plumber2.jpg")));
+			}
+			else {
+				this.changeImage(ImageIO.read(new File("plumber1.jpg")));
+			}
 		}
-		else {
-			this.changeImage(ImageIO.read(new File("plumber1.jpg")));
+		catch (IOException e) {
+			return;
 		}
 
 		positionLookup();
@@ -58,7 +64,12 @@ public class PlayerGraphic extends Graphic {
 		isSaboteur = true;
 		player = saboteur;
 
-		this.changeImage(ImageIO.read(new File("saboteur.jpg")));
+		try {
+			this.changeImage(ImageIO.read(new File("saboteur.jpg")));
+		}
+		catch (IOException e) {
+			return;
+		}
 
 		positionLookup();
 	}

@@ -5,7 +5,7 @@ import projlab.sivatag.Source;
 /**
  * Felelős a játékban megtalálható források kirajzolásáért.
  */
-public class SourceGraphic extends PiplineGraphic{
+public class SourceGraphic extends PipelineGraphic{
     /**
      * A forrás, amit az objektum reprezentál.
      */

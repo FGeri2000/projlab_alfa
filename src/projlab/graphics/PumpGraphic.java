@@ -5,7 +5,7 @@ import projlab.sivatag.Pump;
 /**
  * Felelős a játékban megtalálható pumpák kirajzolásáért.
  */
-public class PumpGraphic extends PiplineGraphic{
+public class PumpGraphic extends PipelineGraphic{
     /**
      * A pumpa, amit az objektum reprezentál.
      */

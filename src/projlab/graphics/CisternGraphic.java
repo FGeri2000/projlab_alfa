@@ -5,7 +5,7 @@ import projlab.sivatag.Cistern;
 /**
  * Felelős a játékban megtalálható ciszternák kirajzolásáért.
  */
-public class CisternGraphic extends PiplineGraphic{
+public class CisternGraphic extends PipelineGraphic{
     /**
      * A ciszterna, amit az objektum reprezentál.
      */

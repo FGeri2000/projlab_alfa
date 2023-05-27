@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Ősosztály a csőhálózat csomóponti elemeinek.
  */
-public abstract class PiplineGraphic extends Graphic{
+public abstract class PipelineGraphic extends Graphic{
     /**
      * A kirajzolandó objektum x koordinátája pixelben
      */
@@ -37,12 +37,5 @@ public abstract class PiplineGraphic extends Graphic{
     @Override
     public int get_y() {
         return y;
-    }
-    /**
-     * Kirajzolja az objektumot a paraméterben megadott rajzfelületre.
-     * @param graphics A rajzfelület, amire az objektumot rajzolja.
-     */
-    public void draw(Graphics graphics){
-        graphics.drawImage(image, x, y, getWidth(), getHeight(), null);
     }
 }
