@@ -98,26 +98,7 @@ public class PlayerGraphic extends Graphic {
 			return -1;
 		return position.get_y();
 	}
-	
-	/**
-	 * Visszaadja a kirajzolandó kép szélességét.
-	 * @return
-	 */
-	//@Override
-	public int getWidth() {
-		int width = img.getWidth(null);
-		return width == -1 ? 0 : width;
-	}
-	/**
-	 * Visszaadja a kirajzolandó kép magasságát.
-	 * @return
-	 */
-	//@Override
-	public int getHeight() {
-		int height = img.getHeight(null);
-		return height == -1 ? 0 : height;
-	}
-	
+		
 	/**
 	 * Kirajzolja az elemet az adott rajzfelületre. Csak akkor rajzol, ha az elem pozíciója be van állítva.
 	 * @param graphics A rajzfelület.
