@@ -31,10 +31,6 @@ public class PlayerGraphic extends Graphic {
 	 * Igaz, a ez a játékos a jelenleg soron következő.
 	 */
 	private boolean selected = false;
-	/**
-	 * A kirajzolandó kép.
-	 */
-	private Image img = null;
 	
 	/**
 	 * Létrehoz egy új játékos grafikai elemet egy szerelőnek.
@@ -46,10 +42,10 @@ public class PlayerGraphic extends Graphic {
 		player = plumber;
 
 		if (altImage) {
-			img = ImageIO.read(new File("plumber2.jpg"));
+			this.changeImage(ImageIO.read(new File("plumber2.jpg")));
 		}
 		else {
-			img = ImageIO.read(new File("plumber1.jpg"));	
+			this.changeImage(ImageIO.read(new File("plumber1.jpg")));
 		}
 
 		positionLookup();
@@ -62,7 +58,7 @@ public class PlayerGraphic extends Graphic {
 		isSaboteur = true;
 		player = saboteur;
 
-		img = ImageIO.read(new File("saboteur.jpg"));
+		this.changeImage(ImageIO.read(new File("saboteur.jpg")));
 
 		positionLookup();
 	}
@@ -98,26 +94,7 @@ public class PlayerGraphic extends Graphic {
 			return -1;
 		return position.get_y();
 	}
-	
-	/**
-	 * Visszaadja a kirajzolandó kép szélességét.
-	 * @return
-	 */
-	//@Override
-	public int getWidth() {
-		int width = img.getWidth(null);
-		return width == -1 ? 0 : width;
-	}
-	/**
-	 * Visszaadja a kirajzolandó kép magasságát.
-	 * @return
-	 */
-	//@Override
-	public int getHeight() {
-		int height = img.getHeight(null);
-		return height == -1 ? 0 : height;
-	}
-	
+		
 	/**
 	 * Kirajzolja az elemet az adott rajzfelületre. Csak akkor rajzol, ha az elem pozíciója be van állítva.
 	 * @param graphics A rajzfelület.
@@ -126,7 +103,7 @@ public class PlayerGraphic extends Graphic {
 	public void draw(Graphics graphics) {
 		if (position == null)
 			return;
-		graphics.drawImage(img, get_x(), get_y(), getWidth(), getHeight(), null);
+		super.draw(graphics);
 	}
 	
 	
