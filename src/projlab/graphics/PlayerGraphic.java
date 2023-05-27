@@ -1,4 +1,4 @@
-package projlab.graphic;
+package projlab.graphics;
 
 import projlab.sivatag.*;
 import java.awt.*;
