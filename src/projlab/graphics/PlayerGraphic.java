@@ -59,7 +59,6 @@ public class PlayerGraphic extends Graphic {
 		player = saboteur;
 
 		this.changeImage(ImageIO.read(new File("saboteur.jpg")));
-		img = ImageIO.read(new File("saboteur.jpg"));
 
 		positionLookup();
 	}
