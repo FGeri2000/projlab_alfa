@@ -22,7 +22,9 @@ public abstract class Graphic {
 	 * @param g A rajzfelület, amire az objektumot rajzolja.
 	 */
 	public void draw(Graphics g)
-	{}
+	{
+		g.drawImage(image, get_x(), get_y(), getWidth(), getHeight(), null);
+	}
 	/**
 	 * Módosítja a tárolt méretet.
 	 * @param width Az objektum új szélessége.
