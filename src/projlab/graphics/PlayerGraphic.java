@@ -31,10 +31,6 @@ public class PlayerGraphic extends Graphic {
 	 * Igaz, a ez a játékos a jelenleg soron következő.
 	 */
 	private boolean selected = false;
-	/**
-	 * A kirajzolandó kép.
-	 */
-	private Image img = null;
 	
 	/**
 	 * Létrehoz egy új játékos grafikai elemet egy szerelőnek.
@@ -46,10 +42,10 @@ public class PlayerGraphic extends Graphic {
 		player = plumber;
 
 		if (altImage) {
-			img = ImageIO.read(new File("plumber2.jpg"));
+			this.changeImage(ImageIO.read(new File("plumber2.jpg")));
 		}
 		else {
-			img = ImageIO.read(new File("plumber1.jpg"));	
+			this.changeImage(ImageIO.read(new File("plumber1.jpg")));
 		}
 
 		positionLookup();
