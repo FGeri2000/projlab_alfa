@@ -1,5 +1,6 @@
 package projlab.graphics;
 
+import projlab.controller.Controller;
 import projlab.sivatag.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
