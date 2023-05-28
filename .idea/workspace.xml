@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projlab_skeleton.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/projlab/graphics/CisternGraphic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/projlab/graphics/PiplineGraphic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/projlab/graphics/PumpGraphic.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/projlab/graphics/SourceGraphic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projlab/graphic/PlayerGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projlab/graphics/PlayerGraphic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/projlab_skeleton.iml" beforeDir="false" afterPath="$PROJECT_DIR$/projlab_skeleton.iml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,16 +34,17 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "OverrideImplement.generate.javadoc": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/Pali/OneDrive/Dokumentumok/projlab/sivatagi_vizhalozat/src"
+    "last_opened_file_path": "C:/Users/Pali/OneDrive/Dokumentumok/projlab/projlab_alfa/src"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="23e7ff12-dce4-44dc-830a-319c82091314" name="Changes" comment="" />
+      <changelist id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="" />
       <created>1682874944807</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
