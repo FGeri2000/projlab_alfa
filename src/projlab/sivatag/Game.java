@@ -20,6 +20,14 @@ public class Game {
 	 */
 	private int gameTimeLeft;
 	/**
+	 * A játék során a csövekből elfolyt víz mennyisége
+	 */
+	private int spilledWaterAmount;
+	/**
+	 * A játék során a ciszternákban összegyűlt víz mennyisége
+	 */
+	private int storedWaterAmount;
+	/**
 	 * A csőhálózat elemeit tároló heterogén kollekció.
 	 */
 	private HashMap<String, WaterFlow> pipeElements;
@@ -31,12 +39,16 @@ public class Game {
 		players = new HashMap<>();
 		pipeElements = new HashMap<>();
 		gameTimeLeft = 240;
+		storedWaterAmount = 0;
+		spilledWaterAmount = 0;
 		timer = new Timer();
 	}
 	public Game(HashMap<String, WaterFlow> pipeElements, HashMap<String, Player> players, int gameTimeLeft){
 		this.pipeElements = pipeElements;
 		this.players = players;
 		this.gameTimeLeft = gameTimeLeft;
+		storedWaterAmount = 0;
+		spilledWaterAmount = 0;
 		timer = new Timer();
 	}
 	/**
@@ -52,6 +64,8 @@ public class Game {
 					pipeElements.forEach((key, waterFlow) -> {
 						waterFlow.flowTick();
 					});
+					spilledWaterAmount += getSpilledWaterAmountFromPipes();
+					storedWaterAmount = getStoredWaterAmountFromCisterns();
 				}
 			};
 			timer.scheduleAtFixedRate(task, 0, 1000);
@@ -72,11 +86,9 @@ public class Game {
 		timer.cancel();
 		timer.purge();
 		timer = new Timer();
-		AtomicInteger cisternsBuffer = new AtomicInteger();
+		spilledWaterAmount += getSpilledWaterAmountFromPipes();
+		storedWaterAmount = getStoredWaterAmountFromCisterns();
 		pipeElements.forEach((key, waterFlow) -> {
-			if (key.startsWith("cistern")) {
-				cisternsBuffer.addAndGet(waterFlow.buffer);
-			}
 			waterFlow.removeNeighbors();
 			for(Player player : waterFlow.players){
 				String playerKey = getKeyFromPlayers(player);
@@ -86,7 +98,7 @@ public class Game {
 		});
 		pipeElements.clear();
 		players.clear();
-		return cisternsBuffer.get();
+		return storedWaterAmount;
 	}
 
 	/**
@@ -100,8 +112,7 @@ public class Game {
 		if(key.isBlank())
 			return null;
 		String _key = key.trim().toLowerCase();
-		WaterFlow pipeElement = pipeElements.get(_key);
-		return pipeElement;
+		return pipeElements.get(_key);
 	}
 
 	/**
@@ -301,6 +312,8 @@ public class Game {
 	 * @return
 	 */
 	public HashMap<String, Player> getPlayers(){return players;}
+	public int getSpilledWaterAmount(){return spilledWaterAmount;}
+	public int getStoredWaterAmount(){return storedWaterAmount;}
 	public String getKeyFromPipeElements(WaterFlow element){
 		if(element == null)
 			return null;
@@ -319,7 +332,7 @@ public class Game {
 		if(element == null)
 			return null;
 		AtomicReference<String> _key = new AtomicReference<>("");
-		pipeElements.forEach((key, player) -> {
+		players.forEach((key, player) -> {
 			if(player.equals(element)){
 				_key.set(key);
 			}
@@ -561,5 +574,45 @@ public class Game {
 				.max()
 				.orElse(0) + 1;
 		return prefix+suffix;
+	}
+
+	/**
+	 * A játék során elfolyt, és a ciszternákban összegyűjtött víz mennyiségének lekérdezése.
+	 * @return 2 elemű tömb: az 1. elem a ciszternákban összegyűlt víz mennyisége (szerelők), a 2. elem a csövekből elfolyt víz mennyisége (szabotőrök)
+	 */
+	public int[] getTeamPoints(){
+		return new int[] {storedWaterAmount, spilledWaterAmount};
+	}
+
+	/**
+	 * Egy adott pillanatban a lyukas csövekből kifolyt víz mennyiségének lekérdezése
+	 * @return A kifolyt víz mennyisége
+	 */
+	private int getSpilledWaterAmountFromPipes(){
+		if(pipeElements.isEmpty()) return 0;
+		AtomicInteger spilledWaterAmount = new AtomicInteger();
+		pipeElements.forEach((key, waterFlow) -> {
+			if(key.startsWith("pipe")){
+				Pipe pipeElement = (Pipe)waterFlow;
+				if(pipeElement.isPunctured())
+					spilledWaterAmount.addAndGet(pipeElement.getBuffer());
+			}
+		});
+		return spilledWaterAmount.get();
+	}
+
+	/**
+	 * Egy adott pillanatban a ciszternákban eltárolt víz mennyiségének lekérdezése
+	 * @return A ciszternákban tárolt vízmennyiség
+	 */
+	private int getStoredWaterAmountFromCisterns(){
+		if(pipeElements.isEmpty()) return 0;
+		AtomicInteger storedWaterAmount = new AtomicInteger();
+		pipeElements.forEach((key, waterFlow) -> {
+			if (key.startsWith("cistern")) {
+				storedWaterAmount.addAndGet(waterFlow.getBuffer());
+			}
+		});
+		return storedWaterAmount.get();
 	}
 }
