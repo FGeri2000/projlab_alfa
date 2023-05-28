@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="&quot;getTeamPoints&quot; metódus a Game-ben">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/projlab/graphics/PlayerGraphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projlab/graphics/PlayerGraphic.java" afterDir="false" />
-    </list>
+    <list default="true" id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="Controller / Timer létrehozása" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -73,7 +70,14 @@
       <option name="project" value="LOCAL" />
       <updated>1685299334752</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Controller / Timer létrehozása">
+      <created>1685306017549</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1685306017549</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,6 +97,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="PipeGraphic, StickyButton, SlipperyButton" />
     <MESSAGE value="&quot;getTeamPoints&quot; metódus a Game-ben" />
-    <option name="LAST_COMMIT_MESSAGE" value="&quot;getTeamPoints&quot; metódus a Game-ben" />
+    <MESSAGE value="Controller / Timer létrehozása" />
+    <option name="LAST_COMMIT_MESSAGE" value="Controller / Timer létrehozása" />
   </component>
 </project>
