@@ -16,16 +16,17 @@ public class Controller {
     public static ArrayList<PipelineGraphic> pipelineObjects;
     public static ArrayList<PipeGraphic> pipeObjects;
 
-    //public static MoveButton moveButton;
+    public static MoveButton moveButton;
     //public static BreakButton breakButton;
     //public static RepairButton repairButton;
-    //public static PlaceButton placeButton;
-    //public static PickupButton pickupButton;
+    public static PlaceButton placeButton;
+    public static PickupButton pickupButton;
     public static StickyButton stickyButton;
     public static SlipperyButton slipperyButton;
-    public static JComboBox<PipelineGraphic> objectDropDown;
+    public static JComboBox<String> objectDropDown;
     public static String winningTeam;
     private static java.util.Timer timer;
+    public static AbstractAction setInputButton;
     public static AbstractAction setOutputButton;
 
     public static void main(String[] args) throws ExecutionControl.NotImplementedException {

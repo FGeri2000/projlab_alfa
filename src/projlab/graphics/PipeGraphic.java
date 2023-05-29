@@ -1,6 +1,7 @@
 package projlab.graphics;
 
 import projlab.sivatag.Pipe;
+import projlab.sivatag.WaterFlow;
 
 import java.awt.*;
 import java.util.Random;
@@ -9,7 +10,7 @@ import java.util.Random;
  * A modell egy “Pipe” objektumpéldányának, azaz a vízhálózatban egy csőnek a
  * megjelenítéséért, és az azon végzett műveletek közvetítéséért felelős osztály.
  */
-public class PipeGraphic extends Graphic{
+public class PipeGraphic extends PipelineGraphic {
     /**
      * Az a csövet reprezentáló “Pipe” példány, aminek a
      * megjelenítéséért ez a példány felelős.
@@ -117,4 +118,54 @@ public class PipeGraphic extends Graphic{
      */
     @Override
     public int get_y() {throw new UnsupportedOperationException();}
+
+	@Override
+	public boolean objectMatch(WaterFlow object) {
+		return bindingObject == object;
+	}
+
+	@Override
+	public WaterFlow objectGet() {
+		return bindingObject;
+	}
+
+	@Override
+	public boolean canSetInput() {
+		return false;
+	}
+
+	@Override
+	public boolean canSetOutput() {
+		return false;
+	}
+
+	@Override
+	public boolean canRepair() {
+		return bindingObject.isPunctured();
+	}
+
+	@Override
+	public boolean canBreak() {
+		return !bindingObject.isPunctured();
+	}
+
+	@Override
+	public boolean canSticky() {
+		return !bindingObject.isSlippery() && ! bindingObject.isSticky();
+	}
+
+	@Override
+	public boolean canSlippery() {
+		return !bindingObject.isSlippery() && ! bindingObject.isSticky();
+	}
+
+	@Override
+	public boolean canPickup() {
+		return false;
+	}
+
+	@Override
+	public boolean canPlace() {
+		return false;
+	}
 }
