@@ -353,16 +353,12 @@ public class Game {
 			Source source1 = new Source();
 			Pipe pipe0 = new Pipe();
 			source0.addNeighbor(pipe0);
-			pipe0.addNeighbor(source0);
 			source1.addNeighbor(pipe0);
-			pipe0.addNeighbor(source1);
 
 			Pipe pipe1 = new Pipe();
 			Pipe pipe2 = new Pipe();
 			source0.addNeighbor(pipe1);
-			pipe1.addNeighbor(source0);
 			source1.addNeighbor(pipe2);
-			pipe2.addNeighbor(source1);
 			source0.setOutput(1);
 			source1.setOutput(1);
 			pipe1.setInput(new int[] {0});
@@ -372,13 +368,9 @@ public class Game {
 			Pump pump1 = new Pump();
 			Pipe pipe3 = new Pipe();
 			pump0.addNeighbor(pipe1);
-			pipe1.addNeighbor(pump0);
 			pump0.addNeighbor(pipe3);
 			pump1.addNeighbor(pipe3);
-			pipe3.addNeighbor(pump1);
-			pipe3.addNeighbor(pump0);
 			pump1.addNeighbor(pipe2);
-			pipe2.addNeighbor(pump1);
 			pipe1.setOutput(1);
 			pump0.setInput(new int[] {0});
 			pipe2.setOutput(1);
@@ -388,11 +380,8 @@ public class Game {
 			Pipe pipe4 = new Pipe();
 			Pipe pipe8 = new Pipe();
 			pump0.addNeighbor(pipe4);
-			pipe4.addNeighbor(pump0);
 			pump2.addNeighbor(pipe4);
-			pipe4.addNeighbor(pump2);
 			pump2.addNeighbor(pipe8);
-			pipe8.addNeighbor(pump2);
 			pump0.setOutput(2);
 			pipe4.setInput(new int[] {0});
 			pipe4.setOutput(1);
@@ -406,27 +395,18 @@ public class Game {
 			Pipe pipe9 = new Pipe();
 			Pipe pipe10 = new Pipe();
 			pump3.addNeighbor(pipe5);
-			pipe5.addNeighbor(pump3);
 			pump0.addNeighbor(pipe5);
-			pipe5.addNeighbor(pump0);
 			pump3.addNeighbor(pipe6);
-			pipe6.addNeighbor(pump3);
 			pump1.addNeighbor(pipe6);
-			pipe6.addNeighbor(pump1);
 			pump3.addNeighbor(pipe9);
-			pipe9.addNeighbor(pump3);
 			pump3.addNeighbor(pipe10);
-			pipe10.addNeighbor(pump3);
 
 			Pump pump4 = new Pump();
 			Pipe pipe7 = new Pipe();
 			Pipe pipe11 = new Pipe();
 			pump1.addNeighbor(pipe7);
-			pipe7.addNeighbor(pump1);
 			pump4.addNeighbor(pipe7);
-			pipe7.addNeighbor(pump4);
 			pump4.addNeighbor(pipe11);
-			pipe11.addNeighbor(pump4);
 			pump1.setOutput(3);
 			pipe7.setInput(new int[] {0});
 			pipe7.setOutput(1);
@@ -438,13 +418,9 @@ public class Game {
 			Pipe pipe12 = new Pipe();
 			Pipe pipe13 = new Pipe();
 			pump5.addNeighbor(pipe8);
-			pipe8.addNeighbor(pump5);
 			pump5.addNeighbor(pipe9);
-			pipe9.addNeighbor(pump5);
 			pump5.addNeighbor(pipe12);
-			pipe12.addNeighbor(pump5);
 			pump5.addNeighbor(pipe13);
-			pipe12.addNeighbor(pump5);
 			pipe8.setOutput(1);
 			pump5.setInput(new int[] {0});
 			pump5.setOutput(3);
@@ -453,13 +429,9 @@ public class Game {
 			Pump pump6 = new Pump();
 			Pipe pipe14 = new Pipe();
 			pump6.addNeighbor(pipe10);
-			pipe10.addNeighbor(pump6);
 			pump6.addNeighbor(pipe11);
-			pipe11.addNeighbor(pump6);
 			pump6.addNeighbor(pipe12);
-			pipe12.addNeighbor(pump6);
 			pump6.addNeighbor(pipe14);
-			pipe14.addNeighbor(pump6);
 			pipe11.setOutput(1);
 			pump6.setInput(new int[] {1});
 			pump6.setOutput(3);
@@ -468,17 +440,13 @@ public class Game {
 			Cistern cistern0 = new Cistern();
 			Pipe pipe15 = new Pipe();
 			cistern0.addNeighbor(pipe13);
-			pipe13.addNeighbor(cistern0);
 			cistern0.addNeighbor(pipe15);
-			pipe15.addNeighbor(cistern0);
 			pipe13.setOutput(1);
 			cistern0.setInput(new int[] {0});
 
 			Cistern cistern1 = new Cistern();
 			cistern1.addNeighbor(pipe14);
-			pipe14.addNeighbor(cistern1);
 			cistern1.addNeighbor(pipe15);
-			pipe15.addNeighbor(cistern1);
 			pipe14.setOutput(1);
 			cistern1.setInput(new int[] {0});
 

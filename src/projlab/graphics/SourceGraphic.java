@@ -1,11 +1,12 @@
 package projlab.graphics;
 
 import projlab.sivatag.Source;
+import projlab.sivatag.WaterFlow;
 
 /**
  * Felelős a játékban megtalálható források kirajzolásáért.
  */
-public class SourceGraphic extends PipelineGraphic{
+public class SourceGraphic extends JunctionGraphic {
     /**
      * A forrás, amit az objektum reprezentál.
      */
@@ -18,4 +19,54 @@ public class SourceGraphic extends PipelineGraphic{
     public SourceGraphic(Source source){
         this.source = source;
     }
+
+	@Override
+	public boolean objectMatch(WaterFlow object) {
+		return object == source;
+	}
+
+	@Override
+	public WaterFlow objectGet() {
+		return source;
+	}
+
+	@Override
+	public boolean canSetInput() {
+		return false;
+	}
+
+	@Override
+	public boolean canSetOutput() {
+		return true;
+	}
+
+	@Override
+	public boolean canRepair() {
+		return false;
+	}
+
+	@Override
+	public boolean canBreak() {
+		return false;
+	}
+
+	@Override
+	public boolean canSticky() {
+		return false;
+	}
+
+	@Override
+	public boolean canSlippery() {
+		return false;
+	}
+
+	@Override
+	public boolean canPickup() {
+		return true;
+	}
+
+	@Override
+	public boolean canPlace() {
+		return true;
+	}
 }

@@ -143,9 +143,9 @@ public class PlayerGraphic extends Graphic {
 		Controller.placeButton.setEnabled(position.canPlace() && !isSaboteur);
 		
 		{
-			Controller.objectDropdown.removeAll();
+			Controller.objectDropDown.removeAll();
 			for (WaterFlow obj : position.objectGet().getNeighbors()) {
-				Controller.objectDropdown.addItem(Controller.game.getKeyFromPipeElements(obj));
+				Controller.objectDropDown.addItem(Controller.game.getKeyFromPipeElements(obj));
 			}
 		}
 	}
@@ -159,7 +159,7 @@ public class PlayerGraphic extends Graphic {
 		if (!selected)
 			return false;
 		
-		int index = Controller.objectDropdown.getSelectedIndex();
+		int index = Controller.objectDropDown.getSelectedIndex();
 
 		selected = false;
 		return player.InputCallback_Move(index) != null;
@@ -172,7 +172,7 @@ public class PlayerGraphic extends Graphic {
 		if (!selected)
 			return false;
 		
-		int index = Controller.objectDropdown.getSelectedIndex();
+		int index = Controller.objectDropDown.getSelectedIndex();
 
 		selected = false;
 		return player.InputCallback_SetInput(index);
@@ -185,7 +185,7 @@ public class PlayerGraphic extends Graphic {
 		if (!selected)
 			return false;
 		
-		int index = Controller.objectDropdown.getSelectedIndex();
+		int index = Controller.objectDropDown.getSelectedIndex();
 
 		selected = false;
 		return player.InputCallback_SetOutput(index);
@@ -220,7 +220,7 @@ public class PlayerGraphic extends Graphic {
 		if (!selected)
 			return false;
 		
-		int index = Controller.objectDropdown.getSelectedIndex();
+		int index = Controller.objectDropDown.getSelectedIndex();
 		
 		selected = false;
 		return player.InputCallback_Pickup(index) != null;
