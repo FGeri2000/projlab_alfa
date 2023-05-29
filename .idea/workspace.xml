@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="Controller / Timer létrehozása" />
+    <list default="true" id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/projlab/graphics/Graphic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/projlab/graphics/Graphic.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,9 +24,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
-  </component>
   <component name="ProjectId" id="2P9gvhP0PdXHtsZZEFH2qYMndgA" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -31,53 +32,31 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "OverrideImplement.generate.javadoc": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "C:/Users/Pali/OneDrive/Dokumentumok/projlab/projlab_alfa"
-  }
-}]]></component>
+  <component name="RunManager">
+    <configuration name="Write tests for method PipeGraphic.getBindingObject" type="com.diffblue.cover.write-tests-run-configuration" factoryName="com.diffblue.cover.write-tests-run-configuration" activateToolWindowBeforeRun="false" temporary="true">
+      <module name="projlab_skeleton" />
+      <settings run-config-name="Write tests for method PipeGraphic.getBindingObject" include-system-env-vars="true">
+        <jvm-args />
+        <selection-scope>method</selection-scope>
+        <selected-element key="projlab.graphics.PipeGraphic.getBindingObject:()Lprojlab/sivatag/Pipe;" />
+      </settings>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Diffblue Cover.Write tests for method PipeGraphic.getBindingObject" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="28fa1f1d-57c7-4616-8db0-919d532d44e4" name="Changes" comment="" />
+      <changelist id="23e7ff12-dce4-44dc-830a-319c82091314" name="Changes" comment="" />
       <created>1682874944807</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1682874944807</updated>
     </task>
-    <task id="LOCAL-00001" summary="PipeGraphic, StickyButton, SlipperyButton">
-      <created>1685292463373</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1685292463373</updated>
-    </task>
-    <task id="LOCAL-00002" summary="PipeGraphic, StickyButton, SlipperyButton">
-      <created>1685292700935</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1685292700935</updated>
-    </task>
-    <task id="LOCAL-00003" summary="&quot;getTeamPoints&quot; metódus a Game-ben">
-      <created>1685299334752</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1685299334752</updated>
-    </task>
-    <task id="LOCAL-00004" summary="Controller / Timer létrehozása">
-      <created>1685306017549</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1685306017549</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -93,11 +72,5 @@
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="PipeGraphic, StickyButton, SlipperyButton" />
-    <MESSAGE value="&quot;getTeamPoints&quot; metódus a Game-ben" />
-    <MESSAGE value="Controller / Timer létrehozása" />
-    <option name="LAST_COMMIT_MESSAGE" value="Controller / Timer létrehozása" />
   </component>
 </project>
