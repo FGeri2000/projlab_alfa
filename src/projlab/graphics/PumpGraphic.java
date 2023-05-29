@@ -1,5 +1,8 @@
 package projlab.graphics;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import projlab.sivatag.Pump;
 import projlab.sivatag.WaterFlow;
 
@@ -19,6 +22,15 @@ public class PumpGraphic extends JunctionGraphic {
     public PumpGraphic(Pump pump){
         this.pump = pump;
     }
+    
+    public void draw(Graphics graphics) {
+    	Color defColor = graphics.getColor();
+    	graphics.setColor(Color.RED);
+    	graphics.drawRect(get_x()-5, get_y()-5, getWidth()+10, getHeight()+10);
+    	graphics.setColor(defColor);
+    	super.draw(graphics);
+    }
+    
     /**
      * Megkísérli elrontani a reprezentált pumpát.
      */
