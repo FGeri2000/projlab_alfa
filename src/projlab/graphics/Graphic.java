@@ -1,5 +1,8 @@
 package projlab.graphics;
 
+import projlab.sivatag.Pipe;
+import projlab.sivatag.Pump;
+
 import java.awt.*;
 import java.awt.image.*;
 
