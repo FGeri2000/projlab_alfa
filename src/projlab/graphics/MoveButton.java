@@ -1,7 +1,7 @@
 package projlab.graphics;
 
 import java.awt.event.*;
-
+import projlab.controller.*;
 import javax.swing.JButton;
 
 /**
@@ -50,6 +50,10 @@ public class MoveButton extends JButton implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		targetObject.move();
+		synchronized (Controller.lock)
+		{
+			targetObject.move();
+			notify();
+		}
 	}
 }

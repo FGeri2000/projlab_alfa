@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
+import projlab.controller.*;
 
 /**
  * A csövet megjalanítő vízhálózati elemek ragadóssá tételéhez szükséges felhasználói
@@ -36,11 +37,16 @@ public class StickyButton extends JButton implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if((e.getModifiers() & InputEvent.BUTTON1_DOWN_MASK) != 0){
-            if(targetObject.getBindingObject().turnSticky()){
-                setEnabled(false);
-            }
-        }
+    	synchronized (Controller.lock)
+    	{
+	        if((e.getModifiers() & InputEvent.BUTTON1_DOWN_MASK) != 0){
+	            if(targetObject.getBindingObject().turnSticky()){
+	                setEnabled(false);
+	            }
+	            
+	            notify();
+	        }
+    	}
     }
     public PipeGraphic getTargetObject(){return targetObject;}
     public void setTargetObject(PipeGraphic targetObject){

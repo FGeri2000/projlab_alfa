@@ -23,8 +23,8 @@ public class Controller {
     public static ArrayList<PipeGraphic> pipeObjects;
 
     public static MoveButton moveButton;
-    //public static BreakButton breakButton;
-    //public static RepairButton repairButton;
+    public static BreakButton breakButton;
+    public static RepairButton repairButton;
     public static PlaceButton placeButton;
     public static PickupButton pickupButton;
     public static StickyButton stickyButton;
@@ -34,10 +34,10 @@ public class Controller {
     private static java.util.Timer timer;
     public static AbstractAction setInputButton;
     public static AbstractAction setOutputButton;
+    public static Object lock;
 
     public static void main(String[] args) throws ExecutionControl.NotImplementedException {
         createWindow();
-        
         
 //        throw new ExecutionControl.NotImplementedException("TODO");
     }
@@ -50,6 +50,7 @@ public class Controller {
         //TODO menü
         timer = new java.util.Timer();
         startTimer();
+        selectPlayer();
     }
     private static void startTimer(){
         TimerTask task = new TimerTask() {
@@ -221,5 +222,25 @@ public class Controller {
     		i.draw(graphics);
     	}
     }
-    
+    /**
+     * Kirajzolja a folyamatban levő játék elemeit az ablakba.
+     */
+    private static void selectPlayer() {
+    	new Thread(() -> {
+	        while (true) {
+	            synchronized (lock) {
+	            	for (PlayerGraphic player : playerObjects)
+	            	{
+	            		selectedPlayer = player;
+	            		player.select();
+	            		try {
+							lock.wait();
+						} catch (InterruptedException e) {
+							// TODO
+						} 
+	            	}
+	            }
+	        }
+    	}).start();
+    }
 }

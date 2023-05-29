@@ -1,6 +1,7 @@
 package projlab.graphics;
 import projlab.sivatag.*;
 import projlab.sivatag.WaterFlow;
+import projlab.controller.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -54,15 +55,20 @@ public class BreakButton extends JButton {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if (e.getModifiers() == MouseEvent.BUTTON1_MASK)
-            {
-                if (targetObject != null && targetObject instanceof Graphic)
-                {
-                    Graphic element = (Graphic) targetObject;
-                    element.breakObject(true);
-                    updateButtonState();
-                }
-            }
+        	synchronized (Controller.lock)
+        	{
+	            if (e.getModifiers() == MouseEvent.BUTTON1_MASK)
+	            {
+	                if (targetObject != null && targetObject instanceof Graphic)
+	                {
+	                    PipeGraphic element = (Graphic) targetObject;
+	                    element.breakObject(true);
+	                    updateButtonState();
+	                }
+	                
+	                notify();
+	            }
+        	}
         }
     }
 

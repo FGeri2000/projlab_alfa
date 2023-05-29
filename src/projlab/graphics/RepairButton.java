@@ -1,7 +1,7 @@
 package projlab.graphics;
 import projlab.sivatag.*;
 import projlab.sivatag.WaterFlow;
-
+import projlab.controller.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -54,15 +54,20 @@ public class RepairButton extends JButton {
         @Override
         public void actionPerformed(ActionEvent e)
         {
-            if (e.getModifiers() == MouseEvent.BUTTON1_MASK)
-            {
-                if (targetObject != null && targetObject instanceof Graphic)
-                {
-                    Graphic element = (Graphic) targetObject;
-                    element.repairObject();
-                    updateButtonState();
-                }
-            }
+        	synchronized (Controller.lock)
+        	{
+	            if (e.getModifiers() == MouseEvent.BUTTON1_MASK)
+	            {
+	                if (targetObject != null && targetObject instanceof Graphic)
+	                {
+	                    Graphic element = (Graphic) targetObject;
+	                    element.repairObject();
+	                    updateButtonState();
+	                }
+	                
+	                notify();
+	            }
+        	}
         }
     }
 

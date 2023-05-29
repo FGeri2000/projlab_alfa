@@ -1,7 +1,7 @@
 package projlab.graphics;
 
 import java.awt.event.*;
-
+import projlab.controller.*;
 import javax.swing.JButton;
 
 /**
@@ -51,6 +51,10 @@ public class PickupButton extends JButton implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
-		targetObject.pickupObject();
+		synchronized (Controller.lock)
+		{
+			targetObject.pickupObject();
+			notify();
+		}
 	}
 }
