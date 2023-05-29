@@ -43,24 +43,20 @@ public class Game {
 		spilledWaterAmount = 0;
 		timer = new Timer();
 	}
-	public Game(HashMap<String, WaterFlow> pipeElements, HashMap<String, Player> players, int gameTimeLeft){
-		this.pipeElements = pipeElements;
-		this.players = players;
-		this.gameTimeLeft = gameTimeLeft;
-		storedWaterAmount = 0;
-		spilledWaterAmount = 0;
-		timer = new Timer();
-	}
 	/**
 	 * Ez a metódussal létrehozza az alap map-et, inicializálja a map tárolót és feltölti a szükséges objektumokkal, hogy a játék elkezdődhessen.
 	 */
 	public void newGame() {
 		try {
+			gameTimeLeft = 240;
+			storedWaterAmount = 0;
+			spilledWaterAmount = 0;
 			if(pipeElements.isEmpty()){
 				createDefaultMap();
 			}
 			TimerTask task = new TimerTask() {
 				public void run() {
+					breakRandomPump();
 					pipeElements.forEach((key, waterFlow) -> {
 						waterFlow.flowTick();
 					});
@@ -582,5 +578,23 @@ public class Game {
 			}
 		});
 		return storedWaterAmount.get();
+	}
+	private Pump breakRandomPump(){
+		int pumpsCount = countType("pump");
+		Random random = new Random();
+		int randomPumpId = random.nextInt(pumpsCount * 2);
+		Pump randomPump = null;
+		if(randomPumpId > 0 && randomPumpId < pumpsCount){
+			randomPump = (Pump) getPipeElement("pump"+randomPumpId);
+			if(!randomPump.breakObject(true)) randomPump = null;
+		}
+		return randomPump;
+	}
+	private int countType(String prefix){
+		if(prefix == null) return 0;
+		return (int) pipeElements.keySet()
+				.stream()
+				.filter(key -> key.startsWith(prefix))
+				.count();
 	}
 }

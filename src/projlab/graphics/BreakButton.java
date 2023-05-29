@@ -6,6 +6,7 @@ import projlab.controller.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 
 public class BreakButton extends JButton {
@@ -57,7 +58,7 @@ public class BreakButton extends JButton {
         {
         	synchronized (Controller.lock)
         	{
-	            if (e.getModifiers() == MouseEvent.BUTTON1_MASK)
+	            if ((e.getModifiers() & InputEvent.BUTTON1_DOWN_MASK) != 0)
 	            {
 	                if (targetObject != null && targetObject instanceof Graphic)
 	                {
