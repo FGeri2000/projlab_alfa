@@ -53,7 +53,16 @@ public class PipeGraphic extends PipelineGraphic {
                 coordinates[i][1] = random.nextInt(100);
             }
         }
+        if(bindingObject != null && bindingObject.isPunctured()) graphics.setColor(Color.RED);
         graphics.drawLine(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
+        graphics.setColor(Color.BLACK);
+        if(bindingObject != null){
+            graphics.drawString(
+                    Integer.toString(bindingObject.getBuffer()),
+                    ((coordinates[0][0] + coordinates[1][0]) / 2) + 2,
+                    ((coordinates[0][1] + coordinates[1][1]) / 2) + 2
+            );
+        }
     }
 
     public Pipe getBindingObject(){return bindingObject;}

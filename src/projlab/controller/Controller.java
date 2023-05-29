@@ -37,17 +37,18 @@ public class Controller {
     public static Object lock;
 
     public static void main(String[] args) throws ExecutionControl.NotImplementedException {
-        createWindow();
-        
-//        throw new ExecutionControl.NotImplementedException("TODO");
+        //createWindow();
+		startGame();
     }
 
     private static void startGame(){
         game = new Game();
-        if(playerObjects == null || pipelineObjects == null || pipeObjects == null) throw new NullPointerException();
         game.newGame();
-        //TODO tárolók feltöltése
-        //TODO menü
+        playerObjects = new ArrayList<>();
+		pipelineObjects = new ArrayList<>();
+		pipeObjects = new ArrayList<>();
+		createMapGraphics();
+		createWindow();
         timer = new java.util.Timer();
         startTimer();
         selectPlayer();
@@ -57,9 +58,7 @@ public class Controller {
             @Override
             public void run() {
                 while (game.getGameTimeLeft() >= 0){
-                    //pipelineObjects.forEach(pipelineGraphic -> pipelineGraphic.draw());
-                    //pipeObjects.forEach(pipeGraphic -> pipeGraphic.draw());
-                    //playerObjects.forEach(playerGraphic -> playerGraphic.draw());
+                    drawMapGraphics();
                     winningTeam = getWinningTeam();
                 }
                 //TODO winning team kijelzése (?)
