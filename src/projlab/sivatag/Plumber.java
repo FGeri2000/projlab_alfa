@@ -23,13 +23,7 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Repair() {		
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
-		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-		
-		boolean success = position.repairObject();
-		
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
-		return success;
+		return position.repairObject();
 	}
 	/**
 	 * Játékosi bemenetre meghívódik, és felveszi a tartózkodási helyéhez csatlakozó, az adott index-el meghatározott elemét.
@@ -38,9 +32,6 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public WaterFlow InputCallback_Pickup(int neighbor) {
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
-		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-
 		if (heldObject != null)
 			return null;
 		
@@ -48,18 +39,14 @@ public class Plumber extends Player {
 
 		if(neighborslist.size() <= neighbor)
 		{
-			//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 			return null;
 		}
 		
 		if(neighborslist.get(neighbor).pickUp(position))
 		{
-			heldObject = neighborslist.get(neighbor);
-			//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, projlab.skeleton.CallHierarchyWriter.GetIdentifier(heldObject));
-			return heldObject;
+			return neighborslist.get(neighbor);
 		}
 		
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
 		return null;
 	}
 	/**
@@ -68,19 +55,15 @@ public class Plumber extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Place() {
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
-		//projlab.skeleton.CallHierarchyWriter.PushCaller(this);
-
 		if (heldObject == null)
 		{
-			//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 			return false;
 		}
 
 		boolean success;
 		LinkedList<WaterFlow> neighborsList = position.getNeighbors();
 		
-		if (neighborsList.size() == 2 /*&& position.getClass() == Pump.class && heldObject.getClass() == Pipe.class*/)
+		if (neighborsList.size() == 2)
 		{
 			position.removeNeighbors();
 			Pipe newPipe1 = new Pipe();
@@ -102,7 +85,6 @@ public class Plumber extends Player {
 			heldObject = null;
 		}
 
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, String.valueOf(success));
 		return success;
 	}
 	/**
@@ -112,9 +94,6 @@ public class Plumber extends Player {
 	@Override
 	public boolean InputCallback_MakePipeSlippery()
 	{
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_MakePipeSlippery()");
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-		
 		return false;
 	}
 

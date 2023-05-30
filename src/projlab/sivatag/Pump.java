@@ -112,6 +112,14 @@ public class Pump extends WaterFlow {
 		}
 		return false;
 	}
+	/**
+	 * Visszaadja, a pumpa törött-e.
+	 * @return
+	 */
 	public boolean isBroken(){return broken;}
+	/**
+	 * Visszaadja hogy a pumpát felvették-e már.
+	 * @return
+	 */
 	public boolean isPickedUpOnce(){return pickedUpOnce;}
 }

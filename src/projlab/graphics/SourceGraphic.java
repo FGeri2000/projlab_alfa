@@ -17,7 +17,9 @@ public class SourceGraphic extends JunctionGraphic {
      * A forrás, amit az objektum reprezentál.
      */
     private Source source;
-
+    /**
+     * A források képe.
+     */
     private BufferedImage image;
     
     /**

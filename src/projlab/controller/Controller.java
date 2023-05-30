@@ -29,28 +29,79 @@ public class Controller {
     private static JButton quitButton;
 
 
+    /**
+     * A jelenleg folyamatban lévő játék.
+     */
     public static Game game = null;
+    /**
+     * A jelenleg soron következő játékos indexe az összes játékos között.
+     */
     private static int selectedPlayerIndex = -1;
-    public static PlayerGraphic selectedPlayer = null;
+    /**
+     * A játékosok grafikai megfelelőit tartalmazó halmaz.
+     */
     public static ArrayList<PlayerGraphic> playerObjects = new ArrayList<PlayerGraphic>();
+    /**
+     * A pálya csomópontjait tartalmazó halmaz.
+     */
     public static ArrayList<JunctionGraphic> pipelineObjects = new ArrayList<JunctionGraphic>();
+    /**
+     * A pálya csöveit tartalmazó halmaz.
+     */
     public static ArrayList<PipeGraphic> pipeObjects = new ArrayList<PipeGraphic>();
 
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static MoveButton moveButton = new MoveButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static BreakButton breakButton = new BreakButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static RepairButton repairButton = new RepairButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static PlaceButton placeButton = new PlaceButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static PickupButton pickupButton = new PickupButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static StickyButton stickyButton = new StickyButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static SlipperyButton slipperyButton = new SlipperyButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static SetInputButton setInputButton = new SetInputButton(null);
+    /**
+     * A játékosi felület egy gombja.
+     */
     public static SetOutputButton setOutputButton = new SetOutputButton(null);
+    /**
+     * Az jelenlegi játékos pozíciójának a szomszédait tartalmazó legördülő menü.
+     */
     public static JComboBox<String> objectDropDown = new JComboBox<String>();
-    
+    /**
+     * A játék háttérképe.
+     */
     private static BufferedImage background;
     
+    /**
+     * A jelenleg győzelemre álló csapat.
+     */
     public static String winningTeam;
-    
+    /**
+     * A játék futtatásáért felelős Timer objektum.
+     */
     private static java.util.Timer timer = new java.util.Timer();
     
 
@@ -58,6 +109,9 @@ public class Controller {
 		createWindow();
     }
 
+    /**
+     * Létrehozza a játékteret kirajzoló ablakot, és elindítja a játékot.
+     */
     private static void startGame(){
     	frame.setVisible(false);
     	frame = new JFrame();
@@ -86,19 +140,24 @@ public class Controller {
         startTimer();
         selectNextPlayer();
     }
-    
+    /**
+     * Elindít egy új játékot.
+     */
     public static void newGame() {
         game = new Game();
         startGame();
     }
+    /**
+     * Elindít egy játékot, betöltve az adott mentést.
+     * @param file
+     */
     public static void loadGame(String file) {
     	game = GameSerializer.loadGame(file);
     	startGame();
     }
-    public static void exit() {
-    	System.exit(0);
-    }
-    
+    /**
+     * Elindítja a játék futtatásáért felelős timert.
+     */
     private static void startTimer(){
     	game.startGame();
         TimerTask task = new TimerTask() {
@@ -108,12 +167,16 @@ public class Controller {
                     drawMapGraphics();
                     winningTeam = getWinningTeam();
                 }
-                //TODO winning team kijelzése (?)
                 game.endGame();
+                //TODO winning team kijelzése (?)
             }
         };
         timer.scheduleAtFixedRate(task, 0, 500);
     }
+    /**
+     * Visszaadja a jelenleg győzelemre álló csapat nevét, vagy "even" ha döntetlen.
+     * @return
+     */
     private static String getWinningTeam(){
         if(game == null) throw new NullPointerException();
         int[] teamPoints = game.getTeamPoints();
@@ -124,6 +187,9 @@ public class Controller {
         return "even";
     }
     
+    /**
+     * Létrehozza a főmenüt.
+     */
     private static void createWindow() {
         frame = new JFrame("Desert Water Network");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -195,7 +261,9 @@ public class Controller {
         
         frame.setVisible(true);
     }
-    
+    /**
+     * Létrehozza a pálya grafikus megfelelőjét.
+     */
     private static void createMapGraphics() {
     	PipeGraphic pipe;
     	
@@ -337,22 +405,31 @@ public class Controller {
     	playerObjects.add(new PlayerGraphic((Saboteur)game.getPlayer("saboteur2")));
     }
     /**
-     * Kirajzolja a folyamatban levő játék elemeit az ablakba.
+     * Kirajzolja a folyamatban levő játék elemeit az ablakra.
      */
     private static void drawMapGraphics() {
     	frame.getContentPane().repaint();
     }
     /**
-     * 
+     * Kiválasztja a következő soron jövő játékost.
      */
     public static void selectNextPlayer() {
     	selectedPlayerIndex++;
     	if (selectedPlayerIndex >= playerObjects.size() || selectedPlayerIndex < 0)
 			selectedPlayerIndex = 0;
-    	selectedPlayer = playerObjects.get(selectedPlayerIndex);
-    	selectedPlayer.select();
+    	selectedPlayer().select();
     }
-    
+    /**
+     * Visszaadja a jelenleg soron következő játékost.
+     * @return
+     */
+    public static PlayerGraphic selectedPlayer() {
+    	return playerObjects.get(selectedPlayerIndex);
+    }
+
+    /**
+     * A játék kirajzolásához használt felület.
+     */
     public static class DrawPanel extends JPanel {
 
     	@Override

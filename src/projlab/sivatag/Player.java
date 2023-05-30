@@ -134,5 +134,9 @@ public abstract class Player {
 		}
 		return position;
 	}
+	/**
+	 * Visszaadja, hogy a játékos helybe van-e fagyasztva.
+	 * @return
+	 */
 	public boolean isParalyzed(){return paralyzed;}
 }

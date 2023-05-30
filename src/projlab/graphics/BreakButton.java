@@ -45,7 +45,7 @@ public class BreakButton extends JButton implements ActionListener {
 	}
 
 	/**
-     * Kezdeményezi a játékoson keresztül a csőhálózati objektum felvételét,
+     * Kezdeményezi a játékoson keresztül a csőhálózati objektum tönkretételét,
      * ha a felhasználó a gombra kattint.
      * @param e The event to be processed.
      */

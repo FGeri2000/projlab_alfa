@@ -106,7 +106,7 @@ public class PlayerGraphic extends Graphic {
 	 * Visszaadja az elem x pozícióját.
 	 * @return
 	 */
-	//@Override
+	@Override
 	public int get_x() {
 		if (position == null)
 			return -1;
@@ -116,7 +116,7 @@ public class PlayerGraphic extends Graphic {
 	 * Visszaadja az elem y pozícióját.
 	 * @return
 	 */
-	//@Override
+	@Override
 	public int get_y() {
 		if (position == null)
 			return -1;
@@ -127,7 +127,7 @@ public class PlayerGraphic extends Graphic {
 	 * Kirajzolja az elemet az adott rajzfelületre. Csak akkor rajzol, ha az elem pozíciója be van állítva.
 	 * @param graphics A rajzfelület.
 	 */
-	//@Override
+	@Override
 	public void draw(Graphics graphics) {
 		if (position == null)
 			return;

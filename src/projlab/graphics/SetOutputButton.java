@@ -6,7 +6,7 @@ import projlab.controller.*;
 import javax.swing.JButton;
 
 /**
- * A játékosokon keresztüli pumpa bemenetének beállításáért felelős gomb osztálya.
+ * A játékosokon keresztüli pumpa kimenetének beállításáért felelős gomb osztálya.
  */
 public class SetOutputButton extends JButton implements ActionListener {
 	/**
@@ -46,7 +46,7 @@ public class SetOutputButton extends JButton implements ActionListener {
 	}
 
 	/**
-     * Kezdeményezi a játékoson keresztül a cső csúszóssá tételését,
+     * Kezdeményezi a játékoson keresztül a pumpa kimenetének beállítását,
      * ha a felhasználó a gombra kattint.
      * @param e The event to be processed.
      */

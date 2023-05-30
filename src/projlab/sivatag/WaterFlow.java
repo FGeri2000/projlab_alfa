@@ -218,10 +218,31 @@ public abstract class WaterFlow {
 	 * @return Igaz, ha az elem csúszóssá lett téve, hamis, ha nem.
 	 */
 	public boolean turnSlippery() { return false; }
+	
+	/**
+	 * Visszaadja az elem bemeneti elemeinek indexeit.
+	 * @return
+	 */
 	public LinkedList<Integer> getInput(){return input;}
+	/**
+	 * Visszaadja az elem kimeneti indexét.
+	 * @return
+	 */
 	public int getOutput(){return output;}
+	/**
+	 * Visszaadja az elem pufferének a tartalmát.
+	 * @return
+	 */
 	public int getBuffer(){return buffer;}
+	/**
+	 * Visszaadja, az elemet éppen fogja-e egy játékos.
+	 * @return
+	 */
 	public boolean isCarried(){return carried;}
+	/**
+	 * Visszaadja, az elemen áll-e játékos.
+	 * @return
+	 */
 	public boolean hasPlayer() {
 		return !players.isEmpty();
 	}

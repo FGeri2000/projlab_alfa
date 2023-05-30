@@ -28,7 +28,9 @@ public class Pipe extends WaterFlow {
 	 * Ennyi ideig nem lyukasztható újra a cső.
 	 */
 	protected int notPuncturableCountDown = 0;
-	
+	/**
+	 * Az ebből a csőből kifolyt víz mennyisége.
+	 */
 	protected int lostWater = 0;
 
 	/**
@@ -180,10 +182,32 @@ public class Pipe extends WaterFlow {
 		else
 			return false;
 	}
+	/**
+	 * Visszaaadja, hogy a cső lyukas-e.
+	 * @return Igaz, ha a cső lyukas.
+	 */
 	public boolean isPunctured(){return punctured;}
+	/**
+	 * Visszaadja, hogy a cső ragadós-e.
+	 * @return Igaz, ha a cső ragadós.
+	 */
 	public boolean isSticky(){return sticky;}
+	/**
+	 * Visszaadja, hogy a cső csúszós-e.
+	 * @return Igaz, ha a cső csúszós.
+	 */
 	public boolean isSlippery(){return slippery;}
+	/**
+	 * Visszaadja, hogy a még mennyi ideig ragadós vagy csúszós a cső.
+	 */
 	public int getCountDown(){return countDown;}
+	/**
+	 * Visszadja, hogy mennyi ideig nem lyukasztható ki a cső.
+	 */
 	public int getNotPuncturableCountDown(){return notPuncturableCountDown;}
+	/**
+	 * Visszaadja, mennyi víz folyt ki ebből a csőből.
+	 * @return
+	 */
 	public int getLostWater() { return lostWater; }
 }

@@ -6,7 +6,7 @@ import projlab.controller.*;
 import javax.swing.JButton;
 
 /**
- * A játékosokon keresztüli csőhálózati elemek felvételéért felelős gomb osztálya.
+ * A játékosokon keresztüli csőhálózati elemek elhelyezéséért felelős gomb osztálya.
  */
 public class PlaceButton extends JButton implements ActionListener {
 	/**

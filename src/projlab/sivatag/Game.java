@@ -305,13 +305,25 @@ public class Game {
 	public HashMap<String, WaterFlow> getPipeElements(){return pipeElements;}
 
 	/**
-	 * visszaadja a players tároló aktuális
-	 * értékét.
+	 * visszaadja a players tároló aktuális értékét.
 	 * @return
 	 */
-	public HashMap<String, Player> getPlayers(){return players;}
+	public HashMap<String, Player> getPlayers() { return players; }
+	/**
+	 * Visszaadja a játék teljes ideje alatt kifolyt víz mennyiségét.
+	 * @return
+	 */
 	public int getSpilledWaterAmount(){ spilledWaterAmount = getSpilledWaterAmountFromPipes(); return spilledWaterAmount;}
+	/**
+	 * Visszaadja a játék teljes ideje alatt célba ért víz mennyiségét. 
+	 * @return
+	 */
 	public int getStoredWaterAmount(){ storedWaterAmount = getStoredWaterAmountFromCisterns(); return storedWaterAmount;}
+	/**
+	 * Visszaadja az adott csőhálózati elemhez tartozó kulcsot.
+	 * @param element Elem, amely megtalálható a játék elemei között.
+	 * @return A hozzá tartozó kulcs.
+	 */
 	public String getKeyFromPipeElements(WaterFlow element){
 		if(element == null)
 			return null;
@@ -326,6 +338,11 @@ public class Game {
 			return null;
 		return keyOfPipeElement;
 	}
+	/**
+	 * Visszaadja az adott játékoshoz tartozó kulcsot.
+	 * @param element Játékos, amely megtalálható a játékban.
+	 * @return A hozzá tartozó kulcs.
+	 */
 	public String getKeyFromPlayers(Player element){
 		if(element == null)
 			return null;
@@ -580,6 +597,10 @@ public class Game {
 		});
 		return storedWaterAmount.get();
 	}
+	/**
+	 * Véletlenszerűen eldönti, hogy eltörjön-e egy pumpát, és ha igen, véletlenszerűen kiválaszt egyet és eltöri.
+	 * @return Az eltört pumpa.
+	 */
 	private Pump breakRandomPump(){
 		int pumpsCount = countType("pump");
 		Random random = new Random();
@@ -594,6 +615,11 @@ public class Game {
 		}
 		return randomPump;
 	}
+	/**
+	 * Visszaadja, hogy hány kulcs található a játék elemei között amely az adott szóval kezdődik.
+	 * @param prefix
+	 * @return
+	 */
 	private int countType(String prefix){
 		if(prefix == null) return 0;
 		return (int) pipeElements.keySet()

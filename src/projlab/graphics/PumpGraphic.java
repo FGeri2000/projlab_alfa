@@ -19,7 +19,9 @@ public class PumpGraphic extends JunctionGraphic {
      * A pumpa, amit az objektum reprezentál.
      */
     private Pump pump;
-
+    /**
+     * A pumpák képe.
+     */
     private static BufferedImage image;
     
     /**
@@ -39,6 +41,7 @@ public class PumpGraphic extends JunctionGraphic {
         this.changeImage(image);
     }
     
+    @Override
     public void draw(Graphics graphics) {
     	if (pump.isBroken()) {
     		graphics.setColor(Color.red);

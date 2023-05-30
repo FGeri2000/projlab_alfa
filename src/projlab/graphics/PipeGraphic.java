@@ -33,7 +33,7 @@ public class PipeGraphic extends PipelineGraphic {
     }
 
     /**
-     * Kirajzolja a csövet a két megadott végpontja közé
+     * Kirajzolja a csövet a két megadott végpontja közé.
      * @param graphics
      */
     @Override
@@ -68,12 +68,30 @@ public class PipeGraphic extends PipelineGraphic {
         }
     }
 
+    /**
+     * Visszaadja a csövet, amit ez az elem reprezentál.
+     * @return
+     */
     public Pipe getBindingObject(){return bindingObject;}
+    /**
+     * Visszaadja a cső grafikai megfelelőjének szomszédait.
+     * @return
+     */
     public PipelineGraphic[] getConnectedObjects(){return connectedObjects;}
+    /**
+     * Visszaadja a cső grafikai megfelelői közül az adott index-el rendelkezőt.
+     * @param idx
+     * @return
+     */
     public PipelineGraphic getConnectedObject(int idx){
         if(idx<0 || idx>=connectedObjects.length) return null;
         return connectedObjects[idx];
     }
+    /**
+     * Ellenőrzi, hogy az adott elem szomszédja-e ennek az elemnek. Ha igen, visszaadja az elemet.
+     * @param object
+     * @return
+     */
     public PipelineGraphic getConnectedObject(PipelineGraphic object){
         if(object == null) return null;
         for(PipelineGraphic connectedObject : connectedObjects)

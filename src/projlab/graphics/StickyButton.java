@@ -46,7 +46,7 @@ public class StickyButton extends JButton implements ActionListener {
 	}
 
 	/**
-     * Kezdeményezi a játékoson keresztül a cső csúszóssá tételését,
+     * Kezdeményezi a játékoson keresztül a cső ragadóssá tételését,
      * ha a felhasználó a gombra kattint.
      * @param e The event to be processed.
      */

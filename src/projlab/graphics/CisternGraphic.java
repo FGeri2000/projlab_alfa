@@ -17,7 +17,9 @@ public class CisternGraphic extends JunctionGraphic {
      * A ciszterna, amit az objektum reprezentál.
      */
     private Cistern cistern;
-
+    /**
+     * A ciszternák képe.
+     */
     private BufferedImage image;
     
     /**
