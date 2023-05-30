@@ -2,6 +2,11 @@ package projlab.graphics;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 import projlab.sivatag.Pump;
 import projlab.sivatag.WaterFlow;
@@ -15,19 +20,31 @@ public class PumpGraphic extends JunctionGraphic {
      */
     private Pump pump;
 
+    private static BufferedImage image;
+    
     /**
      * Létrehoz egy új PumpGraphic objektumot, a paraméterben megadott pumpára hivatkozva.
      * @param pump A pumpa amire az objetum hivatkozik.
      */
     public PumpGraphic(Pump pump){
         this.pump = pump;
+
+        if (image == null)
+			try {
+				image = ImageIO.read(new File("pump.jpg"));
+			}
+			catch (IOException e) {
+				return;
+			}
+        this.changeImage(image);
     }
     
     public void draw(Graphics graphics) {
-    	Color defColor = graphics.getColor();
-    	graphics.setColor(Color.RED);
-    	graphics.drawRect(get_x()-5, get_y()-5, getWidth()+10, getHeight()+10);
-    	graphics.setColor(defColor);
+    	if (pump.isBroken()) {
+    		graphics.setColor(Color.red);
+    		graphics.drawRect(get_x()-getWidth()/2-5, get_y()-getHeight()/2-5, getWidth()+10, getHeight()+10);
+    		graphics.setColor(Color.black);
+    	}
     	super.draw(graphics);
     }
     

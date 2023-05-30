@@ -30,11 +30,10 @@ public class Pump extends WaterFlow {
 	 * @param transferCapacity Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
 	 */
 	public Pump(int bufferCapacity, int transferCapacity) {
-		if(bufferCapacity <= 0){
-
-		}
-		this.bufferCapacity = bufferCapacity;
-		this.transferCapacity = transferCapacity;
+		if(bufferCapacity >= 0)
+			this.bufferCapacity = bufferCapacity;
+		if (transferCapacity >= 0)
+			this.transferCapacity = transferCapacity;
 	}
 	/**
 	 * Megjavítja a tönkrement pumpát.
@@ -70,7 +69,7 @@ public class Pump extends WaterFlow {
 	@Override
 	public void flowTick() {
 		if(!broken && output != -1) {
-			buffer -= neighbors.get(output).receiveWater(this, transferCapacity);
+			buffer -= neighbors.get(output).receiveWater(this, Math.min(this.transferCapacity, buffer));
 		}
 	}
 	/**

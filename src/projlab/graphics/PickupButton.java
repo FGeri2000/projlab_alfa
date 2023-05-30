@@ -23,6 +23,7 @@ public class PickupButton extends JButton implements ActionListener {
 		super("Pick up");
 		this.targetObject = targetObject;
 		addActionListener(this);
+		setEnabled(false);
 	}
 	/**
      * Visszaadja a tárolt PlayerGraphic objektumot.
@@ -54,7 +55,7 @@ public class PickupButton extends JButton implements ActionListener {
 		synchronized (Controller.lock)
 		{
 			targetObject.pickupObject();
-			notify();
+			Controller.selectNextPlayer();
 		}
 	}
 }

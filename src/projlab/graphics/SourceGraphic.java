@@ -1,5 +1,11 @@
 package projlab.graphics;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 import projlab.sivatag.Source;
 import projlab.sivatag.WaterFlow;
 
@@ -12,12 +18,23 @@ public class SourceGraphic extends JunctionGraphic {
      */
     private Source source;
 
+    private BufferedImage image;
+    
     /**
      * Létrehoz egy új SourceGraphic objektumot, a paraméterben megadott forrásra hivatkozva.
      * @param source A forrás, amire az objektum hivatkozik.
      */
     public SourceGraphic(Source source){
         this.source = source;
+
+        if (image == null)
+			try {
+				image = ImageIO.read(new File("source.jpg"));
+			}
+			catch (IOException e) {
+				return;
+			}
+        this.changeImage(image);
     }
 
 	@Override

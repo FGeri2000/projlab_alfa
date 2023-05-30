@@ -6,11 +6,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.LinkedList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 
 /**
  * Egy játékos grafikai megfelelője. Kirajzolja a játékost, és átadja a felhasználói bemeneteket rajta keresztül a modellnek.
@@ -30,9 +27,11 @@ public class PlayerGraphic extends Graphic {
 	 */
 	private boolean isSaboteur = false;
 	/**
-	 * Igaz, a ez a játékos a jelenleg soron következő.
+	 * Igaz, ha ez a játékos a jelenleg soron következő.
 	 */
 	private boolean selected = false;
+	
+	private BufferedImage imageP1, imageP2, imageS;
 	
 	/**
 	 * Létrehoz egy új játékos grafikai elemet egy szerelőnek.
@@ -43,16 +42,22 @@ public class PlayerGraphic extends Graphic {
 		isSaboteur = false;
 		player = plumber;
 
-		try {
-			if (altImage) {
-				this.changeImage(ImageIO.read(new File("plumber2.jpg")));
+		this.changeSize(40, 40);
+		
+		if (imageP1 == null)
+			try {
+				imageP1 = ImageIO.read(new File("plumber1.jpg"));
+				imageP2 = ImageIO.read(new File("plumber2.jpg"));
 			}
-			else {
-				this.changeImage(ImageIO.read(new File("plumber1.jpg")));
+			catch (IOException e) {
+				return;
 			}
+
+		if (altImage) {
+			this.changeImage(imageP2);
 		}
-		catch (IOException e) {
-			return;
+		else {
+			this.changeImage(imageP1);
 		}
 
 		positionLookup();
@@ -65,12 +70,17 @@ public class PlayerGraphic extends Graphic {
 		isSaboteur = true;
 		player = saboteur;
 
-		try {
-			this.changeImage(ImageIO.read(new File("saboteur.jpg")));
-		}
-		catch (IOException e) {
-			return;
-		}
+		this.changeSize(40, 40);
+		
+		if (imageS == null)
+			try {
+				imageS = ImageIO.read(new File("saboteur.jpg"));
+			}
+			catch (IOException e) {
+				return;
+			}
+		
+		this.changeImage(imageS);
 
 		positionLookup();
 	}
@@ -78,7 +88,13 @@ public class PlayerGraphic extends Graphic {
 	 * Automatikusan beállítja az elem pozícióját a modell alapján.
 	 */
 	private void positionLookup() {
-		for (PipelineGraphic g : Controller.pipelineObjects) {
+		for (JunctionGraphic g : Controller.pipelineObjects) {
+			if (g.objectMatch(player.getPosition())) {
+				changePosition(g);
+				break;
+			}
+		}
+		for (PipeGraphic g : Controller.pipeObjects) {
 			if (g.objectMatch(player.getPosition())) {
 				changePosition(g);
 				break;
@@ -115,6 +131,11 @@ public class PlayerGraphic extends Graphic {
 	public void draw(Graphics graphics) {
 		if (position == null)
 			return;
+		if (selected) {
+			graphics.setColor(Color.green);
+			graphics.drawRect(get_x() - getWidth() /2 - 5, get_y() - getHeight() / 2 - 5, getWidth() + 10, getHeight() + 10);
+			graphics.setColor(Color.black);
+		}
 		super.draw(graphics);
 	}
 	
@@ -133,17 +154,26 @@ public class PlayerGraphic extends Graphic {
 		selected = true;
 		
 		Controller.moveButton.setEnabled(true);
+		Controller.moveButton.setTargetObject(this);
 		Controller.setInputButton.setEnabled(position.canSetInput());
+		Controller.setInputButton.setTargetObject(this);
 		Controller.setOutputButton.setEnabled(position.canSetOutput());
+		Controller.setOutputButton.setTargetObject(this);
 		Controller.repairButton.setEnabled(position.canRepair() && !isSaboteur);
+		Controller.repairButton.setTargetObject(this);
 		Controller.breakButton.setEnabled(position.canBreak());
+		Controller.breakButton.setTargetObject(this);
 		Controller.stickyButton.setEnabled(position.canSticky());
+		Controller.stickyButton.setTargetObject(this);
 		Controller.slipperyButton.setEnabled(position.canSlippery() && isSaboteur);
+		Controller.slipperyButton.setTargetObject(this);
 		Controller.pickupButton.setEnabled(position.canPickup() && !isSaboteur);
+		Controller.pickupButton.setTargetObject(this);
 		Controller.placeButton.setEnabled(position.canPlace() && !isSaboteur);
+		Controller.placeButton.setTargetObject(this);
 		
 		{
-			Controller.objectDropDown.removeAll();
+			Controller.objectDropDown.removeAllItems();
 			for (WaterFlow obj : position.objectGet().getNeighbors()) {
 				Controller.objectDropDown.addItem(Controller.game.getKeyFromPipeElements(obj));
 			}
@@ -162,7 +192,10 @@ public class PlayerGraphic extends Graphic {
 		int index = Controller.objectDropDown.getSelectedIndex();
 
 		selected = false;
-		return player.InputCallback_Move(index) != null;
+		boolean result =  player.InputCallback_Move(index) != null;
+
+		positionLookup();
+		return result;
 	}
 	/**
 	 * Beállítja a játékos pozícióján a bemenetet a meghatározott szomszédos elemre.

@@ -28,6 +28,8 @@ public class Pipe extends WaterFlow {
 	 * Ennyi ideig nem lyukasztható újra a cső.
 	 */
 	protected int notPuncturableCountDown = 0;
+	
+	protected int lostWater = 0;
 
 	/**
 	 * Létrehoz egy Pipe objektumot az alapértelmezett kapacitásokkal.
@@ -84,7 +86,7 @@ public class Pipe extends WaterFlow {
 	public boolean repairObject() {
 		if(punctured){
 			Random rand = new Random();
-			notPuncturableCountDown = rand.nextInt();
+			notPuncturableCountDown = rand.nextInt(3);
 			punctured = false;
 			return true;
 		}
@@ -111,10 +113,12 @@ public class Pipe extends WaterFlow {
 	 */
 	@Override
 	public void flowTick() {
-		if(punctured)
-			buffer = 0;
+		if(punctured) {
+			lostWater += buffer;
+			buffer = 0;	
+		}
 		else if (output != -1)
-			buffer -= neighbors.get(output).receiveWater(this, transferCapacity);
+			buffer -= neighbors.get(output).receiveWater(this, Math.min(this.transferCapacity, buffer));
 	}
 	/**
 	 * Ragadóssá teszi a csövet.

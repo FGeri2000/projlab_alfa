@@ -54,7 +54,10 @@ public class PipeGraphic extends PipelineGraphic {
             }
         }
         if(bindingObject != null && bindingObject.isPunctured()) graphics.setColor(Color.RED);
+        if(bindingObject != null && bindingObject.isSticky()) graphics.setColor(Color.YELLOW);
+        if(bindingObject != null && bindingObject.isSlippery()) graphics.setColor(Color.CYAN);
         graphics.drawLine(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
+        
         graphics.setColor(Color.BLACK);
         if(bindingObject != null){
             graphics.drawString(
@@ -120,13 +123,39 @@ public class PipeGraphic extends PipelineGraphic {
      * Visszatér az objektum x koordinátájával.
      */
     @Override
-    public int get_x() {throw new UnsupportedOperationException();}
+    public int get_x() {
+    	if (connectedObjects[0] == null && connectedObjects[1] == null) {
+    		return 0;
+    	}
+    	else if (connectedObjects[1] == null) {
+    		return connectedObjects[0].get_x();
+    	}
+    	else if (connectedObjects[0] == null) {
+    		return connectedObjects[1].get_x();
+    	}
+    	else {
+    		return (connectedObjects[0].get_x() + connectedObjects[1].get_x()) / 2;
+    	}
+    }
 
     /**
      * Visszatér az objektum y koordinátájával.
      */
     @Override
-    public int get_y() {throw new UnsupportedOperationException();}
+    public int get_y() {
+    	if (connectedObjects[0] == null && connectedObjects[1] == null) {
+    		return 0;
+    	}
+    	else if (connectedObjects[1] == null) {
+    		return connectedObjects[0].get_y();
+    	}
+    	else if (connectedObjects[0] == null) {
+    		return connectedObjects[1].get_y();
+    	}
+    	else {
+    		return (connectedObjects[0].get_y() + connectedObjects[1].get_y()) / 2;
+    	}
+    }
 
 	@Override
 	public boolean objectMatch(WaterFlow object) {
@@ -155,7 +184,7 @@ public class PipeGraphic extends PipelineGraphic {
 
 	@Override
 	public boolean canBreak() {
-		return !bindingObject.isPunctured();
+		return !bindingObject.isPunctured() && bindingObject.getNotPuncturableCountDown() <= 0;
 	}
 
 	@Override

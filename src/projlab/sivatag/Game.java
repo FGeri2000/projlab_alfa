@@ -38,6 +38,14 @@ public class Game {
 	public Game(){
 		players = new HashMap<>();
 		pipeElements = new HashMap<>();
+		try {
+			if(pipeElements.isEmpty()){
+				createDefaultMap();
+			}	
+		}
+		catch (InvalidKeyException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 		gameTimeLeft = 240;
 		storedWaterAmount = 0;
 		spilledWaterAmount = 0;
@@ -46,29 +54,23 @@ public class Game {
 	/**
 	 * Ez a metódussal létrehozza az alap map-et, inicializálja a map tárolót és feltölti a szükséges objektumokkal, hogy a játék elkezdődhessen.
 	 */
-	public void newGame() {
-		try {
-			gameTimeLeft = 240;
-			storedWaterAmount = 0;
-			spilledWaterAmount = 0;
-			if(pipeElements.isEmpty()){
-				createDefaultMap();
+	public void startGame() {
+		gameTimeLeft = 240;
+		storedWaterAmount = 0;
+		spilledWaterAmount = 0;
+		
+		TimerTask task = new TimerTask() {
+			public void run() {
+				breakRandomPump();
+				pipeElements.forEach((key, waterFlow) -> {
+					waterFlow.flowTick();
+				});
+				spilledWaterAmount += getSpilledWaterAmountFromPipes();
+				storedWaterAmount = getStoredWaterAmountFromCisterns();
+				gameTimeLeft--;
 			}
-			TimerTask task = new TimerTask() {
-				public void run() {
-					breakRandomPump();
-					pipeElements.forEach((key, waterFlow) -> {
-						waterFlow.flowTick();
-					});
-					spilledWaterAmount += getSpilledWaterAmountFromPipes();
-					storedWaterAmount = getStoredWaterAmountFromCisterns();
-				}
-			};
-			timer.scheduleAtFixedRate(task, 0, 1000);
-
-		} catch (InvalidKeyException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		};
+		timer.scheduleAtFixedRate(task, 0, 1000);
 	}
 	/**
 	 * Leállítja a játékot, lezárja a játékos karakterek irányítását, és értesítést küld a játék eredményéről.
@@ -308,8 +310,8 @@ public class Game {
 	 * @return
 	 */
 	public HashMap<String, Player> getPlayers(){return players;}
-	public int getSpilledWaterAmount(){return spilledWaterAmount;}
-	public int getStoredWaterAmount(){return storedWaterAmount;}
+	public int getSpilledWaterAmount(){getSpilledWaterAmountFromPipes(); return spilledWaterAmount;}
+	public int getStoredWaterAmount(){getStoredWaterAmountFromCisterns(); return storedWaterAmount;}
 	public String getKeyFromPipeElements(WaterFlow element){
 		if(element == null)
 			return null;
@@ -582,6 +584,9 @@ public class Game {
 	private Pump breakRandomPump(){
 		int pumpsCount = countType("pump");
 		Random random = new Random();
+		if (random.nextInt(5) != 0)
+			return null;
+		
 		int randomPumpId = random.nextInt(pumpsCount * 2);
 		Pump randomPump = null;
 		if(randomPumpId > 0 && randomPumpId < pumpsCount){

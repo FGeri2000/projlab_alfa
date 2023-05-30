@@ -31,11 +31,11 @@ public abstract class WaterFlow {
 	/**
 	 * Az objektum által tárolható víz maximális mennyisége. Negatív ha végtelen.
 	 */
-	protected int bufferCapacity = -1;
+	protected int bufferCapacity = 20;
 	/**
 	 * Az elem által egy FlowTick hívás alatt a következő elembe továbbított víz mennyisége.
 	 */
-	protected int transferCapacity = 20;
+	protected int transferCapacity = 2;
 	/**
 	 * Igaz, ha az elem jelenleg egy játékos kezében van.
 	 */
@@ -142,9 +142,9 @@ public abstract class WaterFlow {
 	 * @return A ténylegesen átvett víz mennyisége.
 	 */
 	public int receiveWater(WaterFlow from, int amount) {
-		if (output == -1)
+		if (input == null || input.size() == 0)
 			return 0;
-		if (neighbors.get(output) == from) {
+		if (neighbors.get(input.getFirst()) == from) {
 			return Math.min(this.bufferCapacity - buffer, amount);
 		}
 		return 0;
@@ -200,22 +200,6 @@ public abstract class WaterFlow {
 		if (!newNeighbor.addNeighbor(this)) {
 			return false;
 		}
-
-		/*
-		int idx = neighbors.indexOf(newNeighbor);
-
-		boolean success = false;
-		if (!input.isEmpty() && output <= 0) {
-			success = SetInput(new int[] { idx });
-		} else if (input.isEmpty() && output >= 0) {
-			success = SetOutput(idx);
-		}
-
-		if (!success) {
-			RemoveNeighbor(newNeighbor);
-			return false;
-		}
-		*/
 
 		return true;
 	}
