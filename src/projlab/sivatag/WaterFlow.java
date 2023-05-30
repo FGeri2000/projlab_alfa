@@ -145,7 +145,9 @@ public abstract class WaterFlow {
 		if (input == null || input.size() == 0)
 			return 0;
 		if (neighbors.get(input.getFirst()) == from) {
-			return Math.min(this.bufferCapacity - buffer, amount);
+			int received = Math.min(this.bufferCapacity - buffer, amount);
+			buffer += received;
+			return received;
 		}
 		return 0;
 	}

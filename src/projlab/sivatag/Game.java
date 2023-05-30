@@ -310,8 +310,8 @@ public class Game {
 	 * @return
 	 */
 	public HashMap<String, Player> getPlayers(){return players;}
-	public int getSpilledWaterAmount(){getSpilledWaterAmountFromPipes(); return spilledWaterAmount;}
-	public int getStoredWaterAmount(){getStoredWaterAmountFromCisterns(); return storedWaterAmount;}
+	public int getSpilledWaterAmount(){ spilledWaterAmount = getSpilledWaterAmountFromPipes(); return spilledWaterAmount;}
+	public int getStoredWaterAmount(){ storedWaterAmount = getStoredWaterAmountFromCisterns(); return storedWaterAmount;}
 	public String getKeyFromPipeElements(WaterFlow element){
 		if(element == null)
 			return null;
@@ -367,8 +367,8 @@ public class Game {
 			Pipe pipe3 = new Pipe();
 			pump0.addNeighbor(pipe1);
 			pump0.addNeighbor(pipe3);
-			pump1.addNeighbor(pipe3);
 			pump1.addNeighbor(pipe2);
+			pump1.addNeighbor(pipe3);
 			pipe1.setOutput(1);
 			pump0.setInput(new int[] {0});
 			pipe2.setOutput(1);
@@ -560,8 +560,7 @@ public class Game {
 		pipeElements.forEach((key, waterFlow) -> {
 			if(key.startsWith("pipe")){
 				Pipe pipeElement = (Pipe)waterFlow;
-				if(pipeElement.isPunctured())
-					spilledWaterAmount.addAndGet(pipeElement.getBuffer());
+				spilledWaterAmount.addAndGet(pipeElement.getLostWater());
 			}
 		});
 		return spilledWaterAmount.get();
@@ -584,7 +583,7 @@ public class Game {
 	private Pump breakRandomPump(){
 		int pumpsCount = countType("pump");
 		Random random = new Random();
-		if (random.nextInt(5) != 0)
+		if (random.nextInt(20) != 0)
 			return null;
 		
 		int randomPumpId = random.nextInt(pumpsCount * 2);

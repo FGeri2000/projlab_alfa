@@ -185,4 +185,5 @@ public class Pipe extends WaterFlow {
 	public boolean isSlippery(){return slippery;}
 	public int getCountDown(){return countDown;}
 	public int getNotPuncturableCountDown(){return notPuncturableCountDown;}
+	public int getLostWater() { return lostWater; }
 }
