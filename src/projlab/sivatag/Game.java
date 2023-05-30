@@ -38,6 +38,14 @@ public class Game {
 	public Game(){
 		players = new HashMap<>();
 		pipeElements = new HashMap<>();
+		try {
+			if(pipeElements.isEmpty()){
+				createDefaultMap();
+			}	
+		}
+		catch (InvalidKeyException e) {
+			throw new RuntimeException(e.getMessage());
+		}
 		gameTimeLeft = 240;
 		storedWaterAmount = 0;
 		spilledWaterAmount = 0;
@@ -46,29 +54,23 @@ public class Game {
 	/**
 	 * Ez a metódussal létrehozza az alap map-et, inicializálja a map tárolót és feltölti a szükséges objektumokkal, hogy a játék elkezdődhessen.
 	 */
-	public void newGame() {
-		try {
-			gameTimeLeft = 240;
-			storedWaterAmount = 0;
-			spilledWaterAmount = 0;
-			if(pipeElements.isEmpty()){
-				createDefaultMap();
+	public void startGame() {
+		gameTimeLeft = 240;
+		storedWaterAmount = 0;
+		spilledWaterAmount = 0;
+		
+		TimerTask task = new TimerTask() {
+			public void run() {
+				breakRandomPump();
+				pipeElements.forEach((key, waterFlow) -> {
+					waterFlow.flowTick();
+				});
+				spilledWaterAmount += getSpilledWaterAmountFromPipes();
+				storedWaterAmount = getStoredWaterAmountFromCisterns();
+				gameTimeLeft--;
 			}
-			TimerTask task = new TimerTask() {
-				public void run() {
-					breakRandomPump();
-					pipeElements.forEach((key, waterFlow) -> {
-						waterFlow.flowTick();
-					});
-					spilledWaterAmount += getSpilledWaterAmountFromPipes();
-					storedWaterAmount = getStoredWaterAmountFromCisterns();
-				}
-			};
-			timer.scheduleAtFixedRate(task, 0, 1000);
-
-		} catch (InvalidKeyException e) {
-			throw new RuntimeException(e.getMessage());
-		}
+		};
+		timer.scheduleAtFixedRate(task, 0, 1000);
 	}
 	/**
 	 * Leállítja a játékot, lezárja a játékos karakterek irányítását, és értesítést küld a játék eredményéről.
@@ -303,13 +305,25 @@ public class Game {
 	public HashMap<String, WaterFlow> getPipeElements(){return pipeElements;}
 
 	/**
-	 * visszaadja a players tároló aktuális
-	 * értékét.
+	 * visszaadja a players tároló aktuális értékét.
 	 * @return
 	 */
-	public HashMap<String, Player> getPlayers(){return players;}
-	public int getSpilledWaterAmount(){return spilledWaterAmount;}
-	public int getStoredWaterAmount(){return storedWaterAmount;}
+	public HashMap<String, Player> getPlayers() { return players; }
+	/**
+	 * Visszaadja a játék teljes ideje alatt kifolyt víz mennyiségét.
+	 * @return
+	 */
+	public int getSpilledWaterAmount(){ spilledWaterAmount = getSpilledWaterAmountFromPipes(); return spilledWaterAmount;}
+	/**
+	 * Visszaadja a játék teljes ideje alatt célba ért víz mennyiségét. 
+	 * @return
+	 */
+	public int getStoredWaterAmount(){ storedWaterAmount = getStoredWaterAmountFromCisterns(); return storedWaterAmount;}
+	/**
+	 * Visszaadja az adott csőhálózati elemhez tartozó kulcsot.
+	 * @param element Elem, amely megtalálható a játék elemei között.
+	 * @return A hozzá tartozó kulcs.
+	 */
 	public String getKeyFromPipeElements(WaterFlow element){
 		if(element == null)
 			return null;
@@ -324,6 +338,11 @@ public class Game {
 			return null;
 		return keyOfPipeElement;
 	}
+	/**
+	 * Visszaadja az adott játékoshoz tartozó kulcsot.
+	 * @param element Játékos, amely megtalálható a játékban.
+	 * @return A hozzá tartozó kulcs.
+	 */
 	public String getKeyFromPlayers(Player element){
 		if(element == null)
 			return null;
@@ -365,8 +384,8 @@ public class Game {
 			Pipe pipe3 = new Pipe();
 			pump0.addNeighbor(pipe1);
 			pump0.addNeighbor(pipe3);
-			pump1.addNeighbor(pipe3);
 			pump1.addNeighbor(pipe2);
+			pump1.addNeighbor(pipe3);
 			pipe1.setOutput(1);
 			pump0.setInput(new int[] {0});
 			pipe2.setOutput(1);
@@ -558,8 +577,7 @@ public class Game {
 		pipeElements.forEach((key, waterFlow) -> {
 			if(key.startsWith("pipe")){
 				Pipe pipeElement = (Pipe)waterFlow;
-				if(pipeElement.isPunctured())
-					spilledWaterAmount.addAndGet(pipeElement.getBuffer());
+				spilledWaterAmount.addAndGet(pipeElement.getLostWater());
 			}
 		});
 		return spilledWaterAmount.get();
@@ -579,9 +597,16 @@ public class Game {
 		});
 		return storedWaterAmount.get();
 	}
+	/**
+	 * Véletlenszerűen eldönti, hogy eltörjön-e egy pumpát, és ha igen, véletlenszerűen kiválaszt egyet és eltöri.
+	 * @return Az eltört pumpa.
+	 */
 	private Pump breakRandomPump(){
 		int pumpsCount = countType("pump");
 		Random random = new Random();
+		if (random.nextInt(20) != 0)
+			return null;
+		
 		int randomPumpId = random.nextInt(pumpsCount * 2);
 		Pump randomPump = null;
 		if(randomPumpId > 0 && randomPumpId < pumpsCount){
@@ -590,6 +615,11 @@ public class Game {
 		}
 		return randomPump;
 	}
+	/**
+	 * Visszaadja, hogy hány kulcs található a játék elemei között amely az adott szóval kezdődik.
+	 * @param prefix
+	 * @return
+	 */
 	private int countType(String prefix){
 		if(prefix == null) return 0;
 		return (int) pipeElements.keySet()

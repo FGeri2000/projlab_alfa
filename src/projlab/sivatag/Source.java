@@ -53,7 +53,8 @@ public class Source extends WaterFlow {
 	 */
 	@Override
 	public void flowTick() {
-		//this.output.receiveWater(this, transferCapacity);
-
+		if (output < 0 || output >= neighbors.size()) 
+			return;
+		neighbors.get(output).receiveWater(this, transferCapacity);
 	}
 }

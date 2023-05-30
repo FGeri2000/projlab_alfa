@@ -10,11 +10,11 @@ public abstract class Graphic {
 	/**
 	 * A kirajzolt objektum szélessége pixelben.
 	 */
-	private int width;
+	private int width = 20;
 	/**
 	 * A kirajzolt objektum magassága pixelben.
 	 */
-	private int height;
+	private int height = 20;
 	/**
 	 * A kép, ami az ablakon kirajzolásra kerül.
 	 */
@@ -26,7 +26,7 @@ public abstract class Graphic {
 	 */
 	public void draw(Graphics g)
 	{
-		g.drawImage(image, get_x(), get_y(), getWidth(), getHeight(), null);
+		g.drawImage(image, get_x() - width / 2, get_y() - height / 2, getWidth(), getHeight(), null);
 	}
 	/**
 	 * Módosítja a tárolt méretet.

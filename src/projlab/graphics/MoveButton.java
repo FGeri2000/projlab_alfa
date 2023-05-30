@@ -23,6 +23,7 @@ public class MoveButton extends JButton implements ActionListener {
 		super("Move");
 		this.targetObject = targetObject;
 		addActionListener(this);
+		setEnabled(false);
 	}
 	/**
      * Visszaadja a tárolt PlayerGraphic objektumot.
@@ -53,7 +54,8 @@ public class MoveButton extends JButton implements ActionListener {
 		synchronized (Controller.lock)
 		{
 			targetObject.move();
-			notify();
+			Controller.selectNextPlayer();
+			//notify();
 		}
 	}
 }

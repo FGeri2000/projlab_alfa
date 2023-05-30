@@ -2,6 +2,7 @@ package projlab.graphics;
 
 import java.awt.event.*;
 import projlab.controller.*;
+
 import javax.swing.JButton;
 
 /**
@@ -23,6 +24,7 @@ public class PlaceButton extends JButton implements ActionListener {
 		super("Place");
 		this.targetObject = targetObject;
 		addActionListener(this);
+		setEnabled(false);
 	}
 	/**
      * Visszaadja a tárolt PlayerGraphic objektumot.
@@ -44,7 +46,7 @@ public class PlaceButton extends JButton implements ActionListener {
 	}
 
 	/**
-     * Kezdeményezi a játékos által tartott csőhálózati objektum elhelyezését,
+     * Kezdeményezi a játékoson keresztül a csőhálózati objektum elhelyezését,
      * ha a felhasználó a gombra kattint.
      * @param e The event to be processed.
      */
@@ -54,7 +56,7 @@ public class PlaceButton extends JButton implements ActionListener {
 		synchronized (Controller.lock)
 		{
 			targetObject.placeObject();
-			notify();
+			Controller.selectNextPlayer();
 		}
 	}
 }

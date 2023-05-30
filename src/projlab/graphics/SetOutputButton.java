@@ -2,12 +2,13 @@ package projlab.graphics;
 
 import java.awt.event.*;
 import projlab.controller.*;
+
 import javax.swing.JButton;
 
 /**
- * A játékosokon keresztüli csőhálózati elemek tönkretételéért felelős gomb osztálya.
+ * A játékosokon keresztüli pumpa kimenetének beállításáért felelős gomb osztálya.
  */
-public class BreakButton extends JButton implements ActionListener {
+public class SetOutputButton extends JButton implements ActionListener {
 	/**
      * A gombra klikkelve indított műveletek az itt hivatkozott
      * játékost reprezentáló grafikus elemen végrehajtandók.
@@ -18,9 +19,9 @@ public class BreakButton extends JButton implements ActionListener {
      * A gombot létrehozó konstruktor.
      * @param targetObject Az a PlayerGraphic objektum, amin a műveletek elvégzendőek.
      */
-	public BreakButton(PlayerGraphic targetObject)
+	public SetOutputButton(PlayerGraphic targetObject)
 	{
-		super("Break");
+		super("Set output");
 		this.targetObject = targetObject;
 		addActionListener(this);
 		setEnabled(false);
@@ -45,7 +46,7 @@ public class BreakButton extends JButton implements ActionListener {
 	}
 
 	/**
-     * Kezdeményezi a játékoson keresztül a csőhálózati objektum tönkretételét,
+     * Kezdeményezi a játékoson keresztül a pumpa kimenetének beállítását,
      * ha a felhasználó a gombra kattint.
      * @param e The event to be processed.
      */
@@ -54,7 +55,7 @@ public class BreakButton extends JButton implements ActionListener {
 	{
 		synchronized (Controller.lock)
 		{
-			targetObject.breakObject();
+			targetObject.setOutput();
 			Controller.selectNextPlayer();
 		}
 	}

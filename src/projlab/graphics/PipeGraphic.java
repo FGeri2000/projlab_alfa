@@ -33,7 +33,7 @@ public class PipeGraphic extends PipelineGraphic {
     }
 
     /**
-     * Kirajzolja a csövet a két megadott végpontja közé
+     * Kirajzolja a csövet a két megadott végpontja közé.
      * @param graphics
      */
     @Override
@@ -54,7 +54,10 @@ public class PipeGraphic extends PipelineGraphic {
             }
         }
         if(bindingObject != null && bindingObject.isPunctured()) graphics.setColor(Color.RED);
+        if(bindingObject != null && bindingObject.isSticky()) graphics.setColor(Color.YELLOW);
+        if(bindingObject != null && bindingObject.isSlippery()) graphics.setColor(Color.CYAN);
         graphics.drawLine(coordinates[0][0], coordinates[0][1], coordinates[1][0], coordinates[1][1]);
+        
         graphics.setColor(Color.BLACK);
         if(bindingObject != null){
             graphics.drawString(
@@ -65,12 +68,30 @@ public class PipeGraphic extends PipelineGraphic {
         }
     }
 
+    /**
+     * Visszaadja a csövet, amit ez az elem reprezentál.
+     * @return
+     */
     public Pipe getBindingObject(){return bindingObject;}
+    /**
+     * Visszaadja a cső grafikai megfelelőjének szomszédait.
+     * @return
+     */
     public PipelineGraphic[] getConnectedObjects(){return connectedObjects;}
+    /**
+     * Visszaadja a cső grafikai megfelelői közül az adott index-el rendelkezőt.
+     * @param idx
+     * @return
+     */
     public PipelineGraphic getConnectedObject(int idx){
         if(idx<0 || idx>=connectedObjects.length) return null;
         return connectedObjects[idx];
     }
+    /**
+     * Ellenőrzi, hogy az adott elem szomszédja-e ennek az elemnek. Ha igen, visszaadja az elemet.
+     * @param object
+     * @return
+     */
     public PipelineGraphic getConnectedObject(PipelineGraphic object){
         if(object == null) return null;
         for(PipelineGraphic connectedObject : connectedObjects)
@@ -120,13 +141,39 @@ public class PipeGraphic extends PipelineGraphic {
      * Visszatér az objektum x koordinátájával.
      */
     @Override
-    public int get_x() {throw new UnsupportedOperationException();}
+    public int get_x() {
+    	if (connectedObjects[0] == null && connectedObjects[1] == null) {
+    		return 0;
+    	}
+    	else if (connectedObjects[1] == null) {
+    		return connectedObjects[0].get_x();
+    	}
+    	else if (connectedObjects[0] == null) {
+    		return connectedObjects[1].get_x();
+    	}
+    	else {
+    		return (connectedObjects[0].get_x() + connectedObjects[1].get_x()) / 2;
+    	}
+    }
 
     /**
      * Visszatér az objektum y koordinátájával.
      */
     @Override
-    public int get_y() {throw new UnsupportedOperationException();}
+    public int get_y() {
+    	if (connectedObjects[0] == null && connectedObjects[1] == null) {
+    		return 0;
+    	}
+    	else if (connectedObjects[1] == null) {
+    		return connectedObjects[0].get_y();
+    	}
+    	else if (connectedObjects[0] == null) {
+    		return connectedObjects[1].get_y();
+    	}
+    	else {
+    		return (connectedObjects[0].get_y() + connectedObjects[1].get_y()) / 2;
+    	}
+    }
 
 	@Override
 	public boolean objectMatch(WaterFlow object) {
@@ -155,7 +202,7 @@ public class PipeGraphic extends PipelineGraphic {
 
 	@Override
 	public boolean canBreak() {
-		return !bindingObject.isPunctured();
+		return !bindingObject.isPunctured() && bindingObject.getNotPuncturableCountDown() <= 0;
 	}
 
 	@Override

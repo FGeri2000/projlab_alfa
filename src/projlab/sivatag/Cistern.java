@@ -28,7 +28,7 @@ public class Cistern extends WaterFlow {
 	 * @return Hamis értékkel tér vissza.
 	 */
 	@Override
-	public boolean breakObject (boolean controller) {
+	public boolean breakObject(boolean controller) {
 		return false;
 	}
 
@@ -63,6 +63,7 @@ public class Cistern extends WaterFlow {
 	 */
 	@Override
 	public int receiveWater(WaterFlow from, int amount) {
-		return Math.min(this.bufferCapacity - buffer, amount);
+		buffer += amount;
+		return amount;
 	}
 }

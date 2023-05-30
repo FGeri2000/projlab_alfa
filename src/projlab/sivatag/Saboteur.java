@@ -15,8 +15,6 @@ public class Saboteur extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Repair() {
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Repair()");
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
 		return false;
 	}
 	/**
@@ -24,10 +22,7 @@ public class Saboteur extends Player {
 	 * @return null.
 	 */
 	@Override
-	public WaterFlow InputCallback_Pickup(int neighbor) {
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Pickup(" + neighbor + ")");
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "null");
-		
+	public WaterFlow InputCallback_Pickup(int neighbor) {		
 		return null;
 	}
 	/**
@@ -36,9 +31,6 @@ public class Saboteur extends Player {
 	 */
 	@Override
 	public boolean InputCallback_Place() {
-		//projlab.skeleton.CallHierarchyWriter.EnterFunction(this, "InputCallback_Place()");
-		//projlab.skeleton.CallHierarchyWriter.ExitFunction(this, "false");
-		
 		return false;
 	}
 

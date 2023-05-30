@@ -28,6 +28,10 @@ public class Pipe extends WaterFlow {
 	 * Ennyi ideig nem lyukasztható újra a cső.
 	 */
 	protected int notPuncturableCountDown = 0;
+	/**
+	 * Az ebből a csőből kifolyt víz mennyisége.
+	 */
+	protected int lostWater = 0;
 
 	/**
 	 * Létrehoz egy Pipe objektumot az alapértelmezett kapacitásokkal.
@@ -84,7 +88,7 @@ public class Pipe extends WaterFlow {
 	public boolean repairObject() {
 		if(punctured){
 			Random rand = new Random();
-			notPuncturableCountDown = rand.nextInt();
+			notPuncturableCountDown = rand.nextInt(3);
 			punctured = false;
 			return true;
 		}
@@ -111,10 +115,12 @@ public class Pipe extends WaterFlow {
 	 */
 	@Override
 	public void flowTick() {
-		if(punctured)
-			buffer = 0;
+		if(punctured) {
+			lostWater += buffer;
+			buffer = 0;	
+		}
 		else if (output != -1)
-			buffer -= neighbors.get(output).receiveWater(this, transferCapacity);
+			buffer -= neighbors.get(output).receiveWater(this, Math.min(this.transferCapacity, buffer));
 	}
 	/**
 	 * Ragadóssá teszi a csövet.
@@ -176,9 +182,32 @@ public class Pipe extends WaterFlow {
 		else
 			return false;
 	}
+	/**
+	 * Visszaaadja, hogy a cső lyukas-e.
+	 * @return Igaz, ha a cső lyukas.
+	 */
 	public boolean isPunctured(){return punctured;}
+	/**
+	 * Visszaadja, hogy a cső ragadós-e.
+	 * @return Igaz, ha a cső ragadós.
+	 */
 	public boolean isSticky(){return sticky;}
+	/**
+	 * Visszaadja, hogy a cső csúszós-e.
+	 * @return Igaz, ha a cső csúszós.
+	 */
 	public boolean isSlippery(){return slippery;}
+	/**
+	 * Visszaadja, hogy a még mennyi ideig ragadós vagy csúszós a cső.
+	 */
 	public int getCountDown(){return countDown;}
+	/**
+	 * Visszadja, hogy mennyi ideig nem lyukasztható ki a cső.
+	 */
 	public int getNotPuncturableCountDown(){return notPuncturableCountDown;}
+	/**
+	 * Visszaadja, mennyi víz folyt ki ebből a csőből.
+	 * @return
+	 */
+	public int getLostWater() { return lostWater; }
 }

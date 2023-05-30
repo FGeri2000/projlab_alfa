@@ -1,89 +1,62 @@
 package projlab.graphics;
-import projlab.sivatag.*;
-import projlab.sivatag.WaterFlow;
+
+import java.awt.event.*;
 import projlab.controller.*;
-import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 
-public class RepairButton extends JButton {
-    /**
-     * A gombra klikkelve indított műveletek az itt
-     * hivatkozott vízhálózati elemet reprezentáló grafikus elemen végrehajtandók.
+import javax.swing.JButton;
+
+/**
+ * A játékosokon keresztüli csőhálózati elemek javításáért felelős gomb osztálya.
+ */
+public class RepairButton extends JButton implements ActionListener {
+	/**
+     * A gombra klikkelve indított műveletek az itt hivatkozott
+     * játékost reprezentáló grafikus elemen végrehajtandók.
      */
-    private Graphic targetObject;
-
-    /**
+	private PlayerGraphic targetObject;
+	
+	/**
      * A gombot létrehozó konstruktor.
-     * @param targetObject, a paraméter az a hivatkozott vízhálózati elem,
-     *                      a min gombnyomásra a műveletek végrehajtandók.
+     * @param targetObject Az a PlayerGraphic objektum, amin a műveletek elvégzendőek.
      */
-    public RepairButton (Graphic targetObject)
-    {
-        this.targetObject = targetObject;
-        updateButtonState();
-        addActionListener(new RepairActionListener());
-    }
-
-    /**
-     * Visszaadja a targetObject értékét.
-     * @return targetObject attribútum értéke
+	public RepairButton(PlayerGraphic targetObject)
+	{
+		super("Repair");
+		this.targetObject = targetObject;
+		addActionListener(this);
+		setEnabled(false);
+	}
+	/**
+     * Visszaadja a tárolt PlayerGraphic objektumot.
+     * @return targetObject A tárolt PlayerGraphic objektum.
      */
-    public Graphic getTargetObject()
-    {
-        return targetObject;
-    }
-
-    /**
-     * Beállítja a targetObject értékét a megadott paraméterre.
-     * @param targetObject
+	public PlayerGraphic getTargetObject()
+	{
+		return targetObject;
+	}
+	/**
+     * Módosítja a tárolt PlayerGraphic objektumot a paraméterben megadottra
+     * @param targetObject Az új PlayerGraphic objektum.
      */
-    public void setTargetObject(Graphic targetObject)
-    {
-        if (targetObject != null)
-            this.targetObject = targetObject;
-    }
+	public void setTargetObject(PlayerGraphic targetObject)
+	{
+		if (targetObject == null)
+			throw new IllegalArgumentException();
+		this.targetObject = targetObject;
+	}
 
-    /**
-     * A függvény segítségével figyeljük az egér kattintást,
-     * és tudjuk megvalósítani a Repair metódust.
+	/**
+     * Kezdeményezi a játékoson keresztül a csőhálózati objektum megjavítását,
+     * ha a felhasználó a gombra kattint.
+     * @param e The event to be processed.
      */
-    private class RepairActionListener implements ActionListener
-    {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-        	synchronized (Controller.lock)
-        	{
-	            if (e.getModifiers() == MouseEvent.BUTTON1_MASK)
-	            {
-	                if (targetObject != null && targetObject instanceof Graphic)
-	                {
-	                    Graphic element = (Graphic) targetObject;
-	                    element.repairObject();
-	                    updateButtonState();
-	                }
-	                
-	                notify();
-	            }
-        	}
-        }
-    }
-
-    /**
-     * A függvény segítségével tudjuk beállítani,
-     * hogy a gomb elérhető legyen, vagy sem.
-     */
-    private void updateButtonState()
-    {
-        if(targetObject != null && targetObject instanceof Graphic)
-        {
-            Graphic element = (Graphic) targetObject;
-            setEnabled(!element.repairObject());
-        }
-
-        else
-            setEnabled(false);
-    }
+	@Override
+	public void actionPerformed(ActionEvent e)
+	{
+		synchronized (Controller.lock)
+		{
+			targetObject.repairObject();
+			Controller.selectNextPlayer();
+		}
+	}
 }
